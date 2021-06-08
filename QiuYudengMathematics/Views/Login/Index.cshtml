@@ -1,0 +1,38 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    @Styles.Render("~/Styles/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div id="container" style="text-align:center;">
+        <h1>Login</h1>
+        @using (Html.BeginForm("Login", "Login", FormMethod.Post))
+        {
+            <span>帳號：</span><input type="text" name="Account" />
+            <br />
+            <span>密碼：</span><input type="text" name="Password" />
+            <br /><br />
+            <input type="submit" value="Login" />
+        }
+    </div>
+</body>
+</html>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        @if (TempData["Message"] != null)
+        {
+            <text>
+                alert('@TempData["Message"]');
+            </text>
+        }
+    });
+</script>
