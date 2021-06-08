@@ -1,4 +1,6 @@
-﻿using System;
+﻿using QiuYudengMathematics.Entity.Service;
+using QiuYudengMathematics.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -9,6 +11,19 @@ namespace QiuYudengMathematics.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        public ActionResult Index() => View();
+        private AccountService AccountService;
+        public AccountController()
+        {
+            AccountService = new AccountService();
+        }
+        public ActionResult Index() => View(AccountService.getGrade());
+
+        public ActionResult Query(AccountQueryModel model) => Json(new RtnModel() { Success = true, Data = AccountService.Query(model) }, JsonRequestBehavior.AllowGet);
+
+        public ActionResult SingleQuery(string Id) => Json(new RtnModel() { Success = true, Data = AccountService.SingleQuery(Id) }, JsonRequestBehavior.AllowGet);
+
+        public ActionResult Insert(AccountModel model) => Json("", JsonRequestBehavior.AllowGet);
+
+        public ActionResult Update(AccountModel model) => Json("", JsonRequestBehavior.AllowGet);
     }
 }

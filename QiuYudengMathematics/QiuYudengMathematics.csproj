@@ -151,6 +151,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>QiuYudengMathematics.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Entity\Service\AccountService.cs" />
     <Compile Include="Entity\Student.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
@@ -160,7 +161,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
+    <Compile Include="Models\RtnModel.cs" />
+    <Compile Include="Models\ViewModels\AccountViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -219,7 +223,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\ViewModels\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

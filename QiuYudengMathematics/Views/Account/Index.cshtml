@@ -1,7 +1,25 @@
-﻿
-@{
-    ViewBag.Title = "Index";
-}
+﻿@model Dictionary<int, string>
 
-<h2>Index</h2>
 
+
+@* 測試用(可以刪) *@
+@*<input type="button" value="TestClick" onclick="Query()"/>
+<script type="text/javascript">
+    function Query() {
+        var data = {
+            Name: '',
+            Grade: null
+        };
+        $.post('@Url.Content("/Account/Query")', data, function (x) {
+            alert(x.Success);
+            if (x.Data.length > 0)
+                alert(x.Data[0].Name);
+        });
+    };
+    function SingleQuery() {
+        $.post('@Url.Content("/Account/SingleQuery?Id=")' + '000001', function (x) {
+             alert(x.Success);
+             alert(x.Data.Name);
+        });
+    };
+</script>*@
