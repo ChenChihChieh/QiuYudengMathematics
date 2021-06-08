@@ -19,14 +19,16 @@ namespace QiuYudengMathematics.Entity.Service
         {
             using (var db = new QiuYudengMathematicsEntities())
             {
-                var data = db.Student.Select(item => new AccountQueryViewModel()
-                {
-                    Account = item.Account,
-                    Name = item.Name,
-                    Grade = item.Grade,
-                    GradeName = item.GroupGrade.Grade,
-                    Enable = item.Enable
-                }).ToList();
+                var data = db.Student
+                    .Where(x => x.Enable == model.Enable)
+                    .Select(item => new AccountQueryViewModel()
+                    {
+                        Account = item.Account,
+                        Name = item.Name,
+                        Grade = item.Grade,
+                        GradeName = item.GroupGrade.Grade,
+                        Enable = item.Enable
+                    }).ToList();
 
                 if (!string.IsNullOrEmpty(model.Name))
                     data = data.Where(x => x.Name.Contains(model.Name)).ToList();

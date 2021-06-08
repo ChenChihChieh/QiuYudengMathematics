@@ -8,7 +8,8 @@
     function Query() {
         var data = {
             Name: '',
-            Grade: null
+            Grade: null,
+            Enable: true
         };
         $.post('@Url.Content("/Account/Query")', data, function (x) {
             alert(x.Success);
