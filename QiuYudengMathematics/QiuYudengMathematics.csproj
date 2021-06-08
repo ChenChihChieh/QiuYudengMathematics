@@ -159,9 +159,6 @@
     <Compile Include="Entity\StudentPosition.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
-    <Compile Include="Entity\sysdiagrams.cs">
-      <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
-    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -178,8 +175,8 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Entity\QiuYudengMathematics.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>QiuYudengMathematics.Context.cs</LastGenOutput>
       <DependentUpon>QiuYudengMathematics.edmx</DependentUpon>
+      <LastGenOutput>QiuYudengMathematics.Context.cs</LastGenOutput>
     </Content>
     <Content Include="Entity\QiuYudengMathematics.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
@@ -277,6 +274,13 @@
       <ErrorText>此專案參考這部電腦上所缺少的 NuGet 套件。請啟用 NuGet 套件還原，以下載該套件。如需詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkID=322105。缺少的檔案是 {0}。</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\build\net46\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <Target Name="CopyRoslynFiles" AfterTargets="AfterBuild" Condition="!$(Disable_CopyWebApplication) And '$(OutDir)' != '$(OutputPath)'">
+    <ItemGroup>
+      <RoslynFiles Include="$(CscToolPath)\*" />
+    </ItemGroup>
+    <MakeDir Directories="$(WebProjectOutputDir)\bin\roslyn" />
+    <Copy SourceFiles="@(RoslynFiles)" DestinationFolder="$(WebProjectOutputDir)\bin\roslyn" SkipUnchangedFiles="true" Retries="$(CopyRetryCount)" RetryDelayMilliseconds="$(CopyRetryDelayMilliseconds)" />
   </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
        Other similar extension points exist, see Microsoft.Common.targets.
