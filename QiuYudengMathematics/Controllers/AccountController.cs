@@ -22,8 +22,8 @@ namespace QiuYudengMathematics.Controllers
 
         public ActionResult SingleQuery(string Id) => Json(new RtnModel() { Success = true, Data = AccountService.SingleQuery(Id) }, JsonRequestBehavior.AllowGet);
 
-        public ActionResult Insert(AccountModel model) => Json("", JsonRequestBehavior.AllowGet);
+        public ActionResult Insert(AccountModel model) => Json(AccountService.Insert(model), JsonRequestBehavior.AllowGet);
 
-        public ActionResult Update(AccountModel model) => Json("", JsonRequestBehavior.AllowGet);
+        public ActionResult Update(AccountModel model) => Json(AccountService.Update(model), JsonRequestBehavior.AllowGet);
     }
 }

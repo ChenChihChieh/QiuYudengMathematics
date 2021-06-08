@@ -3,7 +3,7 @@
 
 
 @* 測試用(可以刪) *@
-<input type="button" value="TestClick" onclick="SingleQuery()"/>
+<input type="button" value="TestClick" onclick="Update()" />
 <script type="text/javascript">
     function Query() {
         var data = {
@@ -20,6 +20,29 @@
         $.post('@Url.Content("/Account/SingleQuery?Id=")' + '000001', function (x) {
              alert(x.Success);
              alert(x.Data.Name);
+        });
+    };
+    function Add() {
+        var data = {
+            Name: "Test",
+            Grade: 2,
+            Enable: false,
+            Subject: [5,7]
+        };
+        $.post('@Url.Content("/Account/Insert")',data, function (x) {
+            alert(x.Msg);
+        });
+    };
+    function Update() {
+        var data = {
+            Account: "000001",
+            Name: "Test",
+            Grade: 3,
+            Enable: true,
+            Subject: [10,11,13]
+        };
+        $.post('@Url.Content("/Account/Update")',data, function (x) {
+            alert(x.Msg);
         });
     };
 </script>

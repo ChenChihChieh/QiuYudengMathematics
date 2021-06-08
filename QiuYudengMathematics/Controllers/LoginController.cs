@@ -37,7 +37,7 @@ namespace QiuYudengMathematics.Controllers
             else
             {
                 var Student = AccountService.SingleQuery(model.Account);
-                if (Student != null && model.Password == Student.Pwd)
+                if (Student != null && model.Password == Student.Pwd && Student.Enable)
                 {
                     LoginProcess(model.Account, JsonConvert.SerializeObject(Student));
                     return RedirectToAction("Index", "Home");
