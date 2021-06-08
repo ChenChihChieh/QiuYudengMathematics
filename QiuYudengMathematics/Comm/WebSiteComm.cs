@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using QiuYudengMathematics.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -19,15 +21,15 @@ namespace QiuYudengMathematics.Comm
                     return identity.Name;
             }
         }
-        public static string CurrentUserName
+        public static AccountViewModel CurrentUserName
         {
             get
             {
                 FormsIdentity identity = HttpContext.Current.User.Identity as FormsIdentity;
                 if (identity == null)
-                    return string.Empty;
+                    return null;
                 else
-                    return identity.Ticket.UserData;
+                    return JsonConvert.DeserializeObject<AccountViewModel>(identity.Ticket.UserData);
             }
         }
     }

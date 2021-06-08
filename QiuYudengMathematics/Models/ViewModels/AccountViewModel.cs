@@ -7,6 +7,10 @@ namespace QiuYudengMathematics.Models.ViewModels
 {
     public class AccountViewModel
     {
+        public AccountViewModel()
+        {
+            this.Subject = new List<Subject>();
+        }
         public string Account { get; set; }
         public string Pwd { get; set; }
         public string Name { get; set; }

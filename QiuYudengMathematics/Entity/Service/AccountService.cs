@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using QiuYudengMathematics.Comm;
 
 namespace QiuYudengMathematics.Entity.Service
 {
@@ -44,7 +45,7 @@ namespace QiuYudengMathematics.Entity.Service
                     .Select(item => new AccountViewModel()
                     {
                         Account = item.Account,
-                        Pwd = item.Pwd,
+                        Pwd = new AESComm().AES(item.Pwd, false),
                         Name = item.Name,
                         Grade = item.Grade,
                         Enable = item.Enable,
