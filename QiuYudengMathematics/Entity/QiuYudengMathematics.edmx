@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="QiuYudengMathematicsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="QiuYudengMathematicsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="GroupGrade">
           <Key>
             <PropertyRef Name="ID" />
@@ -31,6 +31,14 @@
           <Property Name="Name" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Grade" Type="int" Nullable="false" />
           <Property Name="Enable" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StudentPosition">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="MacAddress" />
+          </Key>
+          <Property Name="Account" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="MacAddress" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="StudentSubject">
           <Key>
@@ -74,6 +82,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StudentPosition_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="StudentPosition" Type="Self.StudentPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="StudentPosition">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StudentSubject_GroupGradeSubject">
           <End Role="GroupGradeSubject" Type="Self.GroupGradeSubject" Multiplicity="1" />
           <End Role="StudentSubject" Type="Self.StudentSubject" Multiplicity="*" />
@@ -102,6 +122,7 @@
           <EntitySet Name="GroupGrade" EntityType="Self.GroupGrade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGradeSubject" EntityType="Self.GroupGradeSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentPosition" EntityType="Self.StudentPosition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentSubject" EntityType="Self.StudentSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_GroupGradeSubject_GroupGrade" Association="Self.FK_GroupGradeSubject_GroupGrade">
@@ -112,6 +133,10 @@
             <End Role="GroupGrade" EntitySet="GroupGrade" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
+          <AssociationSet Name="FK_StudentPosition_Student" Association="Self.FK_StudentPosition_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentPosition" EntitySet="StudentPosition" />
+          </AssociationSet>
           <AssociationSet Name="FK_StudentSubject_GroupGradeSubject" Association="Self.FK_StudentSubject_GroupGradeSubject">
             <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
             <End Role="StudentSubject" EntitySet="StudentSubject" />
@@ -121,8 +146,7 @@
             <End Role="StudentSubject" EntitySet="StudentSubject" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="QiuYudengMathematicsModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -158,6 +182,7 @@
           <Property Name="Enable" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="GroupGrade" Relationship="Self.FK_Student_GroupGrade" FromRole="Student" ToRole="GroupGrade" />
           <NavigationProperty Name="GroupGradeSubject" Relationship="Self.StudentSubject" FromRole="Student" ToRole="GroupGradeSubject" />
+          <NavigationProperty Name="StudentPosition" Relationship="QiuYudengMathematicsModel.FK_StudentPosition_Student" FromRole="Student" ToRole="StudentPosition" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -214,7 +239,33 @@
             <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
+          <EntitySet Name="StudentPosition" EntityType="QiuYudengMathematicsModel.StudentPosition" />
+          <AssociationSet Name="FK_StudentPosition_Student" Association="QiuYudengMathematicsModel.FK_StudentPosition_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentPosition" EntitySet="StudentPosition" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="StudentPosition">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="MacAddress" />
+          </Key>
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="MacAddress" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.FK_StudentPosition_Student" FromRole="StudentPosition" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_StudentPosition_Student">
+          <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="QiuYudengMathematicsModel.StudentPosition" Role="StudentPosition" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="StudentPosition">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -270,6 +321,14 @@
               <ScalarProperty Name="Account" ColumnName="Account" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="StudentPosition">
+            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.StudentPosition">
+              <MappingFragment StoreEntitySet="StudentPosition">
+                <ScalarProperty Name="MacAddress" ColumnName="MacAddress" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

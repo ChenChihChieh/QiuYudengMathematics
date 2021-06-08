@@ -17,6 +17,7 @@ namespace QiuYudengMathematics.Entity
         public Student()
         {
             this.GroupGradeSubject = new HashSet<GroupGradeSubject>();
+            this.StudentPosition = new HashSet<StudentPosition>();
         }
     
         public string Account { get; set; }
@@ -27,5 +28,6 @@ namespace QiuYudengMathematics.Entity
     
         public virtual GroupGrade GroupGrade { get; set; }
         public virtual ICollection<GroupGradeSubject> GroupGradeSubject { get; set; }
+        public virtual ICollection<StudentPosition> StudentPosition { get; set; }
     }
 }

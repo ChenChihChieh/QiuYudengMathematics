@@ -12,6 +12,8 @@
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_GroupGradeSubject_GroupGrade" ManuallyRouted="false" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_Student_GroupGrade" ManuallyRouted="false" />
         <AssociationConnector Association="QiuYudengMathematicsModel.StudentSubject" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.StudentPosition" Width="1.5" PointX="7.5" PointY="1.5" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.FK_StudentPosition_Student" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
