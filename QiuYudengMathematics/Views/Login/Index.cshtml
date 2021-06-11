@@ -35,6 +35,9 @@
         el: '#app',
         data: {
             message: 'Hello Worldy'
-        },
+        }, mounted: function () {
+            if ('@(TempData["Message"])' != '')
+                alert('@TempData["Message"]');
+        }
     });
 </script>
