@@ -1,0 +1,64 @@
+﻿:root {
+    --color-blue: #2F2760;
+    --color-blue-light: #90929E;
+    --color-white-base: #F1FCDC;
+    --color-green-light: #88DB8D;
+    --color-green: #1FBA3D;
+    --color-green-dark: #609436;
+    --color-brown: #A06E2F;
+    --color-brown-light: #C39925;
+    --color-yellow: #E6C41A;
+    --color-gray: #D3D3D3;
+}
+
+/*----------------------------------------
+  Layout
+----------------------------------------*/
+#container {
+    background: var(--color-gray-lightest);
+}
+
+#app {
+    font-family: "微軟正黑體", "Microsoft JhengHei", "Arial", "Helvetica", "sans-serif";
+}
+
+#app h1 {
+    font-size: 44px;
+    line-height: 1.2em;
+}
+
+#app h2 {
+    font-size: 36px;
+    line-height: 1.3em;
+    font-weight: bold;
+}
+
+#app h3, li {
+    font-size: 18px;
+    line-height: 1.4em;
+}
+
+    #app h4 {
+        font-size: 32px;
+        line-height: 1.75;
+        font-weight: bold;
+        color: var(--color-black);
+    }
+
+    #app h5 {
+        font-size: 24px;
+        line-height: 1.67;
+        color: var(--color-black);
+    }
+
+    #app h6 {
+        font-size: 20px;
+        line-height: 1.6;
+        font-weight: bold;
+        color: var(--color-black);
+    }
+
+    #app p {
+        font-size: 14px;
+        line-height: 1.5em;
+    }

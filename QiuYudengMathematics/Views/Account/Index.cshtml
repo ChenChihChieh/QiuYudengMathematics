@@ -1,26 +1,55 @@
 ﻿@model Dictionary<int, string>
 
-
+<div id="app" class="account">
+    <div class="glyphicon-search-bar">
+        
+    </div>
+    <div class="account__table">
+        <ion-icon name="person-add-outline"></ion-icon>
+        <ion-icon name="person-remove-outline"></ion-icon>
+    </div>
+</div>
 
 @* 測試用(可以刪) *@
-<input type="button" value="TestClick" onclick="Update()" />
+<input type="button" value="Query" onclick="Query()" />
+<input type="button" value="SingleQuery" onclick="SingleQuery()" />
+<input type="button" value="Add" onclick="Add()" />
+<input type="button" value="Update" onclick="Update()" />
+
+
 <script type="text/javascript">
-    function Query() {
+    const app = new Vue({
+        el: '#app',
+        data: {
+            message: ''
+        },
+        mounted() {
+            const data = {
+                Name: '',
+                Grade: null,
+                Enable: true
+            }
+            axios.post('@Url.Content("/Account/Query")', data, function (x) {
+            console.log(x);
+        });
+        }
+    });
+
+
+    @*function Query() {
         var data = {
             Name: '',
             Grade: null,
             Enable: true
         };
         $.post('@Url.Content("/Account/Query")', data, function (x) {
-            alert(x.Success);
-            if (x.Data.length > 0)
-                alert(x.Data[0].Name);
+            console.log(x);
         });
     };
     function SingleQuery() {
         $.post('@Url.Content("/Account/SingleQuery?Id=")' + '000001', function (x) {
              alert(x.Success);
-             alert(x.Data.Name);
+            console.log(x.Data);
         });
     };
     function Add() {
@@ -45,5 +74,5 @@
         $.post('@Url.Content("/Account/Update")',data, function (x) {
             alert(x.Msg);
         });
-    };
+    };*@
 </script>

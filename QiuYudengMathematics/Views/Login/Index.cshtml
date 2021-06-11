@@ -8,23 +8,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    @*<script src="~/Scripts/vue-2.6.14.min.js"></script>*@
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
+    <link rel="stylesheet" href="https://janhao.jrbooks.com.tw/adminlte/bower_components/Ionicons/css/ionicons.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    @Styles.Render("~/css/main.css")
     @Styles.Render("~/css/login.css")
 </head>
 <body>
     <div id="app" class="layout__container" style="text-align:center;">
-        <div class="layout__txt">
-            <h1>{{message}}</h1>
+        <div class="layout__top">
+            <img src="https://picsum.photos/200/200?random=10"/>
         </div>
         <div class="layout__login">
+            <h3><i class="fa fa-user"></i>會員系統</h3>
             @using (Html.BeginForm("Login", "Login", FormMethod.Post))
             {
-                <span>帳號：</span><input type="text" name="Account" />
-                <br />
-                <span>密碼：</span><input type="password" name="Password" />
-                <br /><br />
-                <input type="submit" value="Login" />
+                <span>帳號</span><input class="layout__keyin" type="text" name="Account" />
+                <span>密碼</span><input class="layout__keyin" type="password" name="Password" />
+                <input class="layout__login--btn" type="submit" value="登入" />
             }
         </div>
     </div>
