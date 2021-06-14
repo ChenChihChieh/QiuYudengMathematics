@@ -8,12 +8,20 @@ padding:0;
     align-items: center;
 }
 .layout__top {
-    background-color: var(--color-brown);
-    width: 100%;
+    display:flex;
+    justify-content:space-around;
 }
 .layout__top img {
     vertical-align: middle;
+    width:300px;
 }
+    .layout__top h1 {
+        font-size: 110px;
+        color: #001e80;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+    }
 .layout__login {
     display: flex;
     align-items: flex-start;

@@ -30,10 +30,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     font-family: "微軟正黑體", "Microsoft JhengHei", "Arial", "Helvetica", "sans-serif";
 }
 
-#app h1 {
-    font-size: 44px;
-    line-height: 1.2em;
-}
 
 #app h2 {
     font-size: 36px;
