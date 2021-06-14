@@ -1,6 +1,105 @@
 ﻿.account{
+    max-width:1200px;
+    position:relative;
+}
+
+.account__container {
+    width: 80vw;
+    margin: auto;
+}
+.account__search-bar--flex {
+    display: flex;
+    margin: 20px 0;
+    justify-content:space-between;
+}
+.account__search-bar--flex input {
+    height: 40px;
+    width: 20vw;
+    border: 1px solid gray;
+    border-radius: 5px;
+    cursor: text;
+    padding-left: 40px;
+    padding-right: 20px;
+    background-position: 5px;
+    background-image: url("https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-256.png");
+    background-size: 30px;
+    background-repeat: no-repeat;
+}
+
+.account__table {
+    display: grid;
+    font-size: 16px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+.account__th {
+    background-color: #e2e2e2;
+    text-align: left;
+    color: #787878;
+    font-weight: bold;
+    padding: 15px 20px;
+    text-align: center;
+}
+.account__tr {
+    display: contents;
+}
+.account__td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #f7f7f7;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.account__tr:nth-child(even) .account__td {
+    background: #f0f0f0;
+}
+.account__td a{
+    cursor:pointer;
+    padding:10px;
+}
+
+a.btn {
+    font-size:14px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 8px 10px;
+    min-width: 10vw;
+    border-radius: 3px;
+    border: 1px solid #0081d2;
+    color: #0081d2;
+    margin: 5px 5px 5px 0;
+    text-align: center;
+    background-color: #337ab7;
+    color: #fff;
+}
+a.btn:hover {
+    background-color: #004280;
+    color: #fff;
+}
+.account__popup--wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1717177d;
 
 }
-account__letf-menu{
+.account__popup {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    display: block;
+    width: 300px;
+    height: 300px;
+    transform: translate(-150px, -100px);
+    background-color: #fff;
+    box-sizing: border-box;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns:
+    grid-template-rows:
 
 }
+

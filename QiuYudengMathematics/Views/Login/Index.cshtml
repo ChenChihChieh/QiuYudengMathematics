@@ -9,7 +9,7 @@
     <title></title>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
-    <link rel="stylesheet" href="https://janhao.jrbooks.com.tw/adminlte/bower_components/Ionicons/css/ionicons.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     @Styles.Render("~/css/main.css")
     @Styles.Render("~/css/login.css")
@@ -32,11 +32,12 @@
 </body>
 </html>
 <script type="text/javascript">
-    const app = new Vue({
+    const vm = new Vue({
         el: '#app',
         data: {
             message: 'Hello Worldy'
-        }, mounted: function () {
+        },
+        mounted: function () {
             if ('@(TempData["Message"])' != '')
                 alert('@TempData["Message"]');
         }
