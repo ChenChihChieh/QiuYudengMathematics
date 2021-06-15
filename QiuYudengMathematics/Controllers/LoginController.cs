@@ -43,7 +43,7 @@ namespace QiuYudengMathematics.Controllers
                     if (DeviceService.CheckDevice(Student.Account, "12345"))
                     {
                         LoginProcess(model.Account, JsonConvert.SerializeObject(Student));
-                        if (Student.Enable) //首次登入，導到改密碼頁
+                        if (Student.PwdReset) //首次登入，導到改密碼頁
                             return RedirectToAction("Index", "PwdReset");
                         else
                             return RedirectToAction("Index", "Home");

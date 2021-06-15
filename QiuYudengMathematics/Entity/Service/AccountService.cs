@@ -50,6 +50,7 @@ namespace QiuYudengMathematics.Entity.Service
                         Name = item.Name,
                         Grade = item.Grade,
                         Enable = item.Enable,
+                        PwdReset = item.PwdReset,
                         Subject = item.GroupGradeSubject.Select(y => new Subject()
                         {
                             ID = y.ID,

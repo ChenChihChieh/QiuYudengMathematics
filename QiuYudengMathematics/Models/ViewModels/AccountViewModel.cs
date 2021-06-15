@@ -16,6 +16,7 @@ namespace QiuYudengMathematics.Models.ViewModels
         public string Name { get; set; }
         public int Grade { get; set; }
         public bool Enable { get; set; }
+        public bool PwdReset { get; set; }
         public List<Subject> Subject { get; set; }
     }
     public class Subject

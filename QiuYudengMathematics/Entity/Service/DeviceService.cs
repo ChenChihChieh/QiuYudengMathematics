@@ -1,4 +1,5 @@
-﻿using QiuYudengMathematics.Models.ViewModels;
+﻿using QiuYudengMathematics.Models;
+using QiuYudengMathematics.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -30,6 +31,19 @@ namespace QiuYudengMathematics.Entity.Service
                     }
                 }
             }
+        }
+        public RtnModel DeleteDevice(string Id)
+        {
+            RtnModel rtn = new RtnModel();
+            using (var db = new QiuYudengMathematicsEntities())
+            {
+                var data = db.StudentDevice.Where(x => x.Account == Id).ToList();
+                foreach (var d in data)
+                    db.StudentDevice.Remove(d);
+                rtn.Success = db.SaveChanges() > 0;
+                rtn.Msg = rtn.Success ? "刪除成功" : "刪除失敗";
+            }
+            return rtn;
         }
     }
 }

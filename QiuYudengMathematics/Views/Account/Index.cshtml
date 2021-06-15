@@ -7,6 +7,7 @@
         <input type="button" value="Add" onclick="Add()" />
         <input type="button" value="Update" onclick="Update()" />
         <input type="button" value="QueryGradeSub" onclick="QueryGradeSub()" />
+        <input type="button" value="DeleteDevice" onclick="DeleteDevice()" />
     </div>
     <div class="account__container">
         <div class="account__search-bar--flex">
@@ -144,6 +145,11 @@
     function QueryGradeSub() {
         $.post('@Url.Content("/Account/GetGradeSubject")', function (x) {
             console.log(x.Data);
+        });
+    };
+    function DeleteDevice() {
+        $.post('@Url.Content("/Account/DeleteDevice?Id=")' + '000001', function (x) {
+            alert(x.Msg);
         });
     };
 </script>

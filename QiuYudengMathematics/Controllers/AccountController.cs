@@ -9,10 +9,12 @@ namespace QiuYudengMathematics.Controllers
     {
         private readonly AccountService AccountService;
         private readonly SubjectService SubjectService;
+        private readonly DeviceService DeviceService;
         public AccountController()
         {
             AccountService = new AccountService();
             SubjectService = new SubjectService();
+            DeviceService = new DeviceService();
         }
         public ActionResult Index() => View(AccountService.getGrade());
 
@@ -25,5 +27,7 @@ namespace QiuYudengMathematics.Controllers
         public ActionResult Insert(AccountModel model) => Json(AccountService.Insert(model), JsonRequestBehavior.AllowGet);
 
         public ActionResult Update(AccountModel model) => Json(AccountService.Update(model), JsonRequestBehavior.AllowGet);
+
+        public ActionResult DeleteDevice(string Id) => Json(DeviceService.DeleteDevice(Id), JsonRequestBehavior.AllowGet);
     }
 }
