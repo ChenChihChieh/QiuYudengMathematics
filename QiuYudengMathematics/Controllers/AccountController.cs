@@ -7,16 +7,20 @@ namespace QiuYudengMathematics.Controllers
     [Authorize]
     public class AccountController : Controller
     {
-        private AccountService AccountService;
+        private readonly AccountService AccountService;
+        private readonly SubjectService SubjectService;
         public AccountController()
         {
             AccountService = new AccountService();
+            SubjectService = new SubjectService();
         }
         public ActionResult Index() => View(AccountService.getGrade());
 
         public ActionResult Query(AccountQueryModel model) => Json(new RtnModel() { Success = true, Data = AccountService.Query(model) }, JsonRequestBehavior.AllowGet);
 
         public ActionResult SingleQuery(string Id) => Json(new RtnModel() { Success = true, Data = AccountService.SingleQuery(Id) }, JsonRequestBehavior.AllowGet);
+
+        public ActionResult GetGradeSubject() => Json(new RtnModel() { Success = true, Data = SubjectService.getGradeSubject() }, JsonRequestBehavior.AllowGet);
 
         public ActionResult Insert(AccountModel model) => Json(AccountService.Insert(model), JsonRequestBehavior.AllowGet);
 

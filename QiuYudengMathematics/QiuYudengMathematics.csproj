@@ -153,6 +153,7 @@
       <DependentUpon>QiuYudengMathematics.edmx</DependentUpon>
     </Compile>
     <Compile Include="Entity\Service\AccountService.cs" />
+    <Compile Include="Entity\Service\SubjectService.cs" />
     <Compile Include="Entity\Student.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>

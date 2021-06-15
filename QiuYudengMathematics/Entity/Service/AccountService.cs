@@ -1,9 +1,7 @@
 ﻿using QiuYudengMathematics.Models;
 using QiuYudengMathematics.Models.ViewModels;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using QiuYudengMathematics.Comm;
 
 namespace QiuYudengMathematics.Entity.Service
@@ -20,7 +18,6 @@ namespace QiuYudengMathematics.Entity.Service
             using (var db = new QiuYudengMathematicsEntities())
             {
                 var data = db.Student
-                    .Where(x => x.Enable == model.Enable)
                     .Select(item => new AccountQueryViewModel()
                     {
                         Account = item.Account,
@@ -34,6 +31,8 @@ namespace QiuYudengMathematics.Entity.Service
                     data = data.Where(x => x.Name.Contains(model.Name)).ToList();
                 if (model.Grade.HasValue)
                     data = data.Where(x => x.Grade == model.Grade.Value).ToList();
+                if (model.Enable.HasValue)
+                    data = data.Where(x => x.Enable == model.Enable.Value).ToList();
                 return data;
             }
         }

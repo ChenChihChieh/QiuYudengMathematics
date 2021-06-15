@@ -18,6 +18,6 @@ namespace QiuYudengMathematics.Models
     {
         public string Name { get; set; }
         public int? Grade { get; set; }
-        public bool Enable { get; set; }
+        public bool? Enable { get; set; }
     }
 }

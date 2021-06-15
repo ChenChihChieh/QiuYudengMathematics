@@ -35,4 +35,10 @@ namespace QiuYudengMathematics.Models.ViewModels
         public string GradeName { get; set; }
         public bool Enable { get; set; }
     }
+    public class GradeViewModel
+    { 
+        public int GradeId { get; set; }
+        public string GradeName { get; set; }
+        public List<Subject> Subject { get; set; }
+    }
 }
