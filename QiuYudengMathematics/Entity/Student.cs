@@ -16,8 +16,8 @@ namespace QiuYudengMathematics.Entity
     {
         public Student()
         {
-            this.GroupGradeSubject = new HashSet<GroupGradeSubject>();
             this.StudentPosition = new HashSet<StudentPosition>();
+            this.GroupGradeSubject = new HashSet<GroupGradeSubject>();
         }
     
         public string Account { get; set; }
@@ -25,9 +25,10 @@ namespace QiuYudengMathematics.Entity
         public string Name { get; set; }
         public int Grade { get; set; }
         public bool Enable { get; set; }
+        public bool PwdReset { get; set; }
     
         public virtual GroupGrade GroupGrade { get; set; }
-        public virtual ICollection<GroupGradeSubject> GroupGradeSubject { get; set; }
         public virtual ICollection<StudentPosition> StudentPosition { get; set; }
+        public virtual ICollection<GroupGradeSubject> GroupGradeSubject { get; set; }
     }
 }

@@ -5,15 +5,15 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="8e508aaf1a5a4094905118668649f470" Name="Diagram1">
-        <EntityTypeShape EntityType="QiuYudengMathematicsModel.GroupGrade" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="QiuYudengMathematicsModel.GroupGradeSubject" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="QiuYudengMathematicsModel.Student" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="QiuYudengMathematicsModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="QiuYudengMathematicsModel.FK_GroupGradeSubject_GroupGrade" ManuallyRouted="false" />
-        <AssociationConnector Association="QiuYudengMathematicsModel.FK_Student_GroupGrade" ManuallyRouted="false" />
-        <AssociationConnector Association="QiuYudengMathematicsModel.StudentSubject" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.GroupGrade" Width="1.5" PointX="0.75" PointY="1.375" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.GroupGradeSubject" Width="1.5" PointX="3" PointY="1.25" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.Student" Width="1.5" PointX="5.25" PointY="1" />
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.StudentPosition" Width="1.5" PointX="7.5" PointY="1.5" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.FK_GroupGradeSubject_GroupGrade" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.FK_Student_GroupGrade" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_StudentPosition_Student" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.StudentSubject" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
