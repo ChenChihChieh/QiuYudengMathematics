@@ -65,5 +65,6 @@
     <Build Include="dbo\Tables\GroupGradeSubject.sql" />
     <Build Include="dbo\Tables\GroupGrade.sql" />
     <Build Include="dbo\Tables\StudentPosition.sql" />
+    <Build Include="dbo\Tables\StudentDevice.sql" />
   </ItemGroup>
 </Project>

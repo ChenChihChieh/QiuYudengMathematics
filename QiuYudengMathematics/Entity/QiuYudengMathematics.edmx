@@ -33,6 +33,14 @@
           <Property Name="Enable" Type="bit" Nullable="false" />
           <Property Name="PwdReset" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="StudentDevice">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="Device" />
+          </Key>
+          <Property Name="Account" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Device" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
         <EntityType Name="StudentPosition">
           <Key>
             <PropertyRef Name="Account" />
@@ -83,6 +91,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_StudentDevice_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="StudentDevice" Type="Self.StudentDevice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="StudentDevice">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_StudentPosition_Student">
           <End Role="Student" Type="Self.Student" Multiplicity="1" />
           <End Role="StudentPosition" Type="Self.StudentPosition" Multiplicity="*" />
@@ -123,6 +143,7 @@
           <EntitySet Name="GroupGrade" EntityType="Self.GroupGrade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGradeSubject" EntityType="Self.GroupGradeSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StudentDevice" EntityType="Self.StudentDevice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentPosition" EntityType="Self.StudentPosition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentSubject" EntityType="Self.StudentSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
@@ -133,6 +154,10 @@
           <AssociationSet Name="FK_Student_GroupGrade" Association="Self.FK_Student_GroupGrade">
             <End Role="GroupGrade" EntitySet="GroupGrade" />
             <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
+          <AssociationSet Name="FK_StudentDevice_Student" Association="Self.FK_StudentDevice_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentDevice" EntitySet="StudentDevice" />
           </AssociationSet>
           <AssociationSet Name="FK_StudentPosition_Student" Association="Self.FK_StudentPosition_Student">
             <End Role="Student" EntitySet="Student" />
@@ -173,6 +198,11 @@
             <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
+          <EntitySet Name="StudentDevice" EntityType="QiuYudengMathematicsModel.StudentDevice" />
+          <AssociationSet Name="FK_StudentDevice_Student" Association="QiuYudengMathematicsModel.FK_StudentDevice_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="StudentDevice" EntitySet="StudentDevice" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="GroupGrade">
           <Key>
@@ -208,6 +238,7 @@
           <NavigationProperty Name="GroupGrade" Relationship="QiuYudengMathematicsModel.FK_Student_GroupGrade" FromRole="Student" ToRole="GroupGrade" />
           <NavigationProperty Name="StudentPosition" Relationship="QiuYudengMathematicsModel.FK_StudentPosition_Student" FromRole="Student" ToRole="StudentPosition" />
           <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.StudentSubject" FromRole="Student" ToRole="GroupGradeSubject" />
+          <NavigationProperty Name="StudentDevice" Relationship="QiuYudengMathematicsModel.FK_StudentDevice_Student" FromRole="Student" ToRole="StudentDevice" />
         </EntityType>
         <EntityType Name="StudentPosition">
           <Key>
@@ -267,6 +298,27 @@
         <Association Name="StudentSubject">
           <End Type="QiuYudengMathematicsModel.GroupGradeSubject" Role="GroupGradeSubject" Multiplicity="*" />
           <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+        <EntityType Name="StudentDevice">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="Device" />
+          </Key>
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Device" Type="String" Nullable="false" MaxLength="500" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.FK_StudentDevice_Student" FromRole="StudentDevice" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_StudentDevice_Student">
+          <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="QiuYudengMathematicsModel.StudentDevice" Role="StudentDevice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="StudentDevice">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -332,6 +384,14 @@
               <ScalarProperty Name="ID" ColumnName="SubjectID" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="StudentDevice">
+            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.StudentDevice">
+              <MappingFragment StoreEntitySet="StudentDevice">
+                <ScalarProperty Name="Device" ColumnName="Device" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

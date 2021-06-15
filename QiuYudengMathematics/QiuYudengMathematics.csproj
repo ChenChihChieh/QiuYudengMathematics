@@ -157,6 +157,9 @@
     <Compile Include="Entity\Student.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\StudentDevice.cs">
+      <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\StudentPosition.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
