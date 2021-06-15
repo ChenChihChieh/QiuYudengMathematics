@@ -1,8 +1,6 @@
-﻿using QiuYudengMathematics.Models;
-using QiuYudengMathematics.Models.ViewModels;
+﻿using QiuYudengMathematics.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using System.Data.Entity;
 
 namespace QiuYudengMathematics.Entity.Service
 {
