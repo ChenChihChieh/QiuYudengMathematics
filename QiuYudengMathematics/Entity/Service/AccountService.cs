@@ -98,7 +98,8 @@ namespace QiuYudengMathematics.Entity.Service
                     Pwd = new AESComm().AES("12345", true),
                     Name = model.Name,
                     Enable = model.Enable,
-                    Grade = model.Grade
+                    Grade = model.Grade,
+                    PwdReset = true
                 };
                 var subjectList = db.GroupGradeSubject.Where(x => x.GradeID == model.Grade && x.Enable).ToList();
                 model.Subject.ForEach(x =>
@@ -132,6 +133,49 @@ namespace QiuYudengMathematics.Entity.Service
                         if (subjectList.Where(y => y.ID == x).Any())
                             StudentData.GroupGradeSubject.Add(subjectList.Where(y => y.ID == x).First());
                     });
+                    rtn.Success = db.SaveChanges() > 0;
+                    rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
+                    return rtn;
+                }
+                else
+                    return new RtnModel() { Success = false, Msg = "查無資料" };
+            }
+        }
+
+        /// <summary>
+        /// 重置密碼
+        /// </summary>
+        public RtnModel UpdatePwdReset(string Id)
+        {
+            RtnModel rtn = new RtnModel();
+            using (var db = new QiuYudengMathematicsEntities())
+            {
+                var StudentData = db.Student.Where(x => x.Account == Id).FirstOrDefault();
+                if (StudentData != null)
+                {
+                    StudentData.Pwd = new AESComm().AES("12345", true);
+                    StudentData.PwdReset = true;
+                    rtn.Success = db.SaveChanges() > 0;
+                    rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
+                    return rtn;
+                }
+                else
+                    return new RtnModel() { Success = false, Msg = "查無資料" };
+            }
+        }
+        /// <summary>
+        /// 更新密碼
+        /// </summary>
+        public RtnModel UpdatePwd(string Id, string Pwd)
+        {
+            RtnModel rtn = new RtnModel();
+            using (var db = new QiuYudengMathematicsEntities())
+            {
+                var StudentData = db.Student.Where(x => x.Account == Id).FirstOrDefault();
+                if (StudentData != null)
+                {
+                    StudentData.Pwd = new AESComm().AES(Pwd, true);
+                    StudentData.PwdReset = false;
                     rtn.Success = db.SaveChanges() > 0;
                     rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
                     return rtn;
