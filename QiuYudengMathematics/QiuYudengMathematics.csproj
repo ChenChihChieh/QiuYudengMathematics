@@ -131,6 +131,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\PwdResetController.cs" />
     <Compile Include="Entity\GroupGrade.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
@@ -153,6 +154,7 @@
       <DependentUpon>QiuYudengMathematics.edmx</DependentUpon>
     </Compile>
     <Compile Include="Entity\Service\AccountService.cs" />
+    <Compile Include="Entity\Service\DeviceService.cs" />
     <Compile Include="Entity\Service\SubjectService.cs" />
     <Compile Include="Entity\Student.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
@@ -234,6 +236,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
+    <Content Include="Views\PwdReset\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -145,12 +145,12 @@ namespace QiuYudengMathematics.Entity.Service
         /// <summary>
         /// 重置密碼
         /// </summary>
-        public RtnModel UpdatePwdReset(string Id)
+        public RtnModel UpdatePwdReset()
         {
             RtnModel rtn = new RtnModel();
             using (var db = new QiuYudengMathematicsEntities())
             {
-                var StudentData = db.Student.Where(x => x.Account == Id).FirstOrDefault();
+                var StudentData = db.Student.Where(x => x.Account == WebSiteComm.CurrentUserAccount).FirstOrDefault();
                 if (StudentData != null)
                 {
                     StudentData.Pwd = new AESComm().AES("12345", true);
@@ -166,12 +166,12 @@ namespace QiuYudengMathematics.Entity.Service
         /// <summary>
         /// 更新密碼
         /// </summary>
-        public RtnModel UpdatePwd(string Id, string Pwd)
+        public RtnModel UpdatePwd(string Pwd)
         {
             RtnModel rtn = new RtnModel();
             using (var db = new QiuYudengMathematicsEntities())
             {
-                var StudentData = db.Student.Where(x => x.Account == Id).FirstOrDefault();
+                var StudentData = db.Student.Where(x => x.Account == WebSiteComm.CurrentUserAccount).FirstOrDefault();
                 if (StudentData != null)
                 {
                     StudentData.Pwd = new AESComm().AES(Pwd, true);

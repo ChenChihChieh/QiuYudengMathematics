@@ -2,7 +2,6 @@
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
-using QiuYudengMathematics.Comm;
 using QiuYudengMathematics.Models;
 using System.Configuration;
 using QiuYudengMathematics.Entity.Service;
@@ -13,10 +12,12 @@ namespace QiuYudengMathematics.Controllers
 {
     public class LoginController : Controller
     {
-        private AccountService AccountService;
+        private readonly AccountService AccountService;
+        private readonly DeviceService DeviceService;
         public LoginController()
         {
             AccountService = new AccountService();
+            DeviceService = new DeviceService();
         }
         public ActionResult Index()
         {
@@ -39,13 +40,20 @@ namespace QiuYudengMathematics.Controllers
                 var Student = AccountService.SingleQuery(model.Account);
                 if (Student != null && model.Password == Student.Pwd && Student.Enable)
                 {
-                    LoginProcess(model.Account, JsonConvert.SerializeObject(Student));
-                    return RedirectToAction("Index", "Home");
+                    if (DeviceService.CheckDevice(Student.Account, "12345"))
+                    {
+                        LoginProcess(model.Account, JsonConvert.SerializeObject(Student));
+                        if (Student.Enable) //首次登入，導到改密碼頁
+                            return RedirectToAction("Index", "PwdReset");
+                        else
+                            return RedirectToAction("Index", "Home");
+                    }
                 }
             }
             TempData["Message"] = "帳號或密碼錯誤";
             return View("Index");
         }
+
         private void LoginProcess(string Account, string Data)
         {
             var ticket = new FormsAuthenticationTicket(
