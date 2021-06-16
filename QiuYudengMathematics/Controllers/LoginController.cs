@@ -7,6 +7,7 @@ using System.Configuration;
 using QiuYudengMathematics.Entity.Service;
 using Newtonsoft.Json;
 using QiuYudengMathematics.Models.ViewModels;
+using System.Net;
 
 namespace QiuYudengMathematics.Controllers
 {
@@ -40,7 +41,7 @@ namespace QiuYudengMathematics.Controllers
                 var Student = AccountService.SingleQuery(model.Account);
                 if (Student != null && model.Password == Student.Pwd && Student.Enable)
                 {
-                    if (DeviceService.CheckDevice(Student.Account, "12345"))
+                    if (DeviceService.CheckDevice(Student.Account, GetHostNmae()))
                     {
                         LoginProcess(model.Account, JsonConvert.SerializeObject(Student));
                         if (Student.PwdReset) //首次登入，導到改密碼頁
@@ -48,10 +49,25 @@ namespace QiuYudengMathematics.Controllers
                         else
                             return RedirectToAction("Index", "Home");
                     }
+                    else
+                        TempData["Message"] = "登入的裝置超過上限";
                 }
+                else
+                    TempData["Message"] = "帳號或密碼錯誤";
             }
-            TempData["Message"] = "帳號或密碼錯誤";
             return View("Index");
+        }
+
+        private string GetHostNmae()
+        {
+            try
+            {
+                return Dns.GetHostEntry(Request.UserHostAddress).HostName;
+            }
+            catch
+            {
+                return "Phone";
+            }
         }
 
         private void LoginProcess(string Account, string Data)
