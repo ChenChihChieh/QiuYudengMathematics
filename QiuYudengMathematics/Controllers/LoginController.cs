@@ -41,7 +41,7 @@ namespace QiuYudengMathematics.Controllers
                 var Student = AccountService.SingleQuery(model.Account);
                 if (Student != null && model.Password == Student.Pwd && Student.Enable)
                 {
-                    if (DeviceService.CheckDevice(Student.Account, GetHostNmae()))
+                    if (DeviceService.CheckDevice(Student.Account, GetHostName()))
                     {
                         LoginProcess(model.Account, JsonConvert.SerializeObject(Student));
                         if (Student.PwdReset) //首次登入，導到改密碼頁
@@ -58,7 +58,7 @@ namespace QiuYudengMathematics.Controllers
             return View("Index");
         }
 
-        private string GetHostNmae()
+        private string GetHostName()
         {
             try
             {
