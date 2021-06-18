@@ -13,7 +13,7 @@
         <div class="account__search-bar--flex">
             <input @@input="onInput($event)" placeholder="請輸入姓名" type="search">
             <div class="account__btn-wrapper">
-                <a @@click="" class="btn">新增</a>
+                <a @@click="addPerson" class="blue-btn">新增</a>
             </div>
         </div>
         <div class="account__table">
@@ -27,24 +27,58 @@
             <div class="account__tr" v-for="item in curList" :key="item.Account">
                 <div class="account__td">{{item.Account}}</div>
                 <div class="account__td">{{item.Name}}</div>
-                <div class="account__td">{{item.Grade}}</div>
+                <div class="account__td">{{item.GradeName}}</div>
                 <div class="account__td">
                     <i v-if="item.Enable" style="color:forestgreen" class="far fa-circle"></i>
                     <i v-else style="color:red" class="fas fa-times"></i>
                 </div>
-                <div class="account__td"><a @@click.prevent="manage(item.Account)"><i class="fas fa-cog"></i></a></div>
+                <div class="account__td"><a @@click.prevent="showPopUp(item.Account)"><i class="fas fa-cog"></i></a></div>
             </div>
         </div>
     </div>
-    @*<div class="account__popup--wrapper">
+    <div v-show="pupUpOn" class="account__popup--wrapper">
         <div class="account__popup">
-            <div>管理</div>
-            <div>帳號 : <input /></div>
-            <div>姓名 : <input /></div>
-            <div>狀態 : <input /></div>
-            <div>科目 : <input /></div>
+            <div class="account__popup--heading">
+                <span>學生管理</span>
+                <i  @@click="hidePopUp" class="fas fa-times"></i>
+            </div>
+            <div class="account__popup--body">
+                <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled/></div>
+                <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name"/></div>
+                <div>
+                    <p>年級</p>
+                    <div class="width200">
+                        <input type="radio" id="one" value="1" v-model="info.Grade">
+                        <label for="one">高一</label>
+                        <input type="radio" id="two" value="2" v-model="info.Grade">
+                        <label for="two">高二</label>
+                        <input type="radio" id="three" value="3" v-model="info.Grade">
+                        <label for="three">高三</label>
+                    </div>
+                </div>
+                <div>
+                    <p>狀態</p>
+                    <div class="width200">
+                        <input type="checkbox" id="checkbox" v-model="info.Enable">
+                        <label for="checkbox">{{ info.Enable?"啟用":"停用" }}</label>
+                    </div>
+                </div>
+                <div>
+                    <p>科目</p>
+                    <div class="width200">
+                        <div v-for="item in currentSubectList" class="subject-item">
+                            <input type="checkbox" :id="item.ID" :value="String(item.ID)" v-model="checkedList">
+                            <label :for="item.ID">{{item.SubjectName}},{{item.ID}}</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="account__popup--footer">
+                <a @@click="clearDevice(info.Account)" class="red-btn">清除裝置</a>
+                <a @@click="submit" class="blue-btn">儲存</a>
+            </div>
         </div>
-    </div>*@
+    </div>
 </div>
 
 
@@ -52,20 +86,20 @@
     const vm = new Vue({
         el: '#app',
         data: {
-            manageAcc: {},
             curList:[],
-            rawList:[],
+            rawList: [],
+            pupUpOn: false,
+            checked: true,
+            allSubjectList:[],
+            checkedList:[],
             info: {
                 Account: '',
                 Name: '',
-                Grade: null,
+                Grade: 1,
                 Enable: true,
                 Subject: []
-            },
-            SUBJECT_ENUM: {
-
             }
-        },
+        }, 
         mounted() {
             const data = {
                 Name: '',
@@ -77,8 +111,21 @@
                     this.rawList = res.data.Data;
                     this.curList = this.rawList
                 })
+              axios.post('@Url.Content("/Account/GetGradeSubject")')
+                  .then(res => {
+                      this.allSubjectList = res.data.Data
+                })
         },
         computed: {
+            groupSubjectByGrade() {
+                return this.allSubjectList.find(item => String(item.GradeId) === String(this.info.Grade))
+            },
+            currentSubectList() {
+                return this.groupSubjectByGrade ? this.groupSubjectByGrade.Subject : [];
+            },
+            checkedSubjectList() {
+                return this.info.Subject.map(item => String(item.ID))
+            }
         },
         methods: {
             onInput(e) {
@@ -89,16 +136,57 @@
                     this.curList = this.rawList
                 }
             },
-            manage(val) {
+            showPopUp(val) {
                 axios.post('@Url.Content("/Account/SingleQuery?Id=")' + `${val}`)
                     .then(res => {
-                        console.log('msg',res.data.Msg)
-                        console.log(res.data.Data)
                         this.info.Account = res.data.Data.Account
                         this.info.Name = res.data.Data.Name
-                        this.info.Grade = res.data.Data.Grade
+                        this.info.Grade = String(res.data.Data.Grade)
                         this.info.Subject = res.data.Data.Subject
-                    })
+                        this.info.Enable = res.data.Data.Enable
+                        this.info.Subject = res.data.Data.Subject
+
+                        this.checkedList = this.checkedSubjectList
+                    }).finally(() => { this.pupUpOn = true; })
+            },
+            hidePopUp() {
+                this.pupUpOn = false;
+            },
+            addPerson() {
+                this.info= {
+                    Account: '',
+                    Name: '',
+                    Grade: "1",
+                    Enable: true,
+                    Subject: []
+                }
+                this.pupUpOn = true;
+            },
+            clearDevice(val) {
+                axios.post('@Url.Content("/Account/SingleQuery?Id=")' + `${val}`)
+                    .then(res => alert(res.data.Msg))
+            },
+            submit() {
+                let data = {
+                    Name: this.info.Name,
+                    Grade: parseInt(this.info.Grade),
+                    Enable: this.info.Enable,
+                }
+                if (this.checkedList) {
+                    data.Subject = this.checkedList.map(item => parseInt(item))
+                }
+                if (this.info.Account) {
+                    data.Account = this.info.Account
+
+                    console.log(data)
+                    axios.post('@Url.Content("/Account/Update")', data)
+                        .then(res => alert(res.data.Msg))
+                } else {
+                    console.log(data)
+                    axios.post('@Url.Content("/Account/Insert")', data)
+                        .then(res => alert(res.data.Msg))
+                }
+                this.pupUpOn = false;
             }
         }
     });

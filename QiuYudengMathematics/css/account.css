@@ -57,9 +57,8 @@
     cursor:pointer;
     padding:10px;
 }
-
-a.btn {
-    font-size:14px;
+a.blue-btn {
+    font-size: 14px;
     display: inline-block;
     text-decoration: none;
     padding: 8px 10px;
@@ -71,10 +70,32 @@ a.btn {
     text-align: center;
     background-color: #337ab7;
     color: #fff;
+    cursor: pointer;
 }
-a.btn:hover {
+a.blue-btn:hover {
     background-color: #004280;
     color: #fff;
+    text-decoration: none;
+}
+a.red-btn {
+    font-size: 14px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 8px 10px;
+    min-width: 10vw;
+    border-radius: 3px;
+    border: 1px solid #990412;
+    color: #0081d2;
+    margin: 5px 5px 5px 0;
+    text-align: center;
+    background-color: #f00;
+    color: #fff;
+    cursor: pointer;
+}
+a.red-btn:hover {
+    background-color: #c00;
+    color: #fff;
+    text-decoration: none;
 }
 .account__popup--wrapper {
     position: absolute;
@@ -90,16 +111,50 @@ a.btn:hover {
     position: absolute;
     top: 30%;
     left: 50%;
-    display: block;
-    width: 300px;
-    height: 300px;
     transform: translate(-150px, -100px);
     background-color: #fff;
     box-sizing: border-box;
     border-radius: 5px;
-    display: grid;
-    grid-template-columns:
-    grid-template-rows:
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    padding:20px;
 
 }
-
+.account__popup--heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 22px;
+}
+.account__popup--heading span {
+    font-weight: bold;
+}
+.account__popup--heading i {
+    cursor:pointer;
+    padding:5px;
+}
+.account__popup--body{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+}
+.account__popup--body .width200 {
+    width: 200px;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+.account__popup--body .width200 label {
+    margin-right: 20px;
+}
+.account__popup--radio-wrap{
+    width:80px;
+}
+.account__popup--body div {
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 8px;
+}
+.account__popup--footer {
+    align-self: flex-end;
+}
