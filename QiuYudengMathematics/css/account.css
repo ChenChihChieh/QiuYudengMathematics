@@ -62,7 +62,6 @@ a.blue-btn {
     display: inline-block;
     text-decoration: none;
     padding: 8px 10px;
-    min-width: 10vw;
     border-radius: 3px;
     border: 1px solid #0081d2;
     color: #0081d2;
@@ -82,7 +81,6 @@ a.red-btn {
     display: inline-block;
     text-decoration: none;
     padding: 8px 10px;
-    min-width: 10vw;
     border-radius: 3px;
     border: 1px solid #990412;
     color: #0081d2;
@@ -98,7 +96,7 @@ a.red-btn:hover {
     text-decoration: none;
 }
 .account__popup--wrapper {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     display: block;
@@ -109,7 +107,7 @@ a.red-btn:hover {
 }
 .account__popup {
     position: absolute;
-    top: 30%;
+    top: 35%;
     left: 50%;
     transform: translate(-150px, -100px);
     background-color: #fff;
@@ -126,6 +124,7 @@ a.red-btn:hover {
     flex-direction: row;
     justify-content: space-between;
     font-size: 22px;
+    padding-bottom: 8px;
 }
 .account__popup--heading span {
     font-weight: bold;
@@ -143,7 +142,7 @@ a.red-btn:hover {
     width: 200px;
     justify-content: flex-start;
     flex-wrap: wrap;
-}
+    }
 .account__popup--body .width200 label {
     margin-right: 20px;
 }
@@ -153,7 +152,12 @@ a.red-btn:hover {
 .account__popup--body div {
     display: flex;
     justify-content: space-between;
-    padding-bottom: 8px;
+}
+.account__popup--body div:not(:last-child) {
+    padding-bottom: 6px;
+}
+.account__popup--body P {
+    margin-right: 10px;
 }
 .account__popup--footer {
     align-self: flex-end;

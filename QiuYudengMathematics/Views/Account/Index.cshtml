@@ -32,11 +32,11 @@
         <div class="account__popup">
             <div class="account__popup--heading">
                 <span>學生管理</span>
-                <i  @@click="hidePopUp" class="fas fa-times"></i>
+                <i @@click="hidePopUp" class="fas fa-times"></i>
             </div>
             <div class="account__popup--body">
-                <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled/></div>
-                <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name"/></div>
+                <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled /></div>
+                <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" /></div>
                 <div>
                     <p>年級</p>
                     <div class="width200">
@@ -67,6 +67,7 @@
             </div>
             <div class="account__popup--footer">
                 <a @@click="clearDevice(info.Account)" class="red-btn">清除裝置</a>
+                <a @@click="clearDevice(info.Account)" class="red-btn">重置密碼</a>
                 <a @@click="submit" class="blue-btn">儲存</a>
             </div>
         </div>
@@ -91,22 +92,23 @@
                 Enable: true,
                 Subject: []
             }
-        }, 
+        },
         mounted() {
             const data = {
                 Name: '',
                 Grade: null,
                 Enable: null
             }
+            axios.post('@Url.Content("/Account/GetGradeSubject")')
+                .then(res => {
+                    this.allSubjectList = res.data.Data
+                });
             axios.post('@Url.Content("/Account/Query")', data)
                 .then(res => {
                     this.rawList = res.data.Data;
                     this.curList = this.rawList
-                })
-              axios.post('@Url.Content("/Account/GetGradeSubject")')
-                  .then(res => {
-                      this.allSubjectList = res.data.Data
-                })
+                });
+
         },
         computed: {
             groupSubjectByGrade() {
@@ -136,7 +138,7 @@
                         this.info.Grade = String(res.data.Data.Grade)
                         this.info.Subject = res.data.Data.Subject
                         this.info.Enable = res.data.Data.Enable
-                        this.info.Subject = res.data.Data.Subject
+                        this.info.Subject = res.data.Data.Subject.filter(item => item.Detriment)
 
                         this.checkedList = this.checkedSubjectList
                     }).finally(() => { this.pupUpOn = true; })
@@ -155,7 +157,7 @@
                 this.pupUpOn = true;
             },
             clearDevice(val) {
-                axios.post('@Url.Content("/Account/SingleQuery?Id=")' + `${val}`)
+                axios.post('@Url.Content("/Account/DeleteDevice?Id=")' + `${val}`)
                     .then(res => alert(res.data.Msg))
             },
             submit() {
@@ -168,15 +170,20 @@
                     data.Subject = this.checkedList.map(item => parseInt(item))
                 }
                 if (this.info.Account) {
+                    //修改學生資料
                     data.Account = this.info.Account
 
                     console.log(data)
                     axios.post('@Url.Content("/Account/Update")', data)
                         .then(res => alert(res.data.Msg))
                 } else {
+                    //新增學生資料
                     console.log(data)
                     axios.post('@Url.Content("/Account/Insert")', data)
-                        .then(res => alert(res.data.Msg))
+                        .then(res => {
+                            alert(res.data.Msg)
+                            location.reload()
+                        });
                 }
                 this.pupUpOn = false;
             }
