@@ -238,7 +238,8 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\PwdReset\Index.cshtml" />
-    <Content Include="Views\Course\Index.cshtml" />
+    <Content Include="Views\Course\CourseLearn.cshtml" />
+    <Content Include="Views\Course\CourseManagement.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
