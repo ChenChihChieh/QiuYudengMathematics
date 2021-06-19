@@ -129,6 +129,7 @@
     <Compile Include="Comm\AESComm.cs" />
     <Compile Include="Comm\WebSiteComm.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PwdResetController.cs" />
@@ -237,6 +238,7 @@
     <Content Include="Views\Login\Index.cshtml" />
     <Content Include="Views\Account\Index.cshtml" />
     <Content Include="Views\PwdReset\Index.cshtml" />
+    <Content Include="Views\Course\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

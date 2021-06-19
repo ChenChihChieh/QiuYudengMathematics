@@ -58,6 +58,13 @@ namespace QiuYudengMathematics.Controllers
             return View("Index");
         }
 
+        public ActionResult LogoutForErrAccount(string ErrMsg)
+        {
+            TempData["Message"] = ErrMsg;
+            FormsAuthentication.SignOut();
+            return View("Index");
+        }
+
         private string GetHostName()
         {
             try
