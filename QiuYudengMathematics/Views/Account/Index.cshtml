@@ -1,14 +1,6 @@
 ﻿@model Dictionary<int, string>
 
 <div id="app" class="account">
-    <div>
-        <input type="button" value="Query" onclick="Query()" />
-        <input type="button" value="SingleQuery" onclick="SingleQuery()" />
-        <input type="button" value="Add" onclick="Add()" />
-        <input type="button" value="Update" onclick="Update()" />
-        <input type="button" value="QueryGradeSub" onclick="QueryGradeSub()" />
-        <input type="button" value="DeleteDevice" onclick="DeleteDevice()" />
-    </div>
     <div class="account__container">
         <div class="account__search-bar--flex">
             <input @@input="onInput($event)" placeholder="請輸入姓名" type="search">
@@ -190,54 +182,4 @@
             }
         }
     });
-
-
-    function Query() {
-        var data = {
-            Name: '',
-            Grade: null,
-            Enable: null
-        };
-        axios.post('@Url.Content("/Account/Query")', data, function (x) {
-            console.log(x);
-        });
-    };
-    function SingleQuery() {
-        $.post('@Url.Content("/Account/SingleQuery?Id=")' + '000001', function (x) {
-            console.log(x.Data);
-        });
-    };
-    function Add() {
-        var data = {
-            Name: "Test",
-            Grade: 2,
-            Enable: false,
-            Subject: [5,7]
-        };
-        $.post('@Url.Content("/Account/Insert")',data, function (x) {
-            alert(x.Msg);
-        });
-    };
-    function Update() {
-        var data = {
-            Account: "000001",
-            Name: "Test",
-            Grade: 3,
-            Enable: true,
-            Subject: [10,11,13]
-        };
-        $.post('@Url.Content("/Account/Update")',data, function (x) {
-            alert(x.Msg);
-        });
-    };
-    function QueryGradeSub() {
-        $.post('@Url.Content("/Account/GetGradeSubject")', function (x) {
-            console.log(x.Data);
-        });
-    };
-    function DeleteDevice() {
-        $.post('@Url.Content("/Account/DeleteDevice?Id=")' + '000001', function (x) {
-            alert(x.Msg);
-        });
-    };
 </script>

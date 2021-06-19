@@ -28,7 +28,7 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("公佈欄", "Index", "Home")</li>
                     @if (QiuYudengMathematics.Comm.WebSiteComm.CurrentUserAccount == System.Configuration.ConfigurationManager.AppSettings["adminAccount"].ToString())
-                    { 
+                    {
                         <li>@Html.ActionLink("帳號管理", "Index", "Account")</li>
                     }
                     else
@@ -40,6 +40,7 @@
                                 {
                                     <li>@Html.ActionLink(item.SubjectName, "", "", new { SubjectId = item.ID })</li>
                                 }
+                                <li>@Html.ActionLink("試聽課程", "", "", new { SubjectId = -1 })</li>
                             </ul>
                         </li>
                     }
