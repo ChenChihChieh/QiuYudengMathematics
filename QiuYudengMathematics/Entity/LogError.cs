@@ -12,19 +12,11 @@ namespace QiuYudengMathematics.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class CourseVideo
+    public partial class LogError
     {
-        public CourseVideo()
-        {
-            this.Student = new HashSet<Student>();
-        }
-    
-        public int CourseSeq { get; set; }
-        public string CourseName { get; set; }
-        public string Url { get; set; }
-        public int SubjectId { get; set; }
-        public bool Enable { get; set; }
-    
-        public virtual ICollection<Student> Student { get; set; }
+        public int Seq { get; set; }
+        public string ErrMsg { get; set; }
+        public string StackTrace { get; set; }
+        public System.DateTime CreateDate { get; set; }
     }
 }

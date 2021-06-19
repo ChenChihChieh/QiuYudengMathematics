@@ -5,19 +5,26 @@ using System.Web;
 using System.Web.Mvc;
 using QiuYudengMathematics.Comm;
 using QiuYudengMathematics.Entity.Service;
+using QiuYudengMathematics.Models;
+using QiuYudengMathematics.Models.ViewModels;
 
 namespace QiuYudengMathematics.Controllers
 {
     public class CourseController : Controller
     {
         private readonly AccountService accountService;
+        private readonly CourseService courseService;
         public CourseController()
         {
             accountService = new AccountService();
+            courseService = new CourseService();
         }
         #region 課程管理
-        public ActionResult CourseManagement() => View();
-
+        public ActionResult CourseManagement() => View(accountService.getGrade());
+        public ActionResult Query(int? SubjectId) => Json(new RtnModel() { Success = true, Data = courseService.Query(SubjectId) }, JsonRequestBehavior.AllowGet);
+        public ActionResult SingleQuery(int Seq) => Json(new RtnModel() { Success = true, Data = courseService.SingleQuery(Seq) }, JsonRequestBehavior.AllowGet);
+        public ActionResult Insert(CourseManagementViewModel model) => Json(courseService.Insert(model), JsonRequestBehavior.AllowGet);
+        public ActionResult Update(CourseManagementViewModel model) => Json(courseService.Update(model), JsonRequestBehavior.AllowGet);
         #endregion
 
 

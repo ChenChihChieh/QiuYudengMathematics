@@ -10,6 +10,7 @@
             <PropertyRef Name="CourseSeq" />
           </Key>
           <Property Name="CourseSeq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="CourseName" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Url" Type="varchar(max)" Nullable="false" />
           <Property Name="SubjectId" Type="int" Nullable="false" />
           <Property Name="Enable" Type="bit" Nullable="false" />
@@ -38,6 +39,15 @@
           <Property Name="GradeID" Type="int" Nullable="false" />
           <Property Name="Subject" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="Enable" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LogError">
+          <Key>
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="Seq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ErrMsg" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="StackTrace" Type="varchar(max)" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -185,6 +195,7 @@
           <EntitySet Name="GroupCourseStudent" EntityType="Self.GroupCourseStudent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGrade" EntityType="Self.GroupGrade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGradeSubject" EntityType="Self.GroupGradeSubject" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LogError" EntityType="Self.LogError" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentDevice" EntityType="Self.StudentDevice" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentPosition" EntityType="Self.StudentPosition" Schema="dbo" store:Type="Tables" />
@@ -259,6 +270,7 @@
             <End Role="CourseVideo" EntitySet="CourseVideo" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
+          <EntitySet Name="LogError" EntityType="QiuYudengMathematicsModel.LogError" />
         </EntityContainer>
         <EntityType Name="GroupGrade">
           <Key>
@@ -382,6 +394,7 @@
             <PropertyRef Name="CourseSeq" />
           </Key>
           <Property Name="CourseSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="SubjectId" Type="Int32" Nullable="false" />
           <Property Name="Enable" Type="Boolean" Nullable="false" />
@@ -391,6 +404,15 @@
           <End Type="QiuYudengMathematicsModel.CourseVideo" Role="CourseVideo" Multiplicity="*" />
           <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="*" />
         </Association>
+        <EntityType Name="LogError">
+          <Key>
+            <PropertyRef Name="Seq" />
+          </Key>
+          <Property Name="Seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ErrMsg" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="StackTrace" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -469,6 +491,7 @@
                 <ScalarProperty Name="Enable" ColumnName="Enable" />
                 <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="CourseName" ColumnName="CourseName" />
                 <ScalarProperty Name="CourseSeq" ColumnName="CourseSeq" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -481,7 +504,17 @@
               <ScalarProperty Name="CourseSeq" ColumnName="CourseSeq" />
             </EndProperty>
           </AssociationSetMapping>
-        </EntityContainerMapping>
+          <EntitySetMapping Name="LogError">
+            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.LogError">
+              <MappingFragment StoreEntitySet="LogError">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+                <ScalarProperty Name="ErrMsg" ColumnName="ErrMsg" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

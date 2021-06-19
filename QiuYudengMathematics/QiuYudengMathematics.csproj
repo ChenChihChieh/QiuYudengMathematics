@@ -142,6 +142,9 @@
     <Compile Include="Entity\GroupGradeSubject.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\LogError.cs">
+      <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\QiuYudengMathematics.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -158,7 +161,9 @@
       <DependentUpon>QiuYudengMathematics.edmx</DependentUpon>
     </Compile>
     <Compile Include="Entity\Service\AccountService.cs" />
+    <Compile Include="Entity\Service\CourseService.cs" />
     <Compile Include="Entity\Service\DeviceService.cs" />
+    <Compile Include="Entity\Service\LogService.cs" />
     <Compile Include="Entity\Service\SubjectService.cs" />
     <Compile Include="Entity\Student.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
@@ -172,6 +177,7 @@
     <Compile Include="Entity\sysdiagrams.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
+    <Compile Include="Extension\ExceptionExtension.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -179,6 +185,7 @@
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RtnModel.cs" />
     <Compile Include="Models\ViewModels\AccountViewModel.cs" />
+    <Compile Include="Models\ViewModels\CourseManagementViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

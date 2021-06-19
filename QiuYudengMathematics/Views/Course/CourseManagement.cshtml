@@ -1,1 +1,52 @@
-﻿<div>課程管理</div>
+﻿@model Dictionary<int, string>
+<div>課程管理</div>
+<div>
+    <input type="button" value="Query" onclick="Query()" />
+    <input type="button" value="SingleQuery" onclick="SingleQuery()" />
+    <input type="button" value="Insert" onclick="Insert()" />
+    <input type="button" value="Update" onclick="Update()" />
+</div>
+
+
+<script type="text/javascript">
+    function Query() {
+        var subId = null; //這是條件，帶科目(查詢所有就放Null)
+        $.post("@(Url.Content("~/Course/Query?SubjectId="))" + subId, function (x) {
+            alert(x.Data[0].CourseName);
+        });
+    };
+
+    function SingleQuery() {
+        //查單一影片，放影片Seq
+        $.post("@(Url.Content("~/Course/SingleQuery?Seq="))" + 1, function (x) {
+            alert(x.Data.CourseName);
+        });
+    };
+
+    function Insert() {
+        var data = {
+            CourseName: 'Test',
+            Url: 'https://www.youtube.com/embed/1v1CiLQXho8?list=RD1v1CiLQXho8', //後端會檢查格式，前端檢查是否必填
+            SubjectId: 1,
+            Enable: true,
+            Student: ['000001','000002'] //影片個別放沒有購買課程的學生,沒設定就放Null
+        };
+        $.post("@(Url.Content("~/Course/Insert"))", data, function (x) {
+            alert(x.Msg);
+        });
+    };
+
+    function Update() {
+        var data = {
+            CourseSeq: 1,
+            CourseName: 'TestTwo',
+            Url: 'https://www.youtube.com/embed/1v1CiLQXho8?list=RD1v1CiLQXho8', //後端會檢查格式，前端檢查是否必填
+            SubjectId: 2,
+            Enable: true,
+            Student: null
+        };
+        $.post("@(Url.Content("~/Course/Update"))", data, function (x) {
+            alert(x.Msg);
+        });
+    };
+</script>
