@@ -31,5 +31,6 @@ namespace QiuYudengMathematics.Entity
         public DbSet<StudentPosition> StudentPosition { get; set; }
         public DbSet<sysdiagrams> sysdiagrams { get; set; }
         public DbSet<StudentDevice> StudentDevice { get; set; }
+        public DbSet<CourseVideo> CourseVideo { get; set; }
     }
 }

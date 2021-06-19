@@ -16,6 +16,8 @@
         <AssociationConnector Association="QiuYudengMathematicsModel.StudentSubject" />
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.StudentDevice" Width="1.5" PointX="7.5" PointY="4.625" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_StudentDevice_Student" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.CourseVideo" Width="1.5" PointX="3.375" PointY="5.875" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.GroupCourseStudent" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

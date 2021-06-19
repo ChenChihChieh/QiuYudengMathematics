@@ -133,6 +133,9 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PwdResetController.cs" />
+    <Compile Include="Entity\CourseVideo.cs">
+      <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\GroupGrade.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>

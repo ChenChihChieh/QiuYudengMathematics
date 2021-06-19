@@ -5,6 +5,23 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="QiuYudengMathematicsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="CourseVideo">
+          <Key>
+            <PropertyRef Name="CourseSeq" />
+          </Key>
+          <Property Name="CourseSeq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Url" Type="varchar(max)" Nullable="false" />
+          <Property Name="SubjectId" Type="int" Nullable="false" />
+          <Property Name="Enable" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="GroupCourseStudent">
+          <Key>
+            <PropertyRef Name="CourseSeq" />
+            <PropertyRef Name="Account" />
+          </Key>
+          <Property Name="CourseSeq" Type="int" Nullable="false" />
+          <Property Name="Account" Type="varchar" MaxLength="10" Nullable="false" />
+        </EntityType>
         <EntityType Name="GroupGrade">
           <Key>
             <PropertyRef Name="ID" />
@@ -67,6 +84,30 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <Association Name="FK_GroupCourseStudent_CourseVideo">
+          <End Role="CourseVideo" Type="Self.CourseVideo" Multiplicity="1" />
+          <End Role="GroupCourseStudent" Type="Self.GroupCourseStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseVideo">
+              <PropertyRef Name="CourseSeq" />
+            </Principal>
+            <Dependent Role="GroupCourseStudent">
+              <PropertyRef Name="CourseSeq" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_GroupCourseStudent_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="GroupCourseStudent" Type="Self.GroupCourseStudent" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="GroupCourseStudent">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GroupGradeSubject_GroupGrade">
           <End Role="GroupGrade" Type="Self.GroupGrade" Multiplicity="1" />
           <End Role="GroupGradeSubject" Type="Self.GroupGradeSubject" Multiplicity="*" />
@@ -140,6 +181,8 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="QiuYudengMathematicsModelStoreContainer">
+          <EntitySet Name="CourseVideo" EntityType="Self.CourseVideo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="GroupCourseStudent" EntityType="Self.GroupCourseStudent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGrade" EntityType="Self.GroupGrade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGradeSubject" EntityType="Self.GroupGradeSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Student" EntityType="Self.Student" Schema="dbo" store:Type="Tables" />
@@ -147,6 +190,14 @@
           <EntitySet Name="StudentPosition" EntityType="Self.StudentPosition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentSubject" EntityType="Self.StudentSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_GroupCourseStudent_CourseVideo" Association="Self.FK_GroupCourseStudent_CourseVideo">
+            <End Role="CourseVideo" EntitySet="CourseVideo" />
+            <End Role="GroupCourseStudent" EntitySet="GroupCourseStudent" />
+          </AssociationSet>
+          <AssociationSet Name="FK_GroupCourseStudent_Student" Association="Self.FK_GroupCourseStudent_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="GroupCourseStudent" EntitySet="GroupCourseStudent" />
+          </AssociationSet>
           <AssociationSet Name="FK_GroupGradeSubject_GroupGrade" Association="Self.FK_GroupGradeSubject_GroupGrade">
             <End Role="GroupGrade" EntitySet="GroupGrade" />
             <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
@@ -203,6 +254,11 @@
             <End Role="Student" EntitySet="Student" />
             <End Role="StudentDevice" EntitySet="StudentDevice" />
           </AssociationSet>
+          <EntitySet Name="CourseVideo" EntityType="QiuYudengMathematicsModel.CourseVideo" />
+          <AssociationSet Name="GroupCourseStudent" Association="QiuYudengMathematicsModel.GroupCourseStudent">
+            <End Role="CourseVideo" EntitySet="CourseVideo" />
+            <End Role="Student" EntitySet="Student" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="GroupGrade">
           <Key>
@@ -239,6 +295,7 @@
           <NavigationProperty Name="StudentPosition" Relationship="QiuYudengMathematicsModel.FK_StudentPosition_Student" FromRole="Student" ToRole="StudentPosition" />
           <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.StudentSubject" FromRole="Student" ToRole="GroupGradeSubject" />
           <NavigationProperty Name="StudentDevice" Relationship="QiuYudengMathematicsModel.FK_StudentDevice_Student" FromRole="Student" ToRole="StudentDevice" />
+          <NavigationProperty Name="CourseVideo" Relationship="QiuYudengMathematicsModel.GroupCourseStudent" FromRole="Student" ToRole="CourseVideo" />
         </EntityType>
         <EntityType Name="StudentPosition">
           <Key>
@@ -320,6 +377,20 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="CourseVideo">
+          <Key>
+            <PropertyRef Name="CourseSeq" />
+          </Key>
+          <Property Name="CourseSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <Property Name="Enable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.GroupCourseStudent" FromRole="CourseVideo" ToRole="Student" />
+        </EntityType>
+        <Association Name="GroupCourseStudent">
+          <End Type="QiuYudengMathematicsModel.CourseVideo" Role="CourseVideo" Multiplicity="*" />
+          <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -392,6 +463,24 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="CourseVideo">
+            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.CourseVideo">
+              <MappingFragment StoreEntitySet="CourseVideo">
+                <ScalarProperty Name="Enable" ColumnName="Enable" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="CourseSeq" ColumnName="CourseSeq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="GroupCourseStudent" TypeName="QiuYudengMathematicsModel.GroupCourseStudent" StoreEntitySet="GroupCourseStudent">
+            <EndProperty Name="Student">
+              <ScalarProperty Name="Account" ColumnName="Account" />
+            </EndProperty>
+            <EndProperty Name="CourseVideo">
+              <ScalarProperty Name="CourseSeq" ColumnName="CourseSeq" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
