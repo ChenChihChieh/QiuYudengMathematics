@@ -12,7 +12,12 @@
             <div class="account__tr">
                 <div class="account__th">帳號</div>
                 <div class="account__th">姓名</div>
-                <div class="account__th">年級</div>
+                <div class="account__th">年級
+                    <div class="account__grade-sorting">
+                        <span @@click="sortByGrade(1)" v-bind:class="this.GradeSoringRule === 1 ? 'active' : ''" class="account__grade-btn account__grade-ascending"></span>
+                        <span @@click="sortByGrade(-1)" v-bind:class="this.GradeSoringRule === -1 ? 'active' : ''" class="account__grade-btn account__grade-descending"></span>
+                    </div>
+                </div>
                 <div class="account__th">狀態</div>
                 <div class="account__th">管理</div>
             </div>
@@ -101,7 +106,8 @@
                 Subject: []
             },
             currPage: 1,
-            itemPerPage:10
+            itemPerPage: 10,
+            GradeSoringRule: 0
         },
         mounted() {
             const data = {
@@ -143,8 +149,12 @@
                 const lastIdx = this.currPage * this.itemPerPage;
                 const firstIdx = lastIdx - this.itemPerPage;
 
-                return this.curList.slice(firstIdx, lastIdx);
+                return this.sortedCurList.slice(firstIdx, lastIdx);
             },
+            sortedCurList() {
+                return this.GradeSoringRule === 0 ? this.curList : this.GradeSoringRule === 1 ?
+                    this.curList.sort((a, b) => a.Grade - b.Grade) : this.curList.sort((a, b) => b.Grade - a.Grade)
+            }
         },
         methods: {
             onInput(e) {
@@ -218,6 +228,11 @@
             pageRule(page) {
                 return this.currPage == 1 || this.currPage == this.totalPageCount ?
                     Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
+            },
+            sortByGrade(foo) {
+                //calculate SortingCal 0 => default, 1 =>acs, -1 => des
+                this.GradeSoringRule = this.sortRule % 2 === 0 ? 0 : foo
+                console.log(this.GradeSoringRule)
             }
         }
     });
