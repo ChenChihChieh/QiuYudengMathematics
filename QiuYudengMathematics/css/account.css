@@ -162,3 +162,27 @@ a.red-btn:hover {
 .account__popup--footer {
     align-self: flex-end;
 }
+.account__pagenation {
+    text-align: center;
+    margin-top:20px
+}
+    .account__pagenation a {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        font-weight: 400;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 5px;
+    }
+.account__pagenation a.active {
+    background-color: #007bff;
+    border-color: #007bff;
+    color:#fff;
+}
+.account__pagenation a:hover {
+    cursor: pointer;
+    text-decoration: none;
+    color: #0056b3;
+    background-color: #e9ecef;
+    border-color: #dee2e6;
+}

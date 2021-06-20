@@ -16,7 +16,7 @@
                 <div class="account__th">狀態</div>
                 <div class="account__th">管理</div>
             </div>
-            <div class="account__tr" v-for="item in curList" :key="item.Account">
+            <div class="account__tr" v-for="item in eachPageList" :key="item.Account">
                 <div class="account__td">{{item.Account}}</div>
                 <div class="account__td">{{item.Name}}</div>
                 <div class="account__td">{{item.GradeName}}</div>
@@ -26,6 +26,14 @@
                 </div>
                 <div class="account__td"><a @@click.prevent="showPopUp(item.Account)"><i class="fas fa-cog"></i></a></div>
             </div>
+        </div>
+        <div class="account__pagenation">
+            <a @@click.prevent="setPage(1)">First</a>
+            <a @@click.prevent="setPage(previousPage)">Previous</a>
+            <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
+               @@click.prevent="setPage(n)">{{n}}</a>
+            <a @@click.prevent="setPage(nextPage)">Next</a>
+            <a @@click.prevent="setPage(totalPageCount)">Last</a>
         </div>
     </div>
     <div v-show="pupUpOn" class="account__popup--wrapper">
@@ -91,7 +99,9 @@
                 Grade: 1,
                 Enable: true,
                 Subject: []
-            }
+            },
+            currPage: 1,
+            itemPerPage:10
         },
         mounted() {
             const data = {
@@ -119,7 +129,22 @@
             },
             checkedSubjectList() {
                 return this.info.Subject.map(item => String(item.ID))
-            }
+            },
+            previousPage() {
+                return this.currPage - 1 > 0 ? this.currPage - 1 : 1;
+            },
+            nextPage() {
+                return this.currPage + 1 > this.totalPageCount ? this.totalPageCount : this.currPage + 1;
+            },
+            totalPageCount() {
+                return Math.ceil(this.curList.length / this.itemPerPage);
+            },
+            eachPageList(state, getters) {
+                const lastIdx = this.currPage * this.itemPerPage;
+                const firstIdx = lastIdx - this.itemPerPage;
+
+                return this.curList.slice(firstIdx, lastIdx);
+            },
         },
         methods: {
             onInput(e) {
@@ -186,6 +211,13 @@
                         });
                 }
                 this.pupUpOn = false;
+            },
+            setPage(n) {
+                this.currPage = n
+            },
+            pageRule(page) {
+                return this.currPage == 1 || this.currPage == this.totalPageCount ?
+                    Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
             }
         }
     });
