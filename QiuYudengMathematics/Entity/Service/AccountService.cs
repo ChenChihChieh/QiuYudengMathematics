@@ -168,20 +168,20 @@ namespace QiuYudengMathematics.Entity.Service
         /// <summary>
         /// 重置密碼
         /// </summary>
-        public RtnModel UpdatePwdReset()
+        public RtnModel UpdatePwdReset(string AccountId)
         {
             try
             {
                 RtnModel rtn = new RtnModel();
                 using (var db = new QiuYudengMathematicsEntities())
                 {
-                    var StudentData = db.Student.Where(x => x.Account == WebSiteComm.CurrentUserAccount).FirstOrDefault();
+                    var StudentData = db.Student.Where(x => x.Account == AccountId).FirstOrDefault();
                     if (StudentData != null)
                     {
                         StudentData.Pwd = new AESComm().AES("12345", true);
                         StudentData.PwdReset = true;
                         rtn.Success = db.SaveChanges() > 0;
-                        rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
+                        rtn.Msg = rtn.Success ? "重置成功" : "重置失敗";
                         return rtn;
                     }
                     else
@@ -191,7 +191,7 @@ namespace QiuYudengMathematics.Entity.Service
             catch (Exception e)
             {
                 logService.Insert(e);
-                return new RtnModel() { Success = false, Msg = "更新發生錯誤，請通知工程師" };
+                return new RtnModel() { Success = false, Msg = "重置發生錯誤，請通知工程師" };
             }
         }
         /// <summary>

@@ -75,7 +75,7 @@
             </div>
             <div class="account__popup--footer">
                 <a @@click="clearDevice(info.Account)" class="red-btn">清除裝置</a>
-                <a @@click="clearDevice(info.Account)" class="red-btn">重置密碼</a>
+                <a @@click="pwdReset(info.Account)" class="red-btn">重置密碼</a>
                 <a @@click="submit" class="blue-btn">儲存</a>
             </div>
         </div>
@@ -183,6 +183,10 @@
             },
             clearDevice(val) {
                 axios.post('@Url.Content("/Account/DeleteDevice?Id=")' + `${val}`)
+                    .then(res => alert(res.data.Msg))
+            },
+            pwdReset(val) {
+                axios.post('@Url.Content("/Account/PwdReset?Id=")' + `${val}`)
                     .then(res => alert(res.data.Msg))
             },
             submit() {
