@@ -1,4 +1,5 @@
-﻿using QiuYudengMathematics.Models;
+﻿using QiuYudengMathematics.Comm;
+using QiuYudengMathematics.Models;
 using QiuYudengMathematics.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -13,22 +14,25 @@ namespace QiuYudengMathematics.Entity.Service
         {
             logService = new LogService();
         }
-        public List<CourseManagementViewModel> Query(int? SubjectId)
+        public List<CourseManagementViewModel> Query(CourseModel model)
         {
             using (var db = new QiuYudengMathematicsEntities())
             {
-                var data = db.CourseVideo
+                var data = db.CourseVideo.AsEnumerable()
                     .Select(item => new CourseManagementViewModel()
                     {
                         CourseSeq = item.CourseSeq,
                         CourseName = item.CourseName,
                         Url = item.Url,
                         SubjectId = item.SubjectId,
-                        Enable = item.Enable
+                        Enable = item.Enable,
+                        Student = item.Student.Select(y => y.Account).ToList()
                     }).ToList();
 
-                if (SubjectId.HasValue)
-                    data = data.Where(x => x.SubjectId == SubjectId.Value).ToList();
+                if (model.SubjectId.HasValue)
+                    data = data.Where(x => x.SubjectId == model.SubjectId.Value).ToList();
+                if (model.Audition)
+                    data = data.Where(x => x.Student.Contains(WebSiteComm.CurrentUserAccount)).ToList();
 
                 return data;
             }

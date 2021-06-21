@@ -26,39 +26,51 @@
                 </button>
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("公佈欄", "Index", "Home")</li>
-                    @if (QiuYudengMathematics.Comm.WebSiteComm.CurrentUserAccount == System.Configuration.ConfigurationManager.AppSettings["adminAccount"].ToString())
-                    {
-                        <li>@Html.ActionLink("帳號管理", "Index", "Account")</li>
-                        <li>@Html.ActionLink("課程管理", "CourseManagement", "Course")</li>
-                    }
-                    else
-                    {
-                        <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>影片學習<span class="caret"></span></span></a>
-                            <ul class="dropdown-menu">
-                                @foreach (var item in @QiuYudengMathematics.Comm.WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment))
+                <table width="100%">
+                    <tr>
+                        <td width="10%">
+                            <ul class="nav navbar-nav">
+                                <li>@Html.ActionLink("公佈欄", "Index", "Home")</li>
+                            </ul>
+                        </td>
+                        <td width="80%">
+                            <ul class="nav navbar-nav">
+                                @if (QiuYudengMathematics.Comm.WebSiteComm.CurrentUserAccount == System.Configuration.ConfigurationManager.AppSettings["adminAccount"].ToString())
                                 {
-                                    <li>@Html.ActionLink(item.SubjectName, "CourseLearn", "Course", new { SubjectId = item.ID }, null)</li>
+                                    <li>@Html.ActionLink("帳號管理", "Index", "Account")</li>
+                                    <li>@Html.ActionLink("課程管理", "CourseManagement", "Course")</li>
                                 }
-                                <li>@Html.ActionLink("試聽課程", "CourseLearn", "Course", new { SubjectId = -1 }, null)</li>
+                                else
+                                {
+                                    <li>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>影片學習<span class="caret"></span></span></a>
+                                        <ul class="dropdown-menu">
+                                            @foreach (var item in @QiuYudengMathematics.Comm.WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment))
+                                            {
+                                                <li>@Html.ActionLink(item.SubjectName, "CourseLearn", "Course", new { SubjectId = item.ID }, null)</li>
+                                            }
+                                            <li>@Html.ActionLink("試聽課程", "CourseLearn", "Course", new { SubjectId = -1 }, null)</li>
+                                        </ul>
+                                    </li>
+                                }
                             </ul>
-                        </li>
-                    }
-
-                    @if (!string.IsNullOrEmpty(QiuYudengMathematics.Comm.WebSiteComm.CurrentUserAccount))
-                    {
-                        <li>
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>@QiuYudengMathematics.Comm.WebSiteComm.CurrentUserName.Name<span class="caret"></span></span></a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a href="@Url.Action("Index", "Login")"><i class="icon-off"></i>登出</a>
-                                </li>
-                            </ul>
-                        </li>
-                    }
-                </ul>
+                        </td>
+                        <td width="10%">
+                            @if (!string.IsNullOrEmpty(QiuYudengMathematics.Comm.WebSiteComm.CurrentUserAccount))
+                            {<ul class="nav navbar-nav">
+                                    <li>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span>@QiuYudengMathematics.Comm.WebSiteComm.CurrentUserName.Name<span class="caret"></span></span></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="@Url.Action("Index", "Login")"><i class="icon-off"></i>登出</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            }
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>

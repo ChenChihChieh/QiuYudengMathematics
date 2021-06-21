@@ -80,7 +80,7 @@
             </div>
             <div class="account__popup--footer">
                 <a @@click="clearDevice(info.Account)" class="red-btn">清除裝置</a>
-                <a @@click="clearDevice(info.Account)" class="red-btn">重置密碼</a>
+                <a @@click="pwdReset(info.Account)" class="red-btn">重置密碼</a>
                 <a @@click="submit" class="blue-btn">儲存</a>
             </div>
         </div>
@@ -193,7 +193,19 @@
             },
             clearDevice(val) {
                 axios.post('@Url.Content("/Account/DeleteDevice?Id=")' + `${val}`)
-                    .then(res => alert(res.data.Msg))
+                    .then(res => {
+                        alert(res.data.Msg);
+                        if (res.data.Success)
+                            this.pupUpOn = false;
+                    });
+            },
+            pwdReset(val) {
+                axios.post('@Url.Content("/Account/PwdReset?Id=")' + `${val}`)
+                    .then(res => {
+                        alert(res.data.Msg);
+                        if (res.data.Success)
+                            this.pupUpOn = false;
+                    });
             },
             submit() {
                 let data = {
@@ -210,17 +222,25 @@
 
                     console.log(data)
                     axios.post('@Url.Content("/Account/Update")', data)
-                        .then(res => alert(res.data.Msg))
+                        .then(res => {
+                            alert(res.data.Msg)
+                            if (res.data.Success) {
+                                this.pupUpOn = false;
+                                location.reload();
+                            };
+                        });
                 } else {
                     //新增學生資料
                     console.log(data)
                     axios.post('@Url.Content("/Account/Insert")', data)
                         .then(res => {
                             alert(res.data.Msg)
-                            location.reload()
+                            if (res.data.Success) {
+                                this.pupUpOn = false;
+                                location.reload();
+                            };
                         });
                 }
-                this.pupUpOn = false;
             },
             setPage(n) {
                 this.currPage = n

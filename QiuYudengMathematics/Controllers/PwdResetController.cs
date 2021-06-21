@@ -7,6 +7,7 @@ using System.Web.Mvc;
 
 namespace QiuYudengMathematics.Controllers
 {
+    [Authorize]
     public class PwdResetController : Controller
     {
         private readonly AccountService AccountService;

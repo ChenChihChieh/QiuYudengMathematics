@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
-    <title></title>
+    <title>請輸入新密碼</title>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
@@ -17,12 +17,15 @@
     @Styles.Render("~/css/login.css")
 </head>
 <body>
-    <div class="layout__login">
-        @using (Html.BeginForm("Reset", "PwdReset", FormMethod.Post))
-        {
-            <span>密碼</span><input class="layout__keyin" type="password" name="Password" />
-            <input class="layout__login--btn" type="submit" value="重設" />
-        }
+    <div class="layout__container" style="text-align:center;">
+        <div class="layout__login" style="width:300px;">
+            <h3><i class="fa fa-user"></i>請輸入新密碼</h3>
+            @using (Html.BeginForm("Reset", "PwdReset", FormMethod.Post))
+            {
+                <span>新密碼</span><input class="layout__keyin" type="password" name="Password" />
+                <input class="layout__login--btn" type="submit" value="送出" />
+            }
+        </div>
     </div>
 </body>
 </html>
