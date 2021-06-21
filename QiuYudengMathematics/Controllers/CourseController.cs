@@ -10,6 +10,7 @@ using QiuYudengMathematics.Models.ViewModels;
 
 namespace QiuYudengMathematics.Controllers
 {
+    [Authorize]
     public class CourseController : Controller
     {
         private readonly AccountService accountService;
@@ -21,7 +22,7 @@ namespace QiuYudengMathematics.Controllers
         }
         #region 課程管理
         public ActionResult CourseManagement() => View(accountService.getGrade());
-        public ActionResult Query(int? SubjectId) => Json(new RtnModel() { Success = true, Data = courseService.Query(SubjectId) }, JsonRequestBehavior.AllowGet);
+        public ActionResult Query(int? SubjectId) => Json(new RtnModel() { Success = true, Data = courseService.Query(new CourseModel() { SubjectId = SubjectId, Audition = false }) }, JsonRequestBehavior.AllowGet);
         public ActionResult SingleQuery(int Seq) => Json(new RtnModel() { Success = true, Data = courseService.SingleQuery(Seq) }, JsonRequestBehavior.AllowGet);
         public ActionResult Insert(CourseManagementViewModel model) => Json(courseService.Insert(model), JsonRequestBehavior.AllowGet);
         public ActionResult Update(CourseManagementViewModel model) => Json(courseService.Update(model), JsonRequestBehavior.AllowGet);
@@ -43,7 +44,13 @@ namespace QiuYudengMathematics.Controllers
             if (!Student.Subject.Where(x => x.ID == SubjectId && x.Detriment).Any() && SubjectId != -1)
                 return RedirectToAction("Index", "Home");
 
-            return View();
+            List<CourseManagementViewModel> models = new List<CourseManagementViewModel>();
+            if (SubjectId == -1) //試聽課程
+                models = courseService.Query(new CourseModel() { SubjectId = null, Audition = true });
+            else
+                models = courseService.Query(new CourseModel() { SubjectId = SubjectId, Audition = false });
+
+            return View(models);
         }
         #endregion
     }
