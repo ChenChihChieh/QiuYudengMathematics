@@ -2,15 +2,15 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>佈告欄待開發</h1>
+<div id="app" class="jumbotron">
+    <h1>{{message}}</h1>
 </div>
 
 <script type="text/javascript">
     const app = new Vue({
         el: '#app',
         data: {
-            message: 'Hello Worldy'
+            message: '佈告欄待開發'
         },
     });
 </script>

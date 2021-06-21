@@ -230,9 +230,8 @@
                     Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
             },
             sortByGrade(foo) {
-                //calculate SortingCal 0 => default, 1 =>acs, -1 => des
+                //calculate SortingCal 0 => default which is not working, 1 =>acs, -1 => des
                 this.GradeSoringRule = this.sortRule % 2 === 0 ? 0 : foo
-                console.log(this.GradeSoringRule)
             }
         }
     });

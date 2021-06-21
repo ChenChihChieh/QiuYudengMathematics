@@ -1,0 +1,79 @@
+﻿.course-management__container {
+    width: 80vw;
+    margin: auto;
+}
+
+.course-management__search-bar--flex {
+    display: flex;
+    margin: 20px 0;
+    justify-content: space-between;
+}
+
+    .course-management__search-bar--flex input {
+        height: 40px;
+        width: 20vw;
+        border: 1px solid gray;
+        border-radius: 5px;
+        cursor: text;
+        padding-left: 40px;
+        padding-right: 20px;
+        background-position: 5px;
+        background-image: url("https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-search-strong-256.png");
+        background-size: 30px;
+        background-repeat: no-repeat;
+    }
+
+.course-management__table {
+    display: grid;
+    font-size: 16px;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+}
+
+.course-management__th {
+    background-color: #e2e2e2;
+    text-align: left;
+    color: #787878;
+    font-weight: bold;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+.course-management__tr {
+    display: contents;
+}
+
+.course-management__td {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #f7f7f7;
+    padding: 10px 20px;
+    text-align: center;
+}
+
+.course-management__tr:nth-child(even) .course-management__td {
+    background: #f0f0f0;
+}
+
+.course-management__td a {
+    cursor: pointer;
+    padding: 10px;
+}
+
+.course-management__grade-sorting {
+    display: inline-flex;
+    flex-direction: column;
+    vertical-align: middle;
+}
+
+.course-management__grade-btn {
+    width: 12px;
+    height: 8px;
+    display: inline-block;
+    margin: 3px;
+    border: 5px;
+}
+
+    .course-management__grade-btn:hover {
+        cursor: pointer;
+    }
+
