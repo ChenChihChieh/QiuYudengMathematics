@@ -1,5 +1,6 @@
 ﻿using QiuYudengMathematics.Models;
 using QiuYudengMathematics.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -8,6 +9,11 @@ namespace QiuYudengMathematics.Entity.Service
 {
     public class DeviceService
     {
+        private readonly LogService logService;
+        public DeviceService()
+        {
+            logService = new LogService();
+        }
         public bool CheckDevice(string Id, string Device)
         {
             using (var db = new QiuYudengMathematicsEntities())
@@ -34,16 +40,22 @@ namespace QiuYudengMathematics.Entity.Service
         }
         public RtnModel DeleteDevice(string Id)
         {
-            RtnModel rtn = new RtnModel();
-            using (var db = new QiuYudengMathematicsEntities())
+            try
             {
-                var data = db.StudentDevice.Where(x => x.Account == Id).ToList();
-                foreach (var d in data)
-                    db.StudentDevice.Remove(d);
-                rtn.Success = db.SaveChanges() > 0;
-                rtn.Msg = rtn.Success ? "刪除成功" : "刪除失敗";
+                using (var db = new QiuYudengMathematicsEntities())
+                {
+                    var data = db.StudentDevice.Where(x => x.Account == Id).ToList();
+                    foreach (var d in data)
+                        db.StudentDevice.Remove(d);
+                    db.SaveChanges();
+                    return new RtnModel() { Success = true, Msg = "刪除成功" };
+                }
             }
-            return rtn;
+            catch (Exception e)
+            {
+                logService.Insert(e);
+                return new RtnModel() { Success = false, Msg = "刪除發生錯誤，請通知工程師" };
+            }
         }
     }
 }

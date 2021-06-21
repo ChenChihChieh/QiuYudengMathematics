@@ -110,13 +110,15 @@ namespace QiuYudengMathematics.Entity.Service
                         Grade = model.Grade,
                         PwdReset = true
                     };
-                    var subjectList = db.GroupGradeSubject.Where(x => x.GradeID == model.Grade && x.Enable).ToList();
-                    model.Subject.ForEach(x =>
+                    if (model.Subject != null)
                     {
-                        if (subjectList.Where(y => y.ID == x).Any())
-                            s.GroupGradeSubject.Add(subjectList.Where(y => y.ID == x).First());
-                    });
-
+                        var subjectList = db.GroupGradeSubject.Where(x => x.GradeID == model.Grade && x.Enable).ToList();
+                        model.Subject.ForEach(x =>
+                        {
+                            if (subjectList.Where(y => y.ID == x).Any())
+                                s.GroupGradeSubject.Add(subjectList.Where(y => y.ID == x).First());
+                        });
+                    }
                     db.Student.Add(s);
                     rtn.Success = db.SaveChanges() > 0;
                     rtn.Msg = rtn.Success ? "新增成功" : "新增失敗";
@@ -144,12 +146,15 @@ namespace QiuYudengMathematics.Entity.Service
                         StudentData.Enable = model.Enable;
                         StudentData.Grade = model.Grade;
                         StudentData.GroupGradeSubject.Clear();
-                        var subjectList = db.GroupGradeSubject.Where(x => x.GradeID == model.Grade && x.Enable).ToList();
-                        model.Subject.ForEach(x =>
+                        if (model.Subject != null)
                         {
-                            if (subjectList.Where(y => y.ID == x).Any())
-                                StudentData.GroupGradeSubject.Add(subjectList.Where(y => y.ID == x).First());
-                        });
+                            var subjectList = db.GroupGradeSubject.Where(x => x.GradeID == model.Grade && x.Enable).ToList();
+                            model.Subject.ForEach(x =>
+                            {
+                                if (subjectList.Where(y => y.ID == x).Any())
+                                    StudentData.GroupGradeSubject.Add(subjectList.Where(y => y.ID == x).First());
+                            });
+                        }
                         rtn.Success = db.SaveChanges() > 0;
                         rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
                         return rtn;
@@ -180,9 +185,8 @@ namespace QiuYudengMathematics.Entity.Service
                     {
                         StudentData.Pwd = new AESComm().AES("12345", true);
                         StudentData.PwdReset = true;
-                        rtn.Success = db.SaveChanges() > 0;
-                        rtn.Msg = rtn.Success ? "重置成功" : "重置失敗";
-                        return rtn;
+                        db.SaveChanges();
+                        return new RtnModel() { Success = true, Msg = "重置成功" }; ;
                     }
                     else
                         return new RtnModel() { Success = false, Msg = "查無資料" };
