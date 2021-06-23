@@ -14,11 +14,12 @@
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_Student_GroupGrade" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_StudentPosition_Student" />
         <AssociationConnector Association="QiuYudengMathematicsModel.StudentSubject" />
-        <EntityTypeShape EntityType="QiuYudengMathematicsModel.StudentDevice" Width="1.5" PointX="7.5" PointY="4.625" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.StudentDevice" Width="1.5" PointX="7.5" PointY="4.75" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_StudentDevice_Student" />
-        <EntityTypeShape EntityType="QiuYudengMathematicsModel.CourseVideo" Width="1.5" PointX="3.375" PointY="5.875" />
-        <AssociationConnector Association="QiuYudengMathematicsModel.GroupCourseStudent" />
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.LogError" Width="1.5" PointX="0.75" PointY="7.75" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.CourseVideo" Width="1.5" PointX="4" PointY="5.75" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.FK_CourseVideo_GroupGradeSubject" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.GroupCourseStudent" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

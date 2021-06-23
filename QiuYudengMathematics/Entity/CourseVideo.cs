@@ -25,6 +25,7 @@ namespace QiuYudengMathematics.Entity
         public int SubjectId { get; set; }
         public bool Enable { get; set; }
     
+        public virtual GroupGradeSubject GroupGradeSubject { get; set; }
         public virtual ICollection<Student> Student { get; set; }
     }
 }

@@ -7,8 +7,19 @@ namespace QiuYudengMathematics.Models.ViewModels
         public int CourseSeq { get; set; }
         public string CourseName { get; set; }
         public string Url { get; set; }
+        /// <summary>
+        /// (新增&更新用)
+        /// </summary>
         public int SubjectId { get; set; }
+        public SubbjectInfo SubbjectInfo { get; set; }
         public bool Enable { get; set; }
         public List<string> Student { get; set; }
+    }
+    public class SubbjectInfo
+    {
+        public int SubjectId { get; set; }
+        public string SubjectName { get; set; }
+        public int SubjectGradeId { get; set; }
+        public string SubjectGradeName { get; set; }
     }
 }

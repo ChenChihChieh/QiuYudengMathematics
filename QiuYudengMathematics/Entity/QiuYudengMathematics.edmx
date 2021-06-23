@@ -94,6 +94,18 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <Association Name="FK_CourseVideo_GroupGradeSubject">
+          <End Role="GroupGradeSubject" Type="Self.GroupGradeSubject" Multiplicity="1" />
+          <End Role="CourseVideo" Type="Self.CourseVideo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupGradeSubject">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CourseVideo">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GroupCourseStudent_CourseVideo">
           <End Role="CourseVideo" Type="Self.CourseVideo" Multiplicity="1" />
           <End Role="GroupCourseStudent" Type="Self.GroupCourseStudent" Multiplicity="*" />
@@ -201,6 +213,10 @@
           <EntitySet Name="StudentPosition" EntityType="Self.StudentPosition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentSubject" EntityType="Self.StudentSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_CourseVideo_GroupGradeSubject" Association="Self.FK_CourseVideo_GroupGradeSubject">
+            <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
+            <End Role="CourseVideo" EntitySet="CourseVideo" />
+          </AssociationSet>
           <AssociationSet Name="FK_GroupCourseStudent_CourseVideo" Association="Self.FK_GroupCourseStudent_CourseVideo">
             <End Role="CourseVideo" EntitySet="CourseVideo" />
             <End Role="GroupCourseStudent" EntitySet="GroupCourseStudent" />
@@ -265,12 +281,16 @@
             <End Role="Student" EntitySet="Student" />
             <End Role="StudentDevice" EntitySet="StudentDevice" />
           </AssociationSet>
+          <EntitySet Name="LogError" EntityType="QiuYudengMathematicsModel.LogError" />
           <EntitySet Name="CourseVideo" EntityType="QiuYudengMathematicsModel.CourseVideo" />
+          <AssociationSet Name="FK_CourseVideo_GroupGradeSubject" Association="QiuYudengMathematicsModel.FK_CourseVideo_GroupGradeSubject">
+            <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
+            <End Role="CourseVideo" EntitySet="CourseVideo" />
+          </AssociationSet>
           <AssociationSet Name="GroupCourseStudent" Association="QiuYudengMathematicsModel.GroupCourseStudent">
             <End Role="CourseVideo" EntitySet="CourseVideo" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
-          <EntitySet Name="LogError" EntityType="QiuYudengMathematicsModel.LogError" />
         </EntityContainer>
         <EntityType Name="GroupGrade">
           <Key>
@@ -292,6 +312,7 @@
           <Property Name="Enable" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="GroupGrade" Relationship="QiuYudengMathematicsModel.FK_GroupGradeSubject_GroupGrade" FromRole="GroupGradeSubject" ToRole="GroupGrade" />
           <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.StudentSubject" FromRole="GroupGradeSubject" ToRole="Student" />
+          <NavigationProperty Name="CourseVideo" Relationship="QiuYudengMathematicsModel.FK_CourseVideo_GroupGradeSubject" FromRole="GroupGradeSubject" ToRole="CourseVideo" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -389,21 +410,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="CourseVideo">
-          <Key>
-            <PropertyRef Name="CourseSeq" />
-          </Key>
-          <Property Name="CourseSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="CourseName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
-          <Property Name="SubjectId" Type="Int32" Nullable="false" />
-          <Property Name="Enable" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.GroupCourseStudent" FromRole="CourseVideo" ToRole="Student" />
-        </EntityType>
-        <Association Name="GroupCourseStudent">
-          <End Type="QiuYudengMathematicsModel.CourseVideo" Role="CourseVideo" Multiplicity="*" />
-          <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="*" />
-        </Association>
         <EntityType Name="LogError">
           <Key>
             <PropertyRef Name="Seq" />
@@ -413,6 +419,34 @@
           <Property Name="StackTrace" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
+        <EntityType Name="CourseVideo">
+          <Key>
+            <PropertyRef Name="CourseSeq" />
+          </Key>
+          <Property Name="CourseSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="CourseName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <Property Name="Enable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.FK_CourseVideo_GroupGradeSubject" FromRole="CourseVideo" ToRole="GroupGradeSubject" />
+          <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.GroupCourseStudent" FromRole="CourseVideo" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_CourseVideo_GroupGradeSubject">
+          <End Type="QiuYudengMathematicsModel.GroupGradeSubject" Role="GroupGradeSubject" Multiplicity="1" />
+          <End Type="QiuYudengMathematicsModel.CourseVideo" Role="CourseVideo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupGradeSubject">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="CourseVideo">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="GroupCourseStudent">
+          <End Type="QiuYudengMathematicsModel.CourseVideo" Role="CourseVideo" Multiplicity="*" />
+          <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -485,6 +519,16 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="LogError">
+            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.LogError">
+              <MappingFragment StoreEntitySet="LogError">
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
+                <ScalarProperty Name="ErrMsg" ColumnName="ErrMsg" />
+                <ScalarProperty Name="Seq" ColumnName="Seq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="CourseVideo">
             <EntityTypeMapping TypeName="QiuYudengMathematicsModel.CourseVideo">
               <MappingFragment StoreEntitySet="CourseVideo">
@@ -504,16 +548,6 @@
               <ScalarProperty Name="CourseSeq" ColumnName="CourseSeq" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="LogError">
-            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.LogError">
-              <MappingFragment StoreEntitySet="LogError">
-                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
-                <ScalarProperty Name="StackTrace" ColumnName="StackTrace" />
-                <ScalarProperty Name="ErrMsg" ColumnName="ErrMsg" />
-                <ScalarProperty Name="Seq" ColumnName="Seq" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
