@@ -98,10 +98,10 @@
     const vm = new Vue({
         el: '#app',
         data: {
+            rawList:[],
             curList:[],
             pupUpOn: false,
             allSubjectList:[],
-            allCourseList:[],
             subject: '',
             info: {
                 CourseSeq:0,
@@ -120,7 +120,8 @@
             const val = null;
             axios.post('@(Url.Content("~/Course/Query?SubjectId="))' + `${val}`)
                 .then(res => {
-                    this.curList = res.data.Data
+                    this.rawList = res.data.Data
+                    this.curList = this.rawList
                 });
             //取得所有科目表
             axios.post('@Url.Content("~/Account/GetGradeSubject")')
@@ -165,8 +166,8 @@
             },
             onInput(e) {
                 this.currPage = 1;
-                this.curList = this.allCourseList.filter(item =>
-                    item.Name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
+                this.curList = this.rawList.filter(item =>
+                    item.CourseName.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
             },
             showPopUp(val) {
                 axios.post('@Url.Content("~/Course/SingleQuery?Seq=")' + `${val}`)
