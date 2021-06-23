@@ -32,7 +32,7 @@
                 <div class="account__td"><a @@click.prevent="showPopUp(item.Account)"><i class="fas fa-cog"></i></a></div>
             </div>
         </div>
-        <div class="account__pagenation">
+        <div class="pagenation">
             <a @@click.prevent="setPage(1)">First</a>
             <a @@click.prevent="setPage(previousPage)">Previous</a>
             <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
@@ -41,13 +41,13 @@
             <a @@click.prevent="setPage(totalPageCount)">Last</a>
         </div>
     </div>
-    <div v-show="pupUpOn" class="account__popup--wrapper">
-        <div class="account__popup">
-            <div class="account__popup--heading">
+    <div v-show="pupUpOn" class="popup--wrapper">
+        <div class="popup">
+            <div class="popup--heading">
                 <span>學生管理</span>
                 <i @@click="hidePopUp" class="fas fa-times"></i>
             </div>
-            <div class="account__popup--body">
+            <div class="popup--body">
                 <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled /></div>
                 <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" /></div>
                 <div>
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="account__popup--footer">
+            <div class="footer">
                 <a @@click="clearDevice(info.Account)" class="red-btn">清除裝置</a>
                 <a @@click="pwdReset(info.Account)" class="red-btn">重置密碼</a>
                 <a @@click="submit" class="blue-btn">儲存</a>

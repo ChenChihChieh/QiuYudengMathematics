@@ -15,18 +15,20 @@
             </div>
             <div class="course-management__table">
                 <div class="course-management__tr">
-                    <div class="course-management__th">帳號</div>
-                    <div class="course-management__th">姓名</div>
-                    <div class="course-management__th">
-                        年級
-                    </div>
+                    <div class="course-management__th">課程</div>
+                    <div class="course-management__th">名稱</div>
+                    <div class="course-management__th">年級</div>
+                    <div class="course-management__th">科目</div>
                     <div class="course-management__th">狀態</div>
                     <div class="course-management__th">管理</div>
                 </div>
-                <div class="course-management__tr" v-for="item in eachPageList" :key="item.Account">
-                    <div class="course-management__td">{{item.Account}}</div>
-                    <div class="course-management__td">{{item.Name}}</div>
-                    <div class="course-management__td">{{item.GradeName}}</div>
+                <div class="course-management__tr" v-for="item in allCourseList" :key="item.Account">
+                    <div class="course-management__td">
+                        <img class="course-thumbnail" style="width:70px;height:40px;" :src="'http://img.youtube.com/vi/'+courseUrl(item.Url)+'/sddefault.jpg'"/>
+                    </div>
+                    <div class="course-management__td">{{item.CourseName}}</div>
+                    <div class="course-management__td">item.</div>
+                    <div class="course-management__td">科目</div>
                     <div class="course-management__td">
                         <i v-if="item.Enable" style="color:forestgreen" class="far fa-circle"></i>
                         <i v-else style="color:red" class="fas fa-times"></i>
@@ -34,7 +36,7 @@
                     <div class="course-management__td"><a @@click.prevent="showPopUp(item.Account)"><i class="fas fa-cog"></i></a></div>
                 </div>
             </div>
-            <div class="course-management__pagenation">
+            <div class="pagenation">
                 <a @@click.prevent="setPage(1)">First</a>
                 <a @@click.prevent="setPage(previousPage)">Previous</a>
                 <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
@@ -43,23 +45,23 @@
                 <a @@click.prevent="setPage(totalPageCount)">Last</a>
             </div>
         </div>
-        <div v-show="pupUpOn" class="course-management__popup--wrapper">
-            <div class="course-management__popup">
-                <div class="course-management__popup--heading">
+        <div v-show="pupUpOn" class="popup--wrapper">
+            <div class="popup">
+                <div class="popup--heading">
                     <span>學生管理</span>
                     <i @@click="hidePopUp" class="fas fa-times"></i>
                 </div>
-                <div class="course-management__popup--body">
+                <div class="popup--body">
                     <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled /></div>
                     <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" /></div>
                     <div>
                         <p>年級</p>
                         <div class="width200">
-                            <input type="radio" id="one" value="1" v-model="info.Grade">
+                            <input type="radio" id="one" value="1" v-model="Grade">
                             <label for="one">高一</label>
-                            <input type="radio" id="two" value="2" v-model="info.Grade">
+                            <input type="radio" id="two" value="2" v-model="Grade">
                             <label for="two">高二</label>
-                            <input type="radio" id="three" value="3" v-model="info.Grade">
+                            <input type="radio" id="three" value="3" v-model="Grade">
                             <label for="three">高三</label>
                         </div>
                     </div>
@@ -89,6 +91,7 @@
     const vm = new Vue({
         el: '#app',
         data: {
+            Grade:1,
             curList:[],
             rawList: [],
             pupUpOn: false,
@@ -97,11 +100,11 @@
             allCourseList:[],
             checkedList:[],
             info: {
-                Account: '',
-                Name: '',
-                Grade: 1,
+                CourseName: '',
+                Url: '',
+                SubjectId: 1,
                 Enable: true,
-                Subject: []
+                Student: []
             },
             currPage: 1,
             itemPerPage: 10,
@@ -112,12 +115,13 @@
             const val = null;
             axios.post('@(Url.Content("~/Course/Query?SubjectId="))' + `${val}`)
                 .then(res => {
-                    console.log(res)
+                    console.log('course',res.data.Data)
                     this.allCourseList = res.data.Data
                 });
             //取得所有科目表
             axios.post('@Url.Content("/Account/GetGradeSubject")')
                 .then(res => {
+                    console.log('subject',res.data.Data)
                     this.allSubjectList = res.data.Data
                 });
 
@@ -128,9 +132,6 @@
             },
             currentSubectList() {
                 return this.groupSubjectByGrade ? this.groupSubjectByGrade.Subject : [];
-            },
-            checkedSubjectList() {
-                return this.info.Subject.map(item => String(item.ID))
             },
             previousPage() {
                 return this.currPage - 1 > 0 ? this.currPage - 1 : 1;
@@ -153,6 +154,13 @@
             }
         },
         methods: {
+            mapSubjectAndGrade(id) {
+                this.allSubjectList.
+            },
+            courseUrl(url) {
+                const parsingUrl = new URL(url);
+                return parsingUrl.searchParams.get('v')
+            },
             onInput(e) {
                 if (e) {
                     this.curList = this.rawList.filter(item =>
@@ -171,7 +179,6 @@
                         this.info.Enable = res.data.Data.Enable
                         this.info.Subject = res.data.Data.Subject.filter(item => item.Detriment)
 
-                        this.checkedList = this.checkedSubjectList
                     }).finally(() => { this.pupUpOn = true; })
             },
             hidePopUp() {
@@ -250,11 +257,11 @@
 
     function Insert() {
         var data = {
-            CourseName: 'Test',
-            Url: 'https://www.youtube.com/embed/1v1CiLQXho8?list=RD1v1CiLQXho8', //後端會檢查格式，前端檢查是否必填
-            SubjectId: 1,
-            Enable: true,
-            Student: ['000001','000002'] //影片個別放沒有購買課程的學生,沒設定就放Null
+            CourseName: 'Test2',
+            Url: 'https://www.youtube.com/embed/HUZki1tTB0A', //後端會檢查格式，前端檢查是否必填
+            SubjectId: 2,
+            Enable: false,
+            Student: ['000003'] //影片個別放沒有購買課程的學生,沒設定就放Null
         };
         $.post("@(Url.Content("~/Course/Insert"))", data, function (x) {
             alert(x.Msg);

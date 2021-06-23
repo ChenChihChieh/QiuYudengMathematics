@@ -66,3 +66,154 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
         font-size: 14px;
         line-height: 1.5em;
     }
+
+
+/*btn*/
+a.blue-btn {
+    font-size: 14px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 3px;
+    border: 1px solid #0081d2;
+    color: #0081d2;
+    margin: 5px 5px 5px 0;
+    text-align: center;
+    background-color: #337ab7;
+    color: #fff;
+    cursor: pointer;
+}
+
+    a.blue-btn:hover {
+        background-color: #004280;
+        color: #fff;
+        text-decoration: none;
+    }
+
+a.red-btn {
+    font-size: 14px;
+    display: inline-block;
+    text-decoration: none;
+    padding: 8px 10px;
+    border-radius: 3px;
+    border: 1px solid #990412;
+    color: #0081d2;
+    margin: 5px 5px 5px 0;
+    text-align: center;
+    background-color: #f00;
+    color: #fff;
+    cursor: pointer;
+}
+
+    a.red-btn:hover {
+        background-color: #c00;
+        color: #fff;
+        text-decoration: none;
+    }
+
+/*popup*/
+.popup--wrapper {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: block;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1717177d;
+}
+
+.popup {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-150px, -100px);
+    background-color: #fff;
+    box-sizing: border-box;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.popup--heading {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-size: 22px;
+    padding-bottom: 8px;
+}
+
+    .popup--heading span {
+        font-weight: bold;
+    }
+
+    .popup--heading i {
+        cursor: pointer;
+        padding: 5px;
+    }
+
+.popup--body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+    .popup--body .width200 {
+        width: 200px;
+        justify-content: flex-start;
+        flex-wrap: wrap;
+    }
+
+        .popup--body .width200 label {
+            margin-right: 20px;
+        }
+
+.popup--radio-wrap {
+    width: 80px;
+}
+
+.popup--body div {
+    display: flex;
+    justify-content: space-between;
+}
+
+    .popup--body div:not(:last-child) {
+        padding-bottom: 6px;
+    }
+
+.popup--body P {
+    margin-right: 10px;
+}
+
+.popup--footer {
+    align-self: flex-end;
+}
+/*pagenation*/
+.pagenation {
+    text-align: center;
+    margin-top: 20px
+}
+
+    .pagenation a {
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        font-weight: 400;
+        padding: 10px;
+        border-radius: 8px;
+        margin: 5px;
+    }
+
+        .pagenation a.active {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #fff;
+        }
+
+        .pagenation a:hover {
+            cursor: pointer;
+            text-decoration: none;
+            color: #0056b3;
+            background-color: #e9ecef;
+            border-color: #dee2e6;
+        }
