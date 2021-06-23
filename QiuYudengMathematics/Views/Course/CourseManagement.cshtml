@@ -1,6 +1,5 @@
 ﻿@model Dictionary<int, string>
-<div>課程管理</div>
-<div>
+
     <input type="button" value="Query" onclick="Query()" />
     <input type="button" value="SingleQuery" onclick="SingleQuery()" />
     <input type="button" value="Insert" onclick="Insert()" />
@@ -10,7 +9,7 @@
             <div class="course-management__search-bar--flex">
                 <input @@input="onInput($event)" placeholder="請輸入課程名稱" type="search">
                 <div class="course-management__btn-wrapper">
-                    <a @@click="addPerson" class="blue-btn">新增</a>
+                    <a @@click="addCourse" class="blue-btn">新增</a>
                 </div>
             </div>
             <div class="course-management__table">
@@ -22,21 +21,21 @@
                     <div class="course-management__th">狀態</div>
                     <div class="course-management__th">管理</div>
                 </div>
-                <div class="course-management__tr" v-for="item in allCourseList" :key="item.Account">
+                <div class="course-management__tr" v-for="item in curList" :key="item.CourseSeq">
                     <div class="course-management__td">
                         <img class="course-thumbnail" style="width:70px;height:40px;" :src="'http://img.youtube.com/vi/'+courseUrl(item.Url)+'/sddefault.jpg'"/>
                     </div>
                     <div class="course-management__td">{{item.CourseName}}</div>
-                    <div class="course-management__td">item.</div>
-                    <div class="course-management__td">科目</div>
+                    <div class="course-management__td">{{item.SubbjectInfo.SubjectGradeName}}</div>
+                    <div class="course-management__td">{{item.SubbjectInfo.SubjectName}}</div>
                     <div class="course-management__td">
                         <i v-if="item.Enable" style="color:forestgreen" class="far fa-circle"></i>
                         <i v-else style="color:red" class="fas fa-times"></i>
                     </div>
-                    <div class="course-management__td"><a @@click.prevent="showPopUp(item.Account)"><i class="fas fa-cog"></i></a></div>
+                    <div class="course-management__td"><a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a></div>
                 </div>
             </div>
-            <div class="pagenation">
+            <div v-show="curList > 10" class="pagenation">
                 <a @@click.prevent="setPage(1)">First</a>
                 <a @@click.prevent="setPage(previousPage)">Previous</a>
                 <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
@@ -48,20 +47,26 @@
         <div v-show="pupUpOn" class="popup--wrapper">
             <div class="popup">
                 <div class="popup--heading">
-                    <span>學生管理</span>
+                    <span>課程管理</span>
                     <i @@click="hidePopUp" class="fas fa-times"></i>
                 </div>
                 <div class="popup--body">
-                    <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled /></div>
-                    <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" /></div>
+                    <div>
+                        <p>名稱</p>
+                        <input class="width200" :value="info.Name" v-model="info.CourseName" />
+                    </div>
+                    <div>
+                        <p>連結</p>
+                        <input class="width200" :value="info.Name" v-model="info.Url" />
+                    </div>
                     <div>
                         <p>年級</p>
                         <div class="width200">
-                            <input type="radio" id="one" value="1" v-model="Grade">
+                            <input type="radio" id="one" value="1" v-model="info.Grade">
                             <label for="one">高一</label>
-                            <input type="radio" id="two" value="2" v-model="Grade">
+                            <input type="radio" id="two" value="2" v-model="info.Grade">
                             <label for="two">高二</label>
-                            <input type="radio" id="three" value="3" v-model="Grade">
+                            <input type="radio" id="three" value="3" v-model="info.Grade">
                             <label for="three">高三</label>
                         </div>
                     </div>
@@ -76,52 +81,50 @@
                         <p>科目</p>
                         <div class="width200">
                             <div v-for="item in currentSubectList" class="subject-item">
-                                <input type="checkbox" :id="item.ID" :value="String(item.ID)" v-model="checkedList">
-                                <label :for="item.ID">{{item.SubjectName}},{{item.ID}}</label>
+                                <input type="radio" :id="item.ID" :value="String(item.ID)" v-model="info.SubjectId">
+                                <label :for="item.ID">{{item.SubjectName}}</label>
                             </div>
                         </div>
                     </div>
                 </div>
+                <div class="popup--footer">
+                    <a @@click="submit" class="blue-btn">儲存</a>
+                </div>
             </div>
-        </div>
     </div>
 </div>
 
-<script type="text/javascript">
+    <script type="text/javascript">
     const vm = new Vue({
         el: '#app',
         data: {
-            Grade:1,
             curList:[],
-            rawList: [],
             pupUpOn: false,
-            checked: true,
             allSubjectList:[],
             allCourseList:[],
-            checkedList:[],
+            subject: '',
+            isInsert: false,
             info: {
                 CourseName: '',
                 Url: '',
-                SubjectId: 1,
+                SubjectId: '',
+                Grade:'',
                 Enable: true,
                 Student: []
             },
             currPage: 1,
-            itemPerPage: 10,
-            GradeSoringRule: 0
+            itemPerPage: 10
         },
         mounted() {
              //取得所有影片，帶科目(查詢所有就放Null)
             const val = null;
             axios.post('@(Url.Content("~/Course/Query?SubjectId="))' + `${val}`)
                 .then(res => {
-                    console.log('course',res.data.Data)
-                    this.allCourseList = res.data.Data
+                    this.curList = res.data.Data
                 });
             //取得所有科目表
             axios.post('@Url.Content("/Account/GetGradeSubject")')
                 .then(res => {
-                    console.log('subject',res.data.Data)
                     this.allSubjectList = res.data.Data
                 });
 
@@ -148,82 +151,78 @@
 
                 return this.sortedCurList.slice(firstIdx, lastIdx);
             },
-            sortedCurList() {
-                return this.GradeSoringRule === 0 ? this.curList : this.GradeSoringRule === 1 ?
-                    this.curList.sort((a, b) => a.Grade - b.Grade) : this.curList.sort((a, b) => b.Grade - a.Grade)
-            }
+            //sortedCurList() {
+            //    return this.GradeSoringRule === 0 ? this.curList : this.GradeSoringRule === 1 ?
+            //        this.curList.sort((a, b) => a.Grade - b.Grade) : this.curList.sort((a, b) => b.Grade - a.Grade)
+            //}
         },
         methods: {
             mapSubjectAndGrade(id) {
-                this.allSubjectList.
             },
             courseUrl(url) {
                 const parsingUrl = new URL(url);
                 return parsingUrl.searchParams.get('v')
             },
             onInput(e) {
-                if (e) {
-                    this.curList = this.rawList.filter(item =>
-                        item.Name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
-                } else {
-                    this.curList = this.rawList
-                }
+                this.currPage = 1;
+                this.curList = this.allCourseList.filter(item =>
+                    item.Name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
             },
             showPopUp(val) {
-                axios.post('@Url.Content("/Account/SingleQuery?Id=")' + `${val}`)
+                axios.post('@Url.Content("/Course/SingleQuery?Seq=")' + `${val}`)
                     .then(res => {
-                        this.info.Account = res.data.Data.Account
-                        this.info.Name = res.data.Data.Name
-                        this.info.Grade = String(res.data.Data.Grade)
-                        this.info.Subject = res.data.Data.Subject
+                        this.info.CourseName = res.data.Data.CourseName
+                        this.info.Url = res.data.Data.Url
+                        this.info.Grade = String(res.data.Data.SubbjectInfo.SubjectGradeId)
                         this.info.Enable = res.data.Data.Enable
-                        this.info.Subject = res.data.Data.Subject.filter(item => item.Detriment)
+                        this.info.Subject = String(res.data.Data.SubbjectInfo.SubjectId)
+                        this.info.Student = res.data.Data.Student
 
                     }).finally(() => { this.pupUpOn = true; })
             },
             hidePopUp() {
                 this.pupUpOn = false;
+                this.isInsert = false;
             },
-            addPerson() {
+            addCourse() {
                 this.info= {
-                    Account: '',
-                    Name: '',
-                    Grade: "1",
+                    CourseName: '',
+                    Url: '',
+                    SubjectId: '',
+                    Grade: '1',
                     Enable: true,
-                    Subject: []
+                    Student: []
                 }
                 this.pupUpOn = true;
-            },
-            clearDevice(val) {
-                axios.post('@Url.Content("/Account/DeleteDevice?Id=")' + `${val}`)
-                    .then(res => alert(res.data.Msg))
+                this.isInsert = true;
             },
             submit() {
                 let data = {
-                    Name: this.info.Name,
-                    Grade: parseInt(this.info.Grade),
+                    CourseName: this.info.CourseName,
+                    SubjectId: parseInt(this.info.SubjectId),
                     Enable: this.info.Enable,
+                    Url: this.info.Url,
+                    Student: null
                 }
-                if (this.checkedList) {
-                    data.Subject = this.checkedList.map(item => parseInt(item))
-                }
-                if (this.info.Account) {
-                    //修改學生資料
-                    data.Account = this.info.Account
 
+                if (this.isInsert) {
+                    //新增影片資料
                     console.log(data)
-                    axios.post('@Url.Content("/Account/Update")', data)
-                        .then(res => alert(res.data.Msg))
-                } else {
-                    //新增學生資料
-                    console.log(data)
-                    axios.post('@Url.Content("/Account/Insert")', data)
+                    axios.post('@Url.Content("/Course/Insert")', data)
                         .then(res => {
                             alert(res.data.Msg)
                             location.reload()
                         });
+                } else {
+                     //修改影片資料
+                    data.Account = this.info.Account
+
+                    console.log(data)
+                    axios.post('@Url.Content("/Course/Update")', data)
+                        .then(res => alert(res.data.Msg))
                 }
                 this.pupUpOn = false;
+                this.isInsert = false;
             },
             setPage(n) {
                 this.currPage = n
@@ -232,13 +231,13 @@
                 return this.currPage == 1 || this.currPage == this.totalPageCount ?
                     Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
             },
-            sortByGrade(foo) {
-                //calculate SortingCal 0 => default which is not working, 1 =>acs, -1 => des
-                this.GradeSoringRule = this.sortRule % 2 === 0 ? 0 : foo
-            }
+            //sortByGrade(foo) {
+            //    //calculate SortingCal 0 => default which is not working, 1 =>acs, -1 => des
+            //    this.GradeSoringRule = this.sortRule % 2 === 0 ? 0 : foo
+            //}
         }
     });
-</script>
+    </script>
 
 <script type="text/javascript">
     function Query() {

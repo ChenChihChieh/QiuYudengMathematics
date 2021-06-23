@@ -28,9 +28,9 @@ namespace QiuYudengMathematics.Entity.Service
                         SubbjectInfo = new SubbjectInfo() 
                         {
                             SubjectId = item.SubjectId,
-                            SubjectGradeName = item.GroupGradeSubject.Subject,
+                            SubjectGradeName = item.GroupGradeSubject.GroupGrade.Grade,
                             SubjectGradeId = item.GroupGradeSubject.GradeID,
-                            SubjectName = item.GroupGradeSubject.GroupGrade.Grade
+                            SubjectName = item.GroupGradeSubject.Subject,
                         },
                         Enable = item.Enable,
                         Student = item.Student.Select(y => y.Account).ToList()
@@ -57,9 +57,9 @@ namespace QiuYudengMathematics.Entity.Service
                         SubbjectInfo = new SubbjectInfo()
                         {
                             SubjectId = item.SubjectId,
-                            SubjectGradeName = item.GroupGradeSubject.Subject,
+                            SubjectName = item.GroupGradeSubject.Subject,
                             SubjectGradeId = item.GroupGradeSubject.GradeID,
-                            SubjectName = item.GroupGradeSubject.GroupGrade.Grade
+                            SubjectGradeName = item.GroupGradeSubject.GroupGrade.Grade
                         },
                         Enable = item.Enable,
                         Student = item.Student.Select(y => y.Account).ToList()

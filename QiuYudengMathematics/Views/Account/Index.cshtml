@@ -32,7 +32,7 @@
                 <div class="account__td"><a @@click.prevent="showPopUp(item.Account)"><i class="fas fa-cog"></i></a></div>
             </div>
         </div>
-        <div class="pagenation">
+        <div v-show="curList.length > 10" class="pagenation">
             <a @@click.prevent="setPage(1)">First</a>
             <a @@click.prevent="setPage(previousPage)">Previous</a>
             <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
@@ -78,7 +78,7 @@
                     </div>
                 </div>
             </div>
-            <div class="footer">
+            <div class="popup--footer">
                 <a @@click="clearDevice(info.Account)" class="red-btn">清除裝置</a>
                 <a @@click="pwdReset(info.Account)" class="red-btn">重置密碼</a>
                 <a @@click="submit" class="blue-btn">儲存</a>
@@ -158,12 +158,10 @@
         },
         methods: {
             onInput(e) {
-                if (e) {
-                    this.curList = this.rawList.filter(item =>
-                        item.Name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
-                } else {
-                    this.curList = this.rawList
-                }
+                this.currPage = 1;
+                this.curList = this.rawList.filter(item =>
+                    item.Name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
+                
             },
             showPopUp(val) {
                 axios.post('@Url.Content("/Account/SingleQuery?Id=")' + `${val}`)
