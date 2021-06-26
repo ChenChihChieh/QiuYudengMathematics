@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 using QiuYudengMathematics.Comm;
 using QiuYudengMathematics.Entity.Service;
@@ -29,10 +27,6 @@ namespace QiuYudengMathematics.Controllers
         #endregion
 
 
-
-
-
-
         #region 課程
         public ActionResult CourseLearn(int SubjectId)
         {
@@ -43,15 +37,19 @@ namespace QiuYudengMathematics.Controllers
                 return RedirectToAction("LogoutForErrAccount", "Login", new { ErrMsg = "您的帳號已停用" });
             if (!Student.Subject.Where(x => x.ID == SubjectId && x.Detriment).Any() && SubjectId != -1)
                 return RedirectToAction("Index", "Home");
+            return View(SubjectId);
+        }
 
+        public ActionResult CourseQuery(int SubjectId)
+        {
             List<CourseManagementViewModel> models = new List<CourseManagementViewModel>();
             if (SubjectId == -1) //試聽課程
                 models = courseService.Query(new CourseModel() { SubjectId = null, Audition = true });
             else
                 models = courseService.Query(new CourseModel() { SubjectId = SubjectId, Audition = false });
-
-            return View(models);
+            return Json(new RtnModel() { Data = models }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult CourseVideo(int SeqId) => View(courseService.SingleQuery(SeqId).Url);
         #endregion
     }
 }

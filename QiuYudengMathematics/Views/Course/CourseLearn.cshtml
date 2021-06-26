@@ -1,18 +1,13 @@
-﻿@model List<QiuYudengMathematics.Models.ViewModels.CourseManagementViewModel>
+﻿@model int
 <div>影片待開發</div>
 
-@if (Model.Count > 0)
-{
-    foreach (var item in Model)
-    {
-        <div>
-            <span>@item.CourseName</span>
-            <br />
-            <iframe width="300" height="100" src="@item.Url" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-    }
-}
-else
-{
-    <div>查無課程</div>
-}
+<script type="text/javascript">
+    function CourseQuery() { //課程查詢
+        $.post("@Url.Content("~/Course/CourseQuery?SubjectId=" + Model)", function (x) {
+            //x.Data //課程清單
+        });
+    };
+    function CourseVideo(Seq) {
+        window.location.href = "@(Url.Content("~/Course/CourseVideo?SeqId="))" + Seq;
+    };
+</script>
