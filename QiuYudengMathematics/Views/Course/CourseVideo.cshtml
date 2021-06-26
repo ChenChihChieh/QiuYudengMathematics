@@ -1,3 +1,14 @@
 ﻿@model string
 
-<div>播放</div>
+@*@madel =url*@
+
+<div class="item">
+    <a v-bind:href="link" target="_blank">
+        <div class="info">
+            <h3>{{name}}</h3>
+            <h5>{{time}}</h5>
+        </div>
+        <div class="img"><img :src="avatar" /></div>
+    </a>
+</div>
+

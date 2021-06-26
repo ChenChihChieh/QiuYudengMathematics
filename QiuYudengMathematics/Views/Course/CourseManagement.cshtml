@@ -21,9 +21,9 @@
                     <div class="course-management__th">狀態</div>
                     <div class="course-management__th">管理</div>
                 </div>
-                <div class="course-management__tr" v-for="item in curList" :key="item.CourseSeq">
+                <div class="course-management__tr" v-for="item in eachPageList" :key="item.CourseSeq">
                     <div class="course-management__td">
-                        <img class="course-thumbnail" style="width:70px;height:40px;" :src="'http://img.youtube.com/vi/'+courseUrl(item.Url)+'/sddefault.jpg'"/>
+                        <img class="course-thumbnail" style="width:70px;height:40px;" :src="'http://img.youtube.com/vi/'+parseYoutubeId(item.Url)+'/sddefault.jpg'"/>
                     </div>
                     <div class="course-management__td">{{item.CourseName}}</div>
                     <div class="course-management__td">{{item.SubbjectInfo.SubjectGradeName}}</div>
@@ -35,7 +35,7 @@
                     <div class="course-management__td"><a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a></div>
                 </div>
             </div>
-            <div v-show="curList > 10" class="pagenation">
+            <div v-show="curList.length > 10" class="pagenation">
                 <a @@click.prevent="setPage(1)">First</a>
                 <a @@click.prevent="setPage(previousPage)">Previous</a>
                 <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
@@ -146,11 +146,11 @@
             totalPageCount() {
                 return Math.ceil(this.curList.length / this.itemPerPage);
             },
-            eachPageList(state, getters) {
+            eachPageList() {
                 const lastIdx = this.currPage * this.itemPerPage;
                 const firstIdx = lastIdx - this.itemPerPage;
 
-                return this.sortedCurList.slice(firstIdx, lastIdx);
+                return this.curList.slice(firstIdx, lastIdx);
             },
             //sortedCurList() {
             //    return this.GradeSoringRule === 0 ? this.curList : this.GradeSoringRule === 1 ?
@@ -160,7 +160,7 @@
         methods: {
             mapSubjectAndGrade(id) {
             },
-            courseUrl(url) {
+            parseYoutubeId(url) {
                 const parsingUrl = new URL(url);
                 return parsingUrl.searchParams.get('v')
             },
@@ -179,7 +179,7 @@
                         this.info.Grade = String(res.data.Data.SubbjectInfo.SubjectGradeId)
                         this.info.Enable = res.data.Data.Enable
                         this.info.SubjectId = String(res.data.Data.SubbjectInfo.SubjectId)
-                        this.info.Student = res.data.Data.Student
+                        this.info.Student = res.data.Data.Student   
                     }).finally(() => { this.pupUpOn = true; })
             },
             hidePopUp() {

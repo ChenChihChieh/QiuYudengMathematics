@@ -1,13 +1,89 @@
-﻿@model int
-<div>影片待開發</div>
+﻿<div id="app" class="course-learn">
+    <div class="course-learn__container">
+        <div class="course-learn__search-bar--flex">
+            <input @@input="onInput($event)" placeholder="請輸入課程名稱" type="search">
+        </div>
+        <div class="course-learn__list">
+            <div class="course-learn__item" v-for="item in eachPageList" :key="item.CourseSeq">
+                <a :href="'/Course/CourseVideo?SeqId='+`${item.CourseSeq}`">
+                    <img class="course-thumbnail" :src="'http://img.youtube.com/vi/'+parseYoutubeId(item.Url)+'/sddefault.jpg'" />
+                    <h3>{{item.CourseName}}</h3>
+                </a>
+            </div>
+        </div>
+        <div v-show="curList.length > 10" class="pagenation">
+            <a @@click.prevent="setPage(1)">First</a>
+            <a @@click.prevent="setPage(previousPage)">Previous</a>
+            <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="index"
+               @@click.prevent="setPage(n)">{{n}}</a>
+            <a @@click.prevent="setPage(nextPage)">Next</a>
+            <a @@click.prevent="setPage(totalPageCount)">Last</a>
+        </div>
+    </div>
+</div>
 
 <script type="text/javascript">
-    function CourseQuery() { //課程查詢
-        $.post("@Url.Content("~/Course/CourseQuery?SubjectId=" + Model)", function (x) {
-            //x.Data //課程清單
-        });
-    };
-    function CourseVideo(Seq) {
-        window.location.href = "@(Url.Content("~/Course/CourseVideo?SeqId="))" + Seq;
-    };
+const vm = new Vue({
+    el: '#app',
+    data: {
+        courseList: [],
+        curList: [],
+        currPage: 1,
+        itemPerPage: 8
+    },
+        mounted() {
+        axios.post("@Url.Content("~/Course/CourseQuery?SubjectId=")" + this.SubjectId)
+            .then(res => {
+                this.courseList = res.data.Data
+                this.curList = this.courseList
+                })
+    },
+    computed: {
+        SubjectId() {
+            const parsingUrl = new URL(location.href);
+            return parsingUrl.searchParams.get('SubjectId')
+        },
+        previousPage() {
+            return this.currPage - 1 > 0 ? this.currPage - 1 : 1;
+        },
+        nextPage() {
+            return this.currPage + 1 > this.totalPageCount ? this.totalPageCount : this.currPage + 1;
+        },
+        totalPageCount() {
+            return Math.ceil(this.curList.length / this.itemPerPage);
+        },
+        eachPageList() {
+            const lastIdx = this.currPage * this.itemPerPage;
+            const firstIdx = lastIdx - this.itemPerPage;
+
+            return this.curList.slice(firstIdx, lastIdx);
+        },
+    },
+    methods: {
+        onInput(e) {
+            this.currPage = 1;
+            this.curList = this.courseList.filter(item =>
+                item.CourseName.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
+        },
+        parseYoutubeId(url) {
+            const parsingUrl = new URL(url);
+            return parsingUrl.searchParams.get('v')
+        },
+        setPage(n) {
+            this.currPage = n
+        },
+        pageRule(page) {
+            return this.currPage == 1 || this.currPage == this.totalPageCount ?
+                Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
+        },
+        courseUrl() {
+            
+        }
+    }
+
+})
+
+function CourseVideo(Seq) {
+    window.location.href = "@(Url.Content("~/Course/CourseVideo?SeqId="))" + Course.seq;
+};
 </script>
