@@ -40,6 +40,8 @@ namespace QiuYudengMathematics.Entity.Service
                     data = data.Where(x => x.SubjectId == model.SubjectId.Value).ToList();
                 if (model.Audition)
                     data = data.Where(x => x.Student.Contains(WebSiteComm.CurrentUserAccount)).ToList();
+                if (model.Enable.HasValue)
+                    data = data.Where(x => x.Enable == model.Enable.Value).ToList();
 
                 return data;
             }
