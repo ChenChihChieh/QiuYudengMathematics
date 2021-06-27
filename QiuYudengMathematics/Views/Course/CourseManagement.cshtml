@@ -94,154 +94,154 @@
     </div>
 </div>
 
-    <script type="text/javascript">
-    const vm = new Vue({
-        el: '#app',
-        data: {
-            rawList:[],
-            curList:[],
-            pupUpOn: false,
-            allSubjectList:[],
-            subject: '',
-            info: {
-                CourseSeq:0,
+<script type="text/javascript">
+const vm = new Vue({
+    el: '#app',
+    data: {
+        rawList:[],
+        curList:[],
+        pupUpOn: false,
+        allSubjectList:[],
+        subject: '',
+        info: {
+            CourseSeq:0,
+            CourseName: '',
+            Url: '',
+            SubjectId: '',
+            Grade:'',
+            Enable: true,
+            Student: []
+        },
+        currPage: 1,
+        itemPerPage: 10
+    },
+    mounted() {
+            //取得所有影片，帶科目(查詢所有就放Null)
+        const val = null;
+        axios.post('@(Url.Content("~/Course/Query?SubjectId="))' + `${val}`)
+            .then(res => {
+                this.rawList = res.data.Data
+                this.curList = this.rawList
+            });
+        //取得所有科目表
+        axios.post('@Url.Content("~/Account/GetGradeSubject")')
+            .then(res => {
+                this.allSubjectList = res.data.Data
+            });
+
+    },
+    computed: {
+        groupSubjectByGrade() {
+            return this.allSubjectList.find(item => String(item.GradeId) === String(this.info.Grade))
+        },
+        currentSubectList() {
+            return this.groupSubjectByGrade ? this.groupSubjectByGrade.Subject : [];
+        },
+        previousPage() {
+            return this.currPage - 1 > 0 ? this.currPage - 1 : 1;
+        },
+        nextPage() {
+            return this.currPage + 1 > this.totalPageCount ? this.totalPageCount : this.currPage + 1;
+        },
+        totalPageCount() {
+            return Math.ceil(this.curList.length / this.itemPerPage);
+        },
+        eachPageList() {
+            const lastIdx = this.currPage * this.itemPerPage;
+            const firstIdx = lastIdx - this.itemPerPage;
+
+            return this.curList.slice(firstIdx, lastIdx);
+        },
+        //sortedCurList() {
+        //    return this.GradeSoringRule === 0 ? this.curList : this.GradeSoringRule === 1 ?
+        //        this.curList.sort((a, b) => a.Grade - b.Grade) : this.curList.sort((a, b) => b.Grade - a.Grade)
+        //}
+    },
+    methods: {
+        mapSubjectAndGrade(id) {
+        },
+        parseYoutubeId(url) {
+            const parsingUrl = new URL(url);
+            return parsingUrl.searchParams.get('v')
+        },
+        onInput(e) {
+            this.currPage = 1;
+            this.curList = this.rawList.filter(item =>
+                item.CourseName.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
+        },
+        showPopUp(val) {
+            axios.post('@Url.Content("~/Course/SingleQuery?Seq=")' + `${val}`)
+                .then(res => {
+                    console.log(res.data.Data)
+                    this.info.CourseSeq = res.data.Data.CourseSeq
+                    this.info.CourseName = res.data.Data.CourseName
+                    this.info.Url = res.data.Data.Url
+                    this.info.Grade = String(res.data.Data.SubbjectInfo.SubjectGradeId)
+                    this.info.Enable = res.data.Data.Enable
+                    this.info.SubjectId = String(res.data.Data.SubbjectInfo.SubjectId)
+                    this.info.Student = res.data.Data.Student   
+                }).finally(() => { this.pupUpOn = true; })
+        },
+        hidePopUp() {
+            this.pupUpOn = false;
+        },
+        addCourse() {
+            this.info = {
+                CourseSeq: 0,
                 CourseName: '',
                 Url: '',
                 SubjectId: '',
-                Grade:'',
+                Grade: '1',
                 Enable: true,
                 Student: []
-            },
-            currPage: 1,
-            itemPerPage: 10
+            }
+            this.pupUpOn = true;
         },
-        mounted() {
-             //取得所有影片，帶科目(查詢所有就放Null)
-            const val = null;
-            axios.post('@(Url.Content("~/Course/Query?SubjectId="))' + `${val}`)
-                .then(res => {
-                    this.rawList = res.data.Data
-                    this.curList = this.rawList
-                });
-            //取得所有科目表
-            axios.post('@Url.Content("~/Account/GetGradeSubject")')
-                .then(res => {
-                    this.allSubjectList = res.data.Data
-                });
-
-        },
-        computed: {
-            groupSubjectByGrade() {
-                return this.allSubjectList.find(item => String(item.GradeId) === String(this.info.Grade))
-            },
-            currentSubectList() {
-                return this.groupSubjectByGrade ? this.groupSubjectByGrade.Subject : [];
-            },
-            previousPage() {
-                return this.currPage - 1 > 0 ? this.currPage - 1 : 1;
-            },
-            nextPage() {
-                return this.currPage + 1 > this.totalPageCount ? this.totalPageCount : this.currPage + 1;
-            },
-            totalPageCount() {
-                return Math.ceil(this.curList.length / this.itemPerPage);
-            },
-            eachPageList() {
-                const lastIdx = this.currPage * this.itemPerPage;
-                const firstIdx = lastIdx - this.itemPerPage;
-
-                return this.curList.slice(firstIdx, lastIdx);
-            },
-            //sortedCurList() {
-            //    return this.GradeSoringRule === 0 ? this.curList : this.GradeSoringRule === 1 ?
-            //        this.curList.sort((a, b) => a.Grade - b.Grade) : this.curList.sort((a, b) => b.Grade - a.Grade)
-            //}
-        },
-        methods: {
-            mapSubjectAndGrade(id) {
-            },
-            parseYoutubeId(url) {
-                const parsingUrl = new URL(url);
-                return parsingUrl.searchParams.get('v')
-            },
-            onInput(e) {
-                this.currPage = 1;
-                this.curList = this.rawList.filter(item =>
-                    item.CourseName.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
-            },
-            showPopUp(val) {
-                axios.post('@Url.Content("~/Course/SingleQuery?Seq=")' + `${val}`)
+        submit() {
+            let data = {
+                CourseName: this.info.CourseName,
+                SubjectId: parseInt(this.info.SubjectId),
+                Enable: this.info.Enable,
+                Url: this.info.Url,
+                Student: null
+            }
+            if (this.info.CourseSeq === 0) {
+                //新增影片資料
+                console.log(data)
+                axios.post('@Url.Content("~/Course/Insert")', data)
                     .then(res => {
-                        console.log(res.data.Data)
-                        this.info.CourseSeq = res.data.Data.CourseSeq
-                        this.info.CourseName = res.data.Data.CourseName
-                        this.info.Url = res.data.Data.Url
-                        this.info.Grade = String(res.data.Data.SubbjectInfo.SubjectGradeId)
-                        this.info.Enable = res.data.Data.Enable
-                        this.info.SubjectId = String(res.data.Data.SubbjectInfo.SubjectId)
-                        this.info.Student = res.data.Data.Student   
-                    }).finally(() => { this.pupUpOn = true; })
-            },
-            hidePopUp() {
-                this.pupUpOn = false;
-            },
-            addCourse() {
-                this.info = {
-                    CourseSeq: 0,
-                    CourseName: '',
-                    Url: '',
-                    SubjectId: '',
-                    Grade: '1',
-                    Enable: true,
-                    Student: []
-                }
-                this.pupUpOn = true;
-            },
-            submit() {
-                let data = {
-                    CourseName: this.info.CourseName,
-                    SubjectId: parseInt(this.info.SubjectId),
-                    Enable: this.info.Enable,
-                    Url: this.info.Url,
-                    Student: null
-                }
-                if (this.info.CourseSeq === 0) {
-                    //新增影片資料
-                    console.log(data)
-                    axios.post('@Url.Content("~/Course/Insert")', data)
-                        .then(res => {
-                            alert(res.data.Msg)
-                            if (res.data.Success) {
-                                location.reload();
-                            };
-                        });
-                } else {
-                    data.CourseSeq = this.info.CourseSeq
-                     //修改影片資料
-                    console.log(data)
-                    axios.post('@Url.Content("~/Course/Update")', data)
-                        .then(res => {
-                            alert(res.data.Msg)
-                            if (res.data.Success) {
-                                location.reload();
-                            };
-                        });
-                }
-            },
-            setPage(n) {
-                this.currPage = n
-            },
-            pageRule(page) {
-                return this.currPage == 1 || this.currPage == this.totalPageCount ?
-                    Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
-            },
-            //sortByGrade(foo) {
-            //    //calculate SortingCal 0 => default which is not working, 1 =>acs, -1 => des
-            //    this.GradeSoringRule = this.sortRule % 2 === 0 ? 0 : foo
-            //}
-        }
-    });
-    </script>
+                        alert(res.data.Msg)
+                        if (res.data.Success) {
+                            location.reload();
+                        };
+                    });
+            } else {
+                data.CourseSeq = this.info.CourseSeq
+                    //修改影片資料
+                console.log(data)
+                axios.post('@Url.Content("~/Course/Update")', data)
+                    .then(res => {
+                        alert(res.data.Msg)
+                        if (res.data.Success) {
+                            location.reload();
+                        };
+                    });
+            }
+        },
+        setPage(n) {
+            this.currPage = n
+        },
+        pageRule(page) {
+            return this.currPage == 1 || this.currPage == this.totalPageCount ?
+                Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
+        },
+        //sortByGrade(foo) {
+        //    //calculate SortingCal 0 => default which is not working, 1 =>acs, -1 => des
+        //    this.GradeSoringRule = this.sortRule % 2 === 0 ? 0 : foo
+        //}
+    }
+});
+</script>
 
 @*<script type="text/javascript">
     function Query() {

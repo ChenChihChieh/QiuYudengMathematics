@@ -1,13 +1,22 @@
 ﻿@model QiuYudengMathematics.Models.ViewModels.CourseManagementViewModel
 
-@*@madel =url*@
 
-<div class="item">
-    <a v-bind:href="link" target="_blank">
-        <div class="info">
-            <h3>{{name}}</h3>
-            <h5>{{time}}</h5>
-        </div>
-        <div class="img"><img :src="avatar" /></div>
-    </a>
+<div id="app" class="course-vedio">
+    <div style="margin:auto; width:80%">
+        <h3>@Model.CourseName</h3>
+        <iframe style="width: 100%; height:80vh" :src="'https://www.youtube.com/embed/'+para" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
 </div>
+
+<script>
+    const parsingUrl = new URL("@Model.Url");
+    const courseParam = parsingUrl.searchParams.get('v')
+    const vm = new Vue({
+        el:'#app',
+        computed: {
+            para() {
+                return courseParam
+            }
+        }
+    })
+</script>

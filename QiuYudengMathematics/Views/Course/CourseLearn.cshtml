@@ -5,7 +5,7 @@
         </div>
         <div class="course-learn__list">
             <div class="course-learn__item" v-for="item in eachPageList" :key="item.CourseSeq">
-                <a :href="'/Course/CourseVideo?SeqId='+`${item.CourseSeq}`">
+                <a :href="'/Course/CourseVideo?SeqId='+`${item.CourseSeq}`" >
                     <img class="course-thumbnail" :src="'http://img.youtube.com/vi/'+parseYoutubeId(item.Url)+'/sddefault.jpg'" />
                     <h3>{{item.CourseName}}</h3>
                 </a>
@@ -76,14 +76,15 @@ const vm = new Vue({
             return this.currPage == 1 || this.currPage == this.totalPageCount ?
                 Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
         },
-        courseUrl() {
-            
+        courseUrl(seq) {
+            let url = new URL(window.location.origin)
+            return url+'/Course/CourseVideo?SeqId='+seq
         }
     }
 
 })
 
-function CourseVideo(Seq) {
+@*function CourseVideo(Seq) {
     window.location.href = "@(Url.Content("~/Course/CourseVideo?SeqId="))" + Course.seq;
-};
+};*@
 </script>

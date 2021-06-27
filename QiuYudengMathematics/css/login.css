@@ -21,6 +21,7 @@ padding:0;
         display: flex;
         justify-content: center;
         flex-direction: column;
+        font-family: DFKai-sb;
     }
 .layout__login {
     display: flex;
