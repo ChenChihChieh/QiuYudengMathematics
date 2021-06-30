@@ -27,6 +27,16 @@ namespace QiuYudengMathematics.Controllers
         }
         public ActionResult Login(LoginModel model)
         {
+            if (string.IsNullOrEmpty(model.Account))
+            {
+                TempData["Message"] = "請輸入帳號";
+                return View("Index");
+            }
+            if (string.IsNullOrEmpty(model.Password))
+            {
+                TempData["Message"] = "請輸入密碼";
+                return View("Index");
+            }
             if (model.Account == ConfigurationManager.AppSettings["adminAccount"].ToString() && model.Password == ConfigurationManager.AppSettings["adminPwd"].ToString())
             {
                 LoginProcess(model.Account, JsonConvert.SerializeObject(new AccountViewModel()
@@ -54,8 +64,8 @@ namespace QiuYudengMathematics.Controllers
                 }
                 else
                     TempData["Message"] = "帳號或密碼錯誤";
-            }
-            return View("Index");
+                return View("Index");
+            }         
         }
 
         public ActionResult LogoutForErrAccount(string ErrMsg)

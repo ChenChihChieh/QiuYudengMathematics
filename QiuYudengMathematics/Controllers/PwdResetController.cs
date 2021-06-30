@@ -19,8 +19,16 @@ namespace QiuYudengMathematics.Controllers
 
         public ActionResult Reset(string Password)
         {
-            AccountService.UpdatePwd(Password);
-            return RedirectToAction("Index", "Home");
+            if (!string.IsNullOrEmpty(Password))
+            {
+                AccountService.UpdatePwd(Password);
+                return RedirectToAction("Index", "Home");
+            }
+            else
+            {
+                TempData["Message"] = "請輸入新密碼";
+                return RedirectToAction("Index", "PwdReset");
+            }
         }
     }
 }

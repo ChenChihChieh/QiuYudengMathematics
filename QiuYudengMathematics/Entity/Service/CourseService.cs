@@ -25,7 +25,7 @@ namespace QiuYudengMathematics.Entity.Service
                         CourseName = item.CourseName,
                         Url = item.Url,
                         SubjectId = item.SubjectId,
-                        SubbjectInfo = new SubbjectInfo() 
+                        SubbjectInfo = new SubbjectInfo()
                         {
                             SubjectId = item.SubjectId,
                             SubjectGradeName = item.GroupGradeSubject.GroupGrade.Grade,
@@ -71,9 +71,8 @@ namespace QiuYudengMathematics.Entity.Service
         {
             try
             {
-                RtnModel rtn = new RtnModel();
-                if (!Uri.TryCreate(model.Url, UriKind.Absolute, out var u))
-                    return new RtnModel() { Success = false, Msg = "網址格式錯誤" };
+                RtnModel rtn = CheckField(model);
+                if (!rtn.Success) return rtn;
                 using (var db = new QiuYudengMathematicsEntities())
                 {
                     CourseVideo cv = new CourseVideo()
@@ -109,7 +108,8 @@ namespace QiuYudengMathematics.Entity.Service
         {
             try
             {
-                RtnModel rtn = new RtnModel();
+                RtnModel rtn = CheckField(model);
+                if (!rtn.Success) return rtn;
                 using (var db = new QiuYudengMathematicsEntities())
                 {
                     var Course = db.CourseVideo.Where(x => x.CourseSeq == model.CourseSeq).FirstOrDefault();
@@ -142,6 +142,14 @@ namespace QiuYudengMathematics.Entity.Service
                 logService.Insert(e);
                 return new RtnModel() { Success = false, Msg = "更新發生錯誤，請通知工程師" };
             }
+        }
+        private RtnModel CheckField(CourseManagementViewModel model)
+        {
+            if (string.IsNullOrEmpty(model.CourseName)) return new RtnModel() { Success = false, Msg = "請輸入名稱" };
+            if (string.IsNullOrEmpty(model.Url)) return new RtnModel() { Success = false, Msg = "請輸入連結" };
+            if (!Uri.TryCreate(model.Url, UriKind.Absolute, out var u)) return new RtnModel() { Success = false, Msg = "連結格式錯誤" };
+            if (model.SubjectId == 0) return new RtnModel() { Success = false, Msg = "請選擇科目" };
+            return new RtnModel() { Success = true, Msg = string.Empty };
         }
     }
 }
