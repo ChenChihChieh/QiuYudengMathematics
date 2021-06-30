@@ -49,7 +49,7 @@
                                         <ul class="dropdown-menu">
                                             @foreach (var item in @QiuYudengMathematics.Comm.WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment))
                                             {
-                                                <li>@Html.ActionLink(item.SubjectName, "CourseLearn", "Course", new { SubjectId = item.ID }, null)</li>
+                                                <li>@Html.ActionLink(item.GradeName + item.SubjectName, "CourseLearn", "Course", new { SubjectId = item.ID }, null)</li>
                                             }
                                             <li>@Html.ActionLink("試聽課程", "CourseLearn", "Course", new { SubjectId = -1 }, null)</li>
                                         </ul>

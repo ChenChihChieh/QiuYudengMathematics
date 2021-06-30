@@ -22,6 +22,8 @@ namespace QiuYudengMathematics.Models.ViewModels
     public class Subject
     {
         public int ID { get; set; }
+        public int GradeId { get; set; }
+        public string GradeName { get; set; }
         public string SubjectName { get; set; }
         /// <summary>
         /// 學生是否有購買科目

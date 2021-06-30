@@ -26,6 +26,8 @@ namespace QiuYudengMathematics.Entity.Service
                     {
                         ID = itemD.ID,
                         SubjectName = itemD.Subject,
+                        GradeId = itemD.GradeID,
+                        GradeName = itemD.GroupGrade.Grade,
                         Detriment = false
                     }).ToList();
                 });
