@@ -61,6 +61,8 @@ namespace QiuYudengMathematics.Entity.Service
                         {
                             ID = y.ID,
                             SubjectName = y.Subject,
+                            GradeId = y.GradeID,
+                            GradeName = y.GroupGrade.Grade,
                             Detriment = true
                         }).ToList()
                     }).FirstOrDefault();
@@ -86,7 +88,8 @@ namespace QiuYudengMathematics.Entity.Service
         }
         public RtnModel Insert(AccountModel model)
         {
-            RtnModel rtn = new RtnModel();
+            RtnModel rtn = CheckField(model);
+            if (!rtn.Success) return rtn;
             try
             {
                 using (var db = new QiuYudengMathematicsEntities())
@@ -136,7 +139,8 @@ namespace QiuYudengMathematics.Entity.Service
         {
             try
             {
-                RtnModel rtn = new RtnModel();
+                RtnModel rtn = CheckField(model);
+                if (!rtn.Success) return rtn;
                 using (var db = new QiuYudengMathematicsEntities())
                 {
                     var StudentData = db.Student.Where(x => x.Account == model.Account).FirstOrDefault();
@@ -168,6 +172,13 @@ namespace QiuYudengMathematics.Entity.Service
                 logService.Insert(e);
                 return new RtnModel() { Success = false, Msg = "更新發生錯誤，請通知工程師" };
             }
+        }
+
+        private RtnModel CheckField(AccountModel model)
+        {
+            if (string.IsNullOrEmpty(model.Name)) return new RtnModel() { Success = false, Msg = "請輸入姓名" };
+            if (model.Subject == null) return new RtnModel() { Success = false, Msg = "請選擇科目" };
+            return new RtnModel() { Success = true, Msg = string.Empty };
         }
 
         /// <summary>
