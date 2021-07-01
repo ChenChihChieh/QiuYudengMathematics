@@ -4,8 +4,10 @@ padding:0;
 }
 .layout__container {
     display: flex;
+    height: 100vh;
     flex-direction: column;
     align-items: center;
+    background-color: var(--color-background);
 }
 .layout__top {
     display:flex;
@@ -17,7 +19,7 @@ padding:0;
 }
     .layout__top h1 {
         font-size: 110px;
-        color: #001e80;
+        color: var(--color-title);
         display: flex;
         justify-content: center;
         flex-direction: column;
@@ -33,6 +35,7 @@ padding:0;
     padding: 15px;
     margin-top: 20px;
     width: 280px;
+    background-color:#fff;
 }
 
 .layout__login i{

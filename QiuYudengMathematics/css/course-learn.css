@@ -1,11 +1,10 @@
 ﻿.course-learn__container {
     max-width: 1200px;
-    margin: auto;
-    
+    margin: 50px auto 0;
 }
 .course-learn__search-bar--flex {
     display: flex;
-    margin: 20px 0;
+    padding: 20px 0;
     justify-content: space-between;
 }
 .course-learn__search-bar--flex input {
@@ -27,8 +26,8 @@
     justify-content:space-between;
 }
 .course-learn__item {
-    background-color: #f3f3f3;
-    margin-bottom:20px;
+    background-color: var(--color-background);
+    margin-bottom: 20px;
     flex: 0 1 0;
 }
     .course-learn__item a {

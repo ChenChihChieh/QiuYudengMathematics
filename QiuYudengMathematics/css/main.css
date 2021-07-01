@@ -7,6 +7,8 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 }
 
 :root {
+    --color-background: #f8d344;
+    --color-title: #001e80;
     --color-blue: #2F2760;
     --color-blue-light: #90929E;
     --color-white-base: #F1FCDC;
@@ -17,6 +19,12 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
     --color-brown-light: #C39925;
     --color-yellow: #E6C41A;
     --color-gray: #D3D3D3;
+}
+html {
+    background-color: var(--color-background);
+}
+.body {
+    background-color: var(--color-background);
 }
 
 /*----------------------------------------
@@ -197,7 +205,7 @@ a.red-btn {
 
     .pagenation a {
         background-color: #fff;
-        border: 1px solid #dee2e6;
+        border: 1px solid #337ab7;
         font-weight: 400;
         padding: 10px;
         border-radius: 8px;
@@ -207,6 +215,7 @@ a.red-btn {
         .pagenation a.active {
             background-color: #007bff;
             border-color: #007bff;
+            border: 1px solid #337ab7;
             color: #fff;
         }
 
@@ -216,4 +225,5 @@ a.red-btn {
             color: #0056b3;
             background-color: #e9ecef;
             border-color: #dee2e6;
+            border: 1px solid #337ab7;
         }

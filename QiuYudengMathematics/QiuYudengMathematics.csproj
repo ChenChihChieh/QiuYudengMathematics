@@ -195,6 +195,8 @@
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\logo.png" />
+    <Content Include="Content\logo.svg" />
+    <Content Include="css\course-vedio.css" />
     <Content Include="css\jumbotron.css" />
     <Content Include="css\course-learn.css" />
     <Content Include="css\course-management.css" />

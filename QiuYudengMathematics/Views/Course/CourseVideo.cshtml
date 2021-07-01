@@ -2,17 +2,58 @@
 
 
 <div id="app" class="course-vedio">
-    <div style="margin:auto; width:80%">
+    <div style="margin:70px auto 0 ; width:80%">
         <h3>@Model.CourseName</h3>
-        <iframe style="width: 100%; height:80vh" :src="'https://www.youtube.com/embed/'+para" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <iframe @@click="$_OffLinks" style="width: 100%; height:80vh" :src="'https://www.youtube.com/embed/'+courseParam+'?rel=0&amp;controls=1&amp&amp;showinfo=0&amp;modestbranding=1'" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplayautoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
     </div>
 </div>
 
 <script>
     const parsingUrl = new URL("@Model.Url");
-    const courseParam = parsingUrl.searchParams.get('v')
+    const courseParam = parsingUrl.searchParams.get('v');
+    const playBtn = document.getElementsByClassName("ytp-large-play-button ytp-button")
+    playBtn.onclick = function () {
+        console.log(document.getElementsByClassName("ytp-impression-link"))
+        document.getElementsByClassName("ytp-impression-link")[0].style.display = "none";
+        document.getElementsByClassName("ytp-large-play-button ytp-button")[0].style.display = "none";
+        document.getElementsByClassName("ytp-overflow-icon")[0].style.display = "none";
+    };
+    window.onload = function () {
+        console.log(document.getElementsByClassName("ytp-impression-link"))
+        document.getElementsByClassName("ytp-impression-link")[0].style.display = "none";
+        document.getElementsByClassName("ytp-button ytp-share-button ytp-share-button-visible ytp-show-share-title")[0].style.display = "none";
+    };
+
+    
+
+    playBtn.onclick = showAlert;
+
+    function showAlert(e) {
+        console.log(e)
+    }
+
+
     const vm = new Vue({
-        el:'#app',
+        el: '#app',
+        beforeUpdate() {
+            this.$_OffLinks();
+        },
+        updated() {
+            this.$_OffLinks();
+        },
+        methods: {
+            $_OffLinks() {
+                
+                document.getElementsByClassName("ytp-button ytp-expand")[0].style.display = "none";
+                document.getElementsByClassName("ytp-youtube-button ytp-button yt-uix-sessionlink")[0].style.display = "none";
+                document.getElementsByClassName("ytp-impression-link")[0].style.display = "none";
+                document.getElementsByClassName("ytp-title-link yt-uix-sessionlink")[0].style.display = "none";
+                document.getElementsByClassName("ytp-pause-overlay")[0].style.display = "none"
+            }
+        },
         computed: {
             para() {
                 return courseParam
