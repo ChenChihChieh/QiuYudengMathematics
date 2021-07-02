@@ -5,6 +5,15 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="QiuYudengMathematicsModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="BulletinBoard">
+          <Key>
+            <PropertyRef Name="BulletinBoardSeq" />
+          </Key>
+          <Property Name="BulletinBoardSeq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="SubjectId" Type="int" Nullable="false" />
+          <Property Name="Enable" Type="bit" Nullable="false" />
+        </EntityType>
         <EntityType Name="CourseVideo">
           <Key>
             <PropertyRef Name="CourseSeq" />
@@ -94,6 +103,18 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
+        <Association Name="FK_BulletinBoard_GroupGradeSubject">
+          <End Role="GroupGradeSubject" Type="Self.GroupGradeSubject" Multiplicity="1" />
+          <End Role="BulletinBoard" Type="Self.BulletinBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupGradeSubject">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BulletinBoard">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_CourseVideo_GroupGradeSubject">
           <End Role="GroupGradeSubject" Type="Self.GroupGradeSubject" Multiplicity="1" />
           <End Role="CourseVideo" Type="Self.CourseVideo" Multiplicity="*" />
@@ -203,6 +224,7 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="QiuYudengMathematicsModelStoreContainer">
+          <EntitySet Name="BulletinBoard" EntityType="Self.BulletinBoard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseVideo" EntityType="Self.CourseVideo" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupCourseStudent" EntityType="Self.GroupCourseStudent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGrade" EntityType="Self.GroupGrade" Schema="dbo" store:Type="Tables" />
@@ -213,6 +235,10 @@
           <EntitySet Name="StudentPosition" EntityType="Self.StudentPosition" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="StudentSubject" EntityType="Self.StudentSubject" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_BulletinBoard_GroupGradeSubject" Association="Self.FK_BulletinBoard_GroupGradeSubject">
+            <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
+            <End Role="BulletinBoard" EntitySet="BulletinBoard" />
+          </AssociationSet>
           <AssociationSet Name="FK_CourseVideo_GroupGradeSubject" Association="Self.FK_CourseVideo_GroupGradeSubject">
             <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
             <End Role="CourseVideo" EntitySet="CourseVideo" />
@@ -291,6 +317,11 @@
             <End Role="CourseVideo" EntitySet="CourseVideo" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
+          <EntitySet Name="BulletinBoard" EntityType="QiuYudengMathematicsModel.BulletinBoard" />
+          <AssociationSet Name="FK_BulletinBoard_GroupGradeSubject" Association="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject">
+            <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
+            <End Role="BulletinBoard" EntitySet="BulletinBoard" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="GroupGrade">
           <Key>
@@ -313,6 +344,7 @@
           <NavigationProperty Name="GroupGrade" Relationship="QiuYudengMathematicsModel.FK_GroupGradeSubject_GroupGrade" FromRole="GroupGradeSubject" ToRole="GroupGrade" />
           <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.StudentSubject" FromRole="GroupGradeSubject" ToRole="Student" />
           <NavigationProperty Name="CourseVideo" Relationship="QiuYudengMathematicsModel.FK_CourseVideo_GroupGradeSubject" FromRole="GroupGradeSubject" ToRole="CourseVideo" />
+          <NavigationProperty Name="BulletinBoard" Relationship="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" FromRole="GroupGradeSubject" ToRole="BulletinBoard" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -447,6 +479,28 @@
           <End Type="QiuYudengMathematicsModel.CourseVideo" Role="CourseVideo" Multiplicity="*" />
           <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="*" />
         </Association>
+        <EntityType Name="BulletinBoard">
+          <Key>
+            <PropertyRef Name="BulletinBoardSeq" />
+          </Key>
+          <Property Name="BulletinBoardSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <Property Name="Enable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" FromRole="BulletinBoard" ToRole="GroupGradeSubject" />
+        </EntityType>
+        <Association Name="FK_BulletinBoard_GroupGradeSubject">
+          <End Type="QiuYudengMathematicsModel.GroupGradeSubject" Role="GroupGradeSubject" Multiplicity="1" />
+          <End Type="QiuYudengMathematicsModel.BulletinBoard" Role="BulletinBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupGradeSubject">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BulletinBoard">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -548,6 +602,16 @@
               <ScalarProperty Name="CourseSeq" ColumnName="CourseSeq" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="BulletinBoard">
+            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.BulletinBoard">
+              <MappingFragment StoreEntitySet="BulletinBoard">
+                <ScalarProperty Name="Enable" ColumnName="Enable" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="BulletinBoardSeq" ColumnName="BulletinBoardSeq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

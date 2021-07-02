@@ -18,6 +18,7 @@ namespace QiuYudengMathematics.Entity
         {
             this.Student = new HashSet<Student>();
             this.CourseVideo = new HashSet<CourseVideo>();
+            this.BulletinBoard = new HashSet<BulletinBoard>();
         }
     
         public int ID { get; set; }
@@ -28,5 +29,6 @@ namespace QiuYudengMathematics.Entity
         public virtual GroupGrade GroupGrade { get; set; }
         public virtual ICollection<Student> Student { get; set; }
         public virtual ICollection<CourseVideo> CourseVideo { get; set; }
+        public virtual ICollection<BulletinBoard> BulletinBoard { get; set; }
     }
 }

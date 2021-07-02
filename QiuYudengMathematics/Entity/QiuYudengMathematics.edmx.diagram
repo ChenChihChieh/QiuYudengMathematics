@@ -20,6 +20,8 @@
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.CourseVideo" Width="1.5" PointX="4" PointY="5.75" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_CourseVideo_GroupGradeSubject" />
         <AssociationConnector Association="QiuYudengMathematicsModel.GroupCourseStudent" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.BulletinBoard" Width="1.5" PointX="5.25" PointY="9.5" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

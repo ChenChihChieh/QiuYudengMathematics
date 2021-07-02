@@ -33,5 +33,6 @@ namespace QiuYudengMathematics.Entity
         public DbSet<StudentDevice> StudentDevice { get; set; }
         public DbSet<LogError> LogError { get; set; }
         public DbSet<CourseVideo> CourseVideo { get; set; }
+        public DbSet<BulletinBoard> BulletinBoard { get; set; }
     }
 }

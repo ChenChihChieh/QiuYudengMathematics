@@ -69,5 +69,6 @@
     <Build Include="dbo\Tables\GroupCourseStudent.sql" />
     <Build Include="dbo\Tables\CourseVideo.sql" />
     <Build Include="dbo\Tables\LogError_1.sql" />
+    <Build Include="dbo\Tables\BulletinBoard.sql" />
   </ItemGroup>
 </Project>
