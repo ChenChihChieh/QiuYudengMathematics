@@ -7,7 +7,7 @@ namespace QiuYudengMathematics.Models
 {
     public class BulletinBoardModel
     {
-        public int? SubjectId { get; set; }
+        public List<int> SubjectId { get; set; }
         public bool? Enable { get; set; }
     }
 }

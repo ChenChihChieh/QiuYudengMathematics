@@ -11,11 +11,14 @@
 <script type="text/javascript">
     function Query() {
         var data = {
-            SubjectId: null, //科目
+            SubjectId: [], //科目(沒有就放空陣列，有放陣列(數字))
             Enable: null //啟用或停用
         };
         $.post("@(Url.Content("~/BulletinBoard/Query"))", data, function (x) {
-            alert(x.Data[0].Content);
+            if(x.Data.length>0)
+                alert(x.Data[0].Content);
+            else
+                alert('查無資料');
         });
     };
 
@@ -29,7 +32,7 @@
         var data = {
             Content: '大家好',  //內容
             SubjectId: 2, //科目
-            Enable: false //啟用/停用
+            Enable: true //啟用/停用
         };
         $.post("@(Url.Content("~/BulletinBoard/Insert"))", data, function (x) {
             alert(x.Msg);

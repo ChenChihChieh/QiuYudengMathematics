@@ -2,7 +2,6 @@
 using QiuYudengMathematics.Models.ViewModels;
 using System.Collections.Generic;
 using System.Linq;
-using QiuYudengMathematics.Comm;
 using System;
 
 namespace QiuYudengMathematics.Entity.Service
@@ -25,7 +24,7 @@ namespace QiuYudengMathematics.Entity.Service
                         BulletinBoardSeq = item.BulletinBoardSeq,
                         Content = item.Content,
                         SubjectId = item.SubjectId,
-                        Subject = new SubbjectInfo() 
+                        Subject = new SubbjectInfo()
                         {
                             SubjectId = item.SubjectId,
                             SubjectGradeName = item.GroupGradeSubject.GroupGrade.Grade,
@@ -35,8 +34,8 @@ namespace QiuYudengMathematics.Entity.Service
                         Enable = item.Enable
                     }).ToList();
 
-                if (model.SubjectId.HasValue)
-                    data = data.Where(x => x.SubjectId == model.SubjectId.Value).ToList();
+                if (model.SubjectId != null && model.SubjectId.Count() > 0)
+                    data = data.Where(x => model.SubjectId.Contains(x.SubjectId)).ToList();
                 if (model.Enable.HasValue)
                     data = data.Where(x => x.Enable == model.Enable.Value).ToList();
 
@@ -47,7 +46,7 @@ namespace QiuYudengMathematics.Entity.Service
         {
             using (var db = new QiuYudengMathematicsEntities())
                 return db.BulletinBoard
-                    .Where(x=>x.BulletinBoardSeq == Seq)
+                    .Where(x => x.BulletinBoardSeq == Seq)
                     .AsEnumerable()
                     .Select(item => new BulletinBoardViewModel()
                     {
