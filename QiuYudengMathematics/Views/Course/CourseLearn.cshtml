@@ -6,7 +6,7 @@
         <div class="course-learn__list">
             <div class="course-learn__item" v-for="item in eachPageList" :key="item.CourseSeq">
                 <a :href="'/Course/CourseVideo?SeqId='+`${item.CourseSeq}`" >
-                    <img class="course-thumbnail" :src="'http://img.youtube.com/vi/'+parseYoutubeId(item.Url)+'/sddefault.jpg'" />
+                    <img class="course-thumbnail" />
                     <h3>{{item.CourseName}}</h3>
                 </a>
             </div>

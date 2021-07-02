@@ -1,96 +1,97 @@
 ﻿@model Dictionary<int, string>
 
-    @*<input type="button" value="Query" onclick="Query()" />
+@*<input type="button" value="Query" onclick="Query()" />
     <input type="button" value="SingleQuery" onclick="SingleQuery()" />
     <input type="button" value="Insert" onclick="Insert()" />
-    <input type="button" value="Update" onclick="Update()" />*@
-    <div id="app" class="course-management">
-        <div class="course-management__container">
-            <div class="course-management__search-bar--flex">
-                <input @@input="onInput($event)" placeholder="請輸入課程名稱" type="search">
-                <div class="course-management__btn-wrapper">
-                    <a @@click="addCourse" class="blue-btn">新增</a>
-                </div>
-            </div>
-            <div class="course-management__table">
-                <div class="course-management__tr">
-                    <div class="course-management__th">課程</div>
-                    <div class="course-management__th">名稱</div>
-                    <div class="course-management__th">年級</div>
-                    <div class="course-management__th">科目</div>
-                    <div class="course-management__th">狀態</div>
-                    <div class="course-management__th">管理</div>
-                </div>
-                <div class="course-management__tr" v-for="item in eachPageList" :key="item.CourseSeq">
-                    <div class="course-management__td">
-                        <img class="course-thumbnail" style="width:70px;height:40px;" :src="'http://img.youtube.com/vi/'+parseYoutubeId(item.Url)+'/sddefault.jpg'"/>
-                    </div>
-                    <div class="course-management__td">{{item.CourseName}}</div>
-                    <div class="course-management__td">{{item.SubbjectInfo.SubjectGradeName}}</div>
-                    <div class="course-management__td">{{item.SubbjectInfo.SubjectName}}</div>
-                    <div class="course-management__td">
-                        <i v-if="item.Enable" style="color:forestgreen" class="far fa-circle"></i>
-                        <i v-else style="color:red" class="fas fa-times"></i>
-                    </div>
-                    <div class="course-management__td"><a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a></div>
-                </div>
-            </div>
-            <div v-show="curList.length > 10" class="pagenation">
-                <a @@click.prevent="setPage(1)">First</a>
-                <a @@click.prevent="setPage(previousPage)">Previous</a>
-                <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
-                   @@click.prevent="setPage(n)">{{n}}</a>
-                <a @@click.prevent="setPage(nextPage)">Next</a>
-                <a @@click.prevent="setPage(totalPageCount)">Last</a>
+    <input type="button" value="Update" onclick="Update()" />
+    <input type="button" value="Update" onclick="UpdateVideo()" />*@
+<div id="app" class="course-management">
+    <div class="course-management__container">
+        <div class="course-management__search-bar--flex">
+            <input @@input="onInput($event)" placeholder="請輸入課程名稱" type="search">
+            <div class="course-management__btn-wrapper">
+                <a @@click="addCourse" class="blue-btn">新增</a>
             </div>
         </div>
-        <div v-show="pupUpOn" class="popup--wrapper">
-            <div class="popup">
-                <div class="popup--heading">
-                    <span>課程管理</span>
-                    <i @@click="hidePopUp" class="fas fa-times"></i>
+        <div class="course-management__table">
+            <div class="course-management__tr">
+                <div class="course-management__th">課程</div>
+                <div class="course-management__th">名稱</div>
+                <div class="course-management__th">年級</div>
+                <div class="course-management__th">科目</div>
+                <div class="course-management__th">狀態</div>
+                <div class="course-management__th">管理</div>
+            </div>
+            <div class="course-management__tr" v-for="item in eachPageList" :key="item.CourseSeq">
+                <div class="course-management__td">
+                    <img class="course-thumbnail" style="width:70px;height:40px;" />
                 </div>
-                <div class="popup--body">
-                    <div>
-                        <p>名稱</p>
-                        <input class="width200" :value="info.Name" v-model="info.CourseName" />
-                    </div>
-                    <div>
-                        <p>連結</p>
-                        <input class="width200" :value="info.Name" v-model="info.Url" />
-                    </div>
-                    <div>
-                        <p>年級</p>
-                        <div class="width200">
-                            <input type="radio" id="one" value="1" v-model="info.Grade">
-                            <label for="one">高一</label>
-                            <input type="radio" id="two" value="2" v-model="info.Grade">
-                            <label for="two">高二</label>
-                            <input type="radio" id="three" value="3" v-model="info.Grade">
-                            <label for="three">高三</label>
-                        </div>
-                    </div>
-                    <div>
-                        <p>狀態</p>
-                        <div class="width200">
-                            <input type="checkbox" id="checkbox" v-model="info.Enable">
-                            <label for="checkbox">{{ info.Enable?"啟用":"停用" }}</label>
-                        </div>
-                    </div>
-                    <div>
-                        <p>科目</p>
-                        <div class="width200">
-                            <div v-for="item in currentSubectList" class="subject-item">
-                                <input type="radio" :id="item.ID" :value="String(item.ID)" v-model="info.SubjectId">
-                                <label :for="item.ID">{{item.SubjectName}}</label>
-                            </div>
-                        </div>
+                <div class="course-management__td">{{item.CourseName}}</div>
+                <div class="course-management__td">{{item.SubbjectInfo.SubjectGradeName}}</div>
+                <div class="course-management__td">{{item.SubbjectInfo.SubjectName}}</div>
+                <div class="course-management__td">
+                    <i v-if="item.Enable" style="color:forestgreen" class="far fa-circle"></i>
+                    <i v-else style="color:red" class="fas fa-times"></i>
+                </div>
+                <div class="course-management__td"><a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a></div>
+            </div>
+        </div>
+        <div v-show="curList.length > 10" class="pagenation">
+            <a @@click.prevent="setPage(1)">First</a>
+            <a @@click.prevent="setPage(previousPage)">Previous</a>
+            <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
+               @@click.prevent="setPage(n)">{{n}}</a>
+            <a @@click.prevent="setPage(nextPage)">Next</a>
+            <a @@click.prevent="setPage(totalPageCount)">Last</a>
+        </div>
+    </div>
+    <div v-show="pupUpOn" class="popup--wrapper">
+        <div class="popup">
+            <div class="popup--heading">
+                <span>課程管理</span>
+                <i @@click="hidePopUp" class="fas fa-times"></i>
+            </div>
+            <div class="popup--body">
+                <div>
+                    <p>名稱</p>
+                    <input class="width200" :value="info.Name" v-model="info.CourseName" />
+                </div>
+                <div>
+                    <p>連結</p>
+                    <input class="width200" :value="info.Name" v-model="info.Url" />
+                </div>
+                <div>
+                    <p>年級</p>
+                    <div class="width200">
+                        <input type="radio" id="one" value="1" v-model="info.Grade">
+                        <label for="one">高一</label>
+                        <input type="radio" id="two" value="2" v-model="info.Grade">
+                        <label for="two">高二</label>
+                        <input type="radio" id="three" value="3" v-model="info.Grade">
+                        <label for="three">高三</label>
                     </div>
                 </div>
-                <div class="popup--footer">
-                    <a @@click="submit" class="blue-btn">儲存</a>
+                <div>
+                    <p>狀態</p>
+                    <div class="width200">
+                        <input type="checkbox" id="checkbox" v-model="info.Enable">
+                        <label for="checkbox">{{ info.Enable?"啟用":"停用" }}</label>
+                    </div>
+                </div>
+                <div>
+                    <p>科目</p>
+                    <div class="width200">
+                        <div v-for="item in currentSubectList" class="subject-item">
+                            <input type="radio" :id="item.ID" :value="String(item.ID)" v-model="info.SubjectId">
+                            <label :for="item.ID">{{item.SubjectName}}</label>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="popup--footer">
+                <a @@click="submit" class="blue-btn">儲存</a>
+            </div>
+        </div>
     </div>
 </div>
 
@@ -179,7 +180,7 @@ const vm = new Vue({
                     this.info.Grade = String(res.data.Data.SubbjectInfo.SubjectGradeId)
                     this.info.Enable = res.data.Data.Enable
                     this.info.SubjectId = String(res.data.Data.SubbjectInfo.SubjectId)
-                    this.info.Student = res.data.Data.Student   
+                    this.info.Student = res.data.Data.Student
                 }).finally(() => { this.pupUpOn = true; })
         },
         hidePopUp() {
@@ -244,44 +245,52 @@ const vm = new Vue({
 </script>
 
 @*<script type="text/javascript">
-    function Query() {
-        var aa = null; //這是條件，帶科目(查詢所有就放Null)
-        $.post("@(Url.Content("~/Course/Query?SubjectId="))" + aa, function (x) {
-            alert(x.Data[0].CourseName);
-        });
-    };
-
-    function SingleQuery() {
-        //查單一影片，放影片Seq
-        $.post("@(Url.Content("~/Course/SingleQuery?Seq="))" + 1, function (x) {
-            alert(x.Data.CourseName);
-        });
-    };
-
-    function Insert() {
-        var data = {
-            CourseName: 'Test2',
-            Url: 'https://www.youtube.com/embed/HUZki1tTB0A', //後端會檢查格式，前端檢查是否必填
-            SubjectId: 2,
-            Enable: false,
-            Student: ['000003'] //影片個別放沒有購買課程的學生,沒設定就放Null
+        function Query() {
+            var aa = null; //這是條件，帶科目(查詢所有就放Null)
+            $.post("@(Url.Content("~/Course/Query?SubjectId="))" + aa, function (x) {
+                alert(x.Data[0].CourseName);
+            });
         };
-        $.post("@(Url.Content("~/Course/Insert"))", data, function (x) {
-            alert(x.Msg);
-        });
-    };
 
-    function Update() {
-        var data = {
-            CourseSeq: 1,
-            CourseName: 'TestTwo',
-            Url: 'https://www.youtube.com/embed/1v1CiLQXho8?list=RD1v1CiLQXho8', //後端會檢查格式，前端檢查是否必填
-            SubjectId: 2,
-            Enable: true,
-            Student: null //影片個別放沒有購買課程的學生,沒設定就放Null
+        function SingleQuery() {
+            //查單一影片，放影片Seq
+            $.post("@(Url.Content("~/Course/SingleQuery?Seq="))" + 1, function (x) {
+                alert(x.Data.CourseName);
+            });
         };
-        $.post("@(Url.Content("~/Course/Update"))", data, function (x) {
-            alert(x.Msg);
-        });
-    };
-</script>*@
+
+        function Insert() {
+            var data = {
+                CourseName: 'Test2',
+                Video: '', //放影片，後端會檢查是否為mp4，前端檢查是否有上傳
+                SubjectId: 2,
+                Enable: false,
+                Student: ['000003'] //影片個別放沒有購買課程的學生,沒設定就放Null
+            };
+            $.post("@(Url.Content("~/Course/Insert"))", data, function (x) {
+                alert(x.Msg);
+            });
+        };
+
+        function Update() {
+            var data = {
+                CourseSeq: 1,
+                CourseName: 'TestTwo',
+                SubjectId: 2,
+                Enable: true,
+                Student: null //影片個別放沒有購買課程的學生,沒設定就放Null
+            };
+            $.post("@(Url.Content("~/Course/Update"))", data, function (x) {
+                alert(x.Msg);
+            });
+        };
+        function UpdateVideo() {
+            var data = {
+                CourseSeq: 1,
+                Video: '', //放影片，後端會檢查是否為mp4，前端檢查是否有上傳
+            };
+            $.post("@(Url.Content("~/Course/UpdateVideo"))", data, function (x) {
+                alert(x.Msg);
+            });
+        };
+    </script>*@

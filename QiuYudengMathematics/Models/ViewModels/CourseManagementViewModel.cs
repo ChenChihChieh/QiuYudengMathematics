@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Web;
 
 namespace QiuYudengMathematics.Models.ViewModels
 {
@@ -7,6 +8,7 @@ namespace QiuYudengMathematics.Models.ViewModels
         public int CourseSeq { get; set; }
         public string CourseName { get; set; }
         public string Url { get; set; }
+        public HttpPostedFileBase Video { get; set; }
         /// <summary>
         /// (新增&更新用)
         /// </summary>

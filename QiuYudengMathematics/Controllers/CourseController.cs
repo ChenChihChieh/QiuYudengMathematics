@@ -1,10 +1,13 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using QiuYudengMathematics.Comm;
 using QiuYudengMathematics.Entity.Service;
 using QiuYudengMathematics.Models;
 using QiuYudengMathematics.Models.ViewModels;
+using System.IO;
+using System.Configuration;
 
 namespace QiuYudengMathematics.Controllers
 {
@@ -13,10 +16,12 @@ namespace QiuYudengMathematics.Controllers
     {
         private readonly AccountService accountService;
         private readonly CourseService courseService;
+        private readonly LogService logService;
         public CourseController()
         {
             accountService = new AccountService();
             courseService = new CourseService();
+            logService = new LogService();
         }
         #region 課程管理
         public ActionResult CourseManagement() => View(accountService.getGrade());
@@ -24,7 +29,7 @@ namespace QiuYudengMathematics.Controllers
         public ActionResult SingleQuery(int Seq) => Json(new RtnModel() { Success = true, Data = courseService.SingleQuery(Seq) }, JsonRequestBehavior.AllowGet);
         public ActionResult Insert(CourseManagementViewModel model) => Json(courseService.Insert(model), JsonRequestBehavior.AllowGet);
         public ActionResult Update(CourseManagementViewModel model) => Json(courseService.Update(model), JsonRequestBehavior.AllowGet);
-        #endregion
+        public ActionResult UpdateVideo(CourseManagementViewModel model) => Json(courseService.UpdateVideo(model), JsonRequestBehavior.AllowGet);
 
 
         #region 課程
@@ -64,7 +69,31 @@ namespace QiuYudengMathematics.Controllers
             if (!WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment && x.ID == CourseVideo.SubjectId).Any() &&
                !CourseVideo.Student.Contains(WebSiteComm.CurrentUserAccount))
                 return RedirectToAction("Index", "Home");
-            return View(CourseVideo);
+            return View(CourseVideo.CourseSeq);
+        }
+        public ActionResult GetVideo(int SeqId)
+        {
+            try
+            {
+                var CourseVideo = courseService.SingleQuery(SeqId);
+                var FilePath = ConfigurationManager.AppSettings["VideoPath"].ToString() + CourseVideo.Url;
+                if (System.IO.File.Exists(FilePath))
+                {
+                    var file = new FileInfo(CourseVideo.Url);
+
+                    Response.Headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("R"));
+                    Response.Headers.Add("Accept-Ranges", "bytes");
+
+                    return File(FilePath, "video/mp4");
+                }
+                else
+                    throw new Exception(string.Format("Course:{0},查無檔案路徑:{1}", CourseVideo.CourseSeq, CourseVideo.Url));
+            }
+            catch (Exception e)
+            {
+                logService.Insert(e);
+                return Content("檔案讀取發生錯誤");
+            }
         }
         #endregion
     }
