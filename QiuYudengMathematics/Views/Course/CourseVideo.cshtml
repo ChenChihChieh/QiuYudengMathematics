@@ -1,6 +1,6 @@
-﻿@model int
+﻿@model QiuYudengMathematics.Models.ViewModels.CourseManagementViewModel
 
-
+<div>@(Model.CourseName)</div>
 <video controls controlsList="nodownload">
-    <source src="@(Url.Content("~/Course/GetVideo?SeqId=") + Model)" type="video/mp4" />
+    <source src="@(Url.Content("~/Course/GetVideo?SeqId=") + Model.CourseSeq)" type="video/mp4" />
 </video>

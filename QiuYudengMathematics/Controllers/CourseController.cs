@@ -30,7 +30,7 @@ namespace QiuYudengMathematics.Controllers
         public ActionResult Insert(CourseManagementViewModel model) => Json(courseService.Insert(model), JsonRequestBehavior.AllowGet);
         public ActionResult Update(CourseManagementViewModel model) => Json(courseService.Update(model), JsonRequestBehavior.AllowGet);
         public ActionResult UpdateVideo(CourseManagementViewModel model) => Json(courseService.UpdateVideo(model), JsonRequestBehavior.AllowGet);
-
+        #endregion
 
         #region 課程
         public ActionResult CourseLearn(int SubjectId)
@@ -69,7 +69,7 @@ namespace QiuYudengMathematics.Controllers
             if (!WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment && x.ID == CourseVideo.SubjectId).Any() &&
                !CourseVideo.Student.Contains(WebSiteComm.CurrentUserAccount))
                 return RedirectToAction("Index", "Home");
-            return View(CourseVideo.CourseSeq);
+            return View(CourseVideo);
         }
         public ActionResult GetVideo(int SeqId)
         {
