@@ -129,6 +129,7 @@
     <Compile Include="Comm\AESComm.cs" />
     <Compile Include="Comm\WebSiteComm.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\BulletinBoardController.cs" />
     <Compile Include="Controllers\CourseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
@@ -164,6 +165,7 @@
       <DependentUpon>QiuYudengMathematics.edmx</DependentUpon>
     </Compile>
     <Compile Include="Entity\Service\AccountService.cs" />
+    <Compile Include="Entity\Service\BulletinBoardService.cs" />
     <Compile Include="Entity\Service\CourseService.cs" />
     <Compile Include="Entity\Service\DeviceService.cs" />
     <Compile Include="Entity\Service\LogService.cs" />
@@ -185,10 +187,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
+    <Compile Include="Models\BulletinBoardModel.cs" />
     <Compile Include="Models\CourseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RtnModel.cs" />
     <Compile Include="Models\ViewModels\AccountViewModel.cs" />
+    <Compile Include="Models\ViewModels\BulletinBoardViewModel.cs" />
     <Compile Include="Models\ViewModels\CourseManagementViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -260,6 +264,7 @@
     <Content Include="Views\Course\CourseLearn.cshtml" />
     <Content Include="Views\Course\CourseManagement.cshtml" />
     <Content Include="Views\Course\CourseVideo.cshtml" />
+    <Content Include="Views\BulletinBoard\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
