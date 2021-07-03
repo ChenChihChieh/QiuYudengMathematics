@@ -131,10 +131,11 @@ a.red-btn {
 }
 
 .popup {
+    width:400px;
     position: absolute;
-    top: 35%;
+    top: 200px;
     left: 50%;
-    transform: translate(-150px, -100px);
+    transform: translate(-200px, -100px);
     background-color: #fff;
     box-sizing: border-box;
     border-radius: 5px;
@@ -168,7 +169,7 @@ a.red-btn {
 }
 
     .popup--body .width200 {
-        width: 200px;
+        width: 300px;
         justify-content: flex-start;
         flex-wrap: wrap;
     }

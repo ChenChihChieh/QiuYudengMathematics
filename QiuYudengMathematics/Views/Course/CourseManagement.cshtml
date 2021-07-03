@@ -5,6 +5,7 @@
     <input type="button" value="Insert" onclick="Insert()" />
     <input type="button" value="Update" onclick="Update()" />
     <input type="button" value="Update" onclick="UpdateVideo()" />*@
+
 <div id="app" class="course-management">
     <div class="course-management__container">
         <div class="course-management__search-bar--flex">
@@ -15,7 +16,6 @@
         </div>
         <div class="course-management__table">
             <div class="course-management__tr">
-                <div class="course-management__th">課程</div>
                 <div class="course-management__th">名稱</div>
                 <div class="course-management__th">年級</div>
                 <div class="course-management__th">科目</div>
@@ -23,9 +23,6 @@
                 <div class="course-management__th">管理</div>
             </div>
             <div class="course-management__tr" v-for="item in eachPageList" :key="item.CourseSeq">
-                <div class="course-management__td">
-                    <img class="course-thumbnail" style="width:70px;height:40px;" />
-                </div>
                 <div class="course-management__td">{{item.CourseName}}</div>
                 <div class="course-management__td">{{item.SubbjectInfo.SubjectGradeName}}</div>
                 <div class="course-management__td">{{item.SubbjectInfo.SubjectName}}</div>
@@ -33,7 +30,11 @@
                     <i v-if="item.Enable" style="color:forestgreen" class="far fa-circle"></i>
                     <i v-else style="color:red" class="fas fa-times"></i>
                 </div>
-                <div class="course-management__td"><a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a></div>
+                <div class="course-management__td">
+                    <a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a>
+                    <a @@click.prevent="showViedoPopUp(item.CourseSeq, item.Url)"><i class="fas fa-film"></i></a>
+                    <a @@click.prevent="showtrialPopUp(item.CourseSeq, item.Url)"><i class="fas fa-user"></i></a>
+                </div>
             </div>
         </div>
         <div v-show="curList.length > 10" class="pagenation">
@@ -55,10 +56,6 @@
                 <div>
                     <p>名稱</p>
                     <input class="width200" :value="info.Name" v-model="info.CourseName" />
-                </div>
-                <div>
-                    <p>連結</p>
-                    <input class="width200" :value="info.Name" v-model="info.Url" />
                 </div>
                 <div>
                     <p>年級</p>
@@ -87,9 +84,46 @@
                         </div>
                     </div>
                 </div>
+                @*<div v-show="!isInsert">
+                    <p>試聽學生</p>
+                    <div class="width200">
+                        <p v-for="(item, index) in info.Student">{{}}</p>刪除
+                        <input type="text" v-model="info.Student" disabled>
+                        <a @@click="submit" class="blue-btn">新增</a>
+                    </div>
+                </div>*@
+                <div v-show="isInsert">
+                    <p>影片</p>
+                    <input class="width200" type="text" v-model="updateVideoInfo.fileName" disabled>
+                </div>
             </div>
             <div class="popup--footer">
+                <label v-show="isInsert" class="uploader" for="insert-uploader" v-on:change="fileChange">
+                    選擇上傳影片
+                    <input id="insert-uploader" type="file" style="display: none;" accept="video/mp4,video/x-m4v,video/*">
+                </label>
                 <a @@click="submit" class="blue-btn">儲存</a>
+            </div>
+        </div>
+    </div>
+    <div v-show="viedoPupUpOn" class="popup--wrapper">
+        <div class="popup">
+            <div class="popup--heading">
+                <span>更新影片</span>
+                <i @@click="hidePopUp" class="fas fa-times"></i>
+            </div>
+            <div class="popup--body">
+                <div>
+                    <p>影片</p>
+                    <input class="width200" type="text" v-model="updateVideoInfo.fileName" disabled>
+                </div>
+            </div>
+            <div class="popup--footer">
+                <label class="uploader" for="update-uploader" v-on:change="fileChange">
+                    選擇上傳影片
+                    <input id="update-uploader" type="file" style="display: none;" accept="video/mp4,video/x-m4v,video/*">
+                </label>
+                <a v-show="updateVideoInfo.isFileSelected" @@click="updateVideo" class="blue-btn">儲存</a>
             </div>
         </div>
     </div>
@@ -100,16 +134,25 @@ const vm = new Vue({
     el: '#app',
     data: {
         rawList:[],
-        curList:[],
+        curList: [],
+        trialList:[],
+        updateVideoInfo: {
+            fileName: '',
+            Seq : 0,
+            file: '',
+            isFileSelected: false
+        },
         pupUpOn: false,
+        viedoPupUpOn: false,
+        isInsert: false,
         allSubjectList:[],
         subject: '',
         info: {
             CourseSeq:0,
             CourseName: '',
-            Url: '',
             SubjectId: '',
-            Grade:'',
+            Grade: '',
+            Url:'',
             Enable: true,
             Student: []
         },
@@ -117,7 +160,7 @@ const vm = new Vue({
         itemPerPage: 10
     },
     mounted() {
-            //取得所有影片，帶科目(查詢所有就放Null)
+        //取得所有影片，帶科目(查詢所有就放Null)
         const val = null;
         axios.post('@(Url.Content("~/Course/Query?SubjectId="))' + `${val}`)
             .then(res => {
@@ -159,12 +202,6 @@ const vm = new Vue({
         //}
     },
     methods: {
-        mapSubjectAndGrade(id) {
-        },
-        parseYoutubeId(url) {
-            const parsingUrl = new URL(url);
-            return parsingUrl.searchParams.get('v')
-        },
         onInput(e) {
             this.currPage = 1;
             this.curList = this.rawList.filter(item =>
@@ -173,24 +210,52 @@ const vm = new Vue({
         showPopUp(val) {
             axios.post('@Url.Content("~/Course/SingleQuery?Seq=")' + `${val}`)
                 .then(res => {
-                    console.log(res.data.Data)
-                    this.info.CourseSeq = res.data.Data.CourseSeq
-                    this.info.CourseName = res.data.Data.CourseName
-                    this.info.Url = res.data.Data.Url
-                    this.info.Grade = String(res.data.Data.SubbjectInfo.SubjectGradeId)
-                    this.info.Enable = res.data.Data.Enable
-                    this.info.SubjectId = String(res.data.Data.SubbjectInfo.SubjectId)
-                    this.info.Student = res.data.Data.Student
-                }).finally(() => { this.pupUpOn = true; })
+                    const { CourseSeq, CourseName, Url, SubbjectInfo, Enable, Student } = res.data.Data
+                    this.info.CourseSeq = CourseSeq
+                    this.info.CourseName = CourseName
+                    this.info.Url = Url
+                    this.info.Grade = String(SubbjectInfo.SubjectGradeId)
+                    this.info.Enable = Enable
+                    this.info.SubjectId = String(SubbjectInfo.SubjectId)
+                    this.info.Student = Student
+                })
+                .finally(() => { this.pupUpOn = true; })
+        },
+        showViedoPopUp(seq, url) {
+            this.viedoPupUpOn = true;
+            this.updateVideoInfo.Seq = seq;
+            this.updateVideoInfo.fileName = url;
         },
         hidePopUp() {
             this.pupUpOn = false;
+            this.viedoPupUpOn = false;
+            this.isInsert = false;
+            this.resetupdateVideoInfo();
+
+        },
+        fileChange(e) {
+            //let { fileName, file, isFileSelected } = this.updateVideoInfo
+            if (e.target.files[0]) {
+                this.updateVideoInfo.fileName = e.target.files[0].name;
+                this.updateVideoInfo.file = e.target.files[0];
+                this.updateVideoInfo.isFileSelected = true;
+            } else {
+                this.resetupdateVideoInfo();
+            }
+        },
+        resetupdateVideoInfo() {
+            //let { fileName, file, isFileSelected } = this.updateVideoInfo
+            this.updateVideoInfo.isFileSelected = false;
+            this.updateVideoInfo.fileName = '';
+            this.updateVideoInfo.file = '';
         },
         addCourse() {
+            this.isInsert = true;
+
             this.info = {
                 CourseSeq: 0,
                 CourseName: '',
-                Url: '',
+                Video: '',
                 SubjectId: '',
                 Grade: '1',
                 Enable: true,
@@ -198,16 +263,33 @@ const vm = new Vue({
             }
             this.pupUpOn = true;
         },
+        updateVideo() {
+            const fd = new FormData();
+            fd.append('CourseSeq', this.updateVideoInfo.Seq)
+            fd.append('Video', this.updateVideoInfo.file)
+
+            axios.post('@Url.Content("~/Course/UpdateVideo")', fd)
+                .then(res => {
+                    console.log(res)
+                    alert(res.data.Msg)
+                    if (res.data.Success) {
+                        location.reload();
+                    };
+                });
+        },
         submit() {
-            let data = {
-                CourseName: this.info.CourseName,
-                SubjectId: parseInt(this.info.SubjectId),
-                Enable: this.info.Enable,
-                Url: this.info.Url,
-                Student: null
-            }
+
             if (this.info.CourseSeq === 0) {
-                //新增影片資料
+                data.Video = this.updateVideoInfo.file
+                //新增資料
+
+                const fd = new FormData();
+                fd.append('CourseName', this.info.CourseName)
+                fd.append('SubjectId', parseInt(this.info.SubjectId))
+                fd.append('Enable', this.info.Enable)
+                fd.append('Student', null)
+                fd.append('Video', this.updateVideoInfo.file)
+
                 console.log(data)
                 axios.post('@Url.Content("~/Course/Insert")', data)
                     .then(res => {
@@ -217,8 +299,15 @@ const vm = new Vue({
                         };
                     });
             } else {
-                data.CourseSeq = this.info.CourseSeq
-                    //修改影片資料
+                let data = {
+                    CourseName: this.info.CourseName,
+                    SubjectId: parseInt(this.info.SubjectId),
+                    Enable: this.info.Enable,
+                    Student: null,
+                    CourseSeq: this.info.CourseSeq
+                }
+                
+                    //修改資料
                 console.log(data)
                 axios.post('@Url.Content("~/Course/Update")', data)
                     .then(res => {
@@ -244,7 +333,7 @@ const vm = new Vue({
 });
 </script>
 
-@*<script type="text/javascript">
+<script type="text/javascript">
         function Query() {
             var aa = null; //這是條件，帶科目(查詢所有就放Null)
             $.post("@(Url.Content("~/Course/Query?SubjectId="))" + aa, function (x) {
@@ -293,4 +382,4 @@ const vm = new Vue({
                 alert(x.Msg);
             });
         };
-    </script>*@
+</script>

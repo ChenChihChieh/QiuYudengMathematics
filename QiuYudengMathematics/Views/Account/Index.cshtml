@@ -5,7 +5,7 @@
         <div class="account__search-bar--flex">
             <input @@input="onInput($event)" placeholder="請輸入姓名" type="search">
             <div class="account__btn-wrapper">
-                <a @@click="addPerson" class="blue-btn">新增</a>
+                <a @@click="addPerson()" class="blue-btn">新增</a>
             </div>
         </div>
         <div class="account__table">
@@ -178,6 +178,7 @@
             },
             hidePopUp() {
                 this.pupUpOn = false;
+                this.checkedList = [];
             },
             addPerson() {
                 this.info= {
@@ -187,6 +188,7 @@
                     Enable: true,
                     Subject: []
                 }
+                this.checkedList = []
                 this.pupUpOn = true;
             },
             clearDevice(val) {
