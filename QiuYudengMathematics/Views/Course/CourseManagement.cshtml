@@ -121,7 +121,7 @@
             <div class="popup--footer">
                 <label class="uploader" for="update-uploader" v-on:change="fileChange">
                     選擇上傳影片
-                    <input id="update-uploader" type="file" style="display: none;" accept="video/mp4,video/x-m4v,video/*">
+                    <input id="update-uploader" type="file" style="display: none;" accept="video/mov,video/mp4,video/x-m4v,video/*">
                 </label>
                 <a v-show="updateVideoInfo.isFileSelected" @@click="updateVideo" class="blue-btn">儲存</a>
             </div>
@@ -280,7 +280,6 @@ const vm = new Vue({
         submit() {
 
             if (this.info.CourseSeq === 0) {
-                data.Video = this.updateVideoInfo.file
                 //新增資料
 
                 const fd = new FormData();
@@ -290,8 +289,7 @@ const vm = new Vue({
                 fd.append('Student', null)
                 fd.append('Video', this.updateVideoInfo.file)
 
-                console.log(data)
-                axios.post('@Url.Content("~/Course/Insert")', data)
+                axios.post('@Url.Content("~/Course/Insert")', fd)
                     .then(res => {
                         alert(res.data.Msg)
                         if (res.data.Success) {
