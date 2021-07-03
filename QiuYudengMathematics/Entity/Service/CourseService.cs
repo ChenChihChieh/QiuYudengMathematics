@@ -86,15 +86,6 @@ namespace QiuYudengMathematics.Entity.Service
                         SubjectId = model.SubjectId,
                         Enable = model.Enable
                     };
-                    if (model.Student != null)
-                    {
-                        var Student = db.Student.Where(x => x.Enable).ToList();
-                        model.Student.ForEach(x =>
-                        {
-                            if (Student.Where(y => y.Account == x).Any())
-                                cv.Student.Add(Student.Where(y => y.Account == x).First());
-                        });
-                    }
                     db.CourseVideo.Add(cv);
                     rtn.Success = db.SaveChanges() > 0;
                     rtn.Msg = rtn.Success ? "新增成功" : "新增失敗";
@@ -122,16 +113,6 @@ namespace QiuYudengMathematics.Entity.Service
                         Course.CourseName = model.CourseName;
                         Course.SubjectId = model.SubjectId;
                         Course.Enable = model.Enable;
-                        Course.Student.Clear();
-                        if (model.Student != null)
-                        {
-                            var Student = db.Student.Where(x => x.Enable).ToList();
-                            model.Student.ForEach(x =>
-                            {
-                                if (Student.Where(y => y.Account == x).Any())
-                                    Course.Student.Add(Student.Where(y => y.Account == x).First());
-                            });
-                        }
                         rtn.Success = db.SaveChanges() > 0;
                         rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
                         return rtn;
@@ -163,6 +144,40 @@ namespace QiuYudengMathematics.Entity.Service
                         Course.Url = FilePath;
                         rtn.Success = db.SaveChanges() > 0;
                         rtn.Msg = "更新成功";
+                        return rtn;
+                    }
+                    else
+                        return new RtnModel() { Success = false, Msg = "查無資料" };
+                }
+            }
+            catch (Exception e)
+            {
+                logService.Insert(e);
+                return new RtnModel() { Success = false, Msg = "更新影片錯誤，請通知工程師" };
+            }
+        }
+        public RtnModel UpdateAuditionStudent(CourseManagementViewModel model)
+        {
+            try
+            {
+                RtnModel rtn = new RtnModel();
+                using (var db = new QiuYudengMathematicsEntities())
+                {
+                    var Course = db.CourseVideo.Where(x => x.CourseSeq == model.CourseSeq).FirstOrDefault();
+                    if (Course != null)
+                    {
+                        Course.Student.Clear();
+                        if (model.Student != null)
+                        {
+                            var Student = db.Student.Where(x => x.Enable).ToList();
+                            model.Student.ForEach(x =>
+                            {
+                                if (Student.Where(y => y.Account == x).Any())
+                                    Course.Student.Add(Student.Where(y => y.Account == x).First());
+                            });
+                        }
+                        rtn.Success = db.SaveChanges() > 0;
+                        rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
                         return rtn;
                     }
                     else

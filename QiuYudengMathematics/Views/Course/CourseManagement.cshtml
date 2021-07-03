@@ -85,13 +85,13 @@
                     </div>
                 </div>
                 @*<div v-show="!isInsert">
-                    <p>試聽學生</p>
-                    <div class="width200">
-                        <p v-for="(item, index) in info.Student">{{}}</p>刪除
-                        <input type="text" v-model="info.Student" disabled>
-                        <a @@click="submit" class="blue-btn">新增</a>
-                    </div>
-                </div>*@
+                        <p>試聽學生</p>
+                        <div class="width200">
+                            <p v-for="(item, index) in info.Student">{{}}</p>刪除
+                            <input type="text" v-model="info.Student" disabled>
+                            <a @@click="submit" class="blue-btn">新增</a>
+                        </div>
+                    </div>*@
                 <div v-show="isInsert">
                     <p>影片</p>
                     <input class="width200" type="text" v-model="updateVideoInfo.fileName" disabled>
@@ -306,7 +306,7 @@ const vm = new Vue({
                     Student: null,
                     CourseSeq: this.info.CourseSeq
                 }
-                
+
                     //修改資料
                 console.log(data)
                 axios.post('@Url.Content("~/Course/Update")', data)
@@ -334,52 +334,59 @@ const vm = new Vue({
 </script>
 
 <script type="text/javascript">
-        function Query() {
-            var aa = null; //這是條件，帶科目(查詢所有就放Null)
-            $.post("@(Url.Content("~/Course/Query?SubjectId="))" + aa, function (x) {
-                alert(x.Data[0].CourseName);
-            });
-        };
+    function Query() {
+        var aa = null; //這是條件，帶科目(查詢所有就放Null)
+        $.post("@(Url.Content("~/Course/Query?SubjectId="))" + aa, function (x) {
+            alert(x.Data[0].CourseName);
+        });
+    };
 
-        function SingleQuery() {
-            //查單一影片，放影片Seq
-            $.post("@(Url.Content("~/Course/SingleQuery?Seq="))" + 1, function (x) {
-                alert(x.Data.CourseName);
-            });
-        };
+    function SingleQuery() {
+        //查單一影片，放影片Seq
+        $.post("@(Url.Content("~/Course/SingleQuery?Seq="))" + 1, function (x) {
+            alert(x.Data.CourseName);
+        });
+    };
 
-        function Insert() {
-            var data = {
-                CourseName: 'Test2',
-                Video: '', //放影片，後端會檢查是否為mp4，前端檢查是否有上傳
-                SubjectId: 2,
-                Enable: false,
-                Student: ['000003'] //影片個別放沒有購買課程的學生,沒設定就放Null
-            };
-            $.post("@(Url.Content("~/Course/Insert"))", data, function (x) {
-                alert(x.Msg);
-            });
+    function Insert() {
+        var data = {
+            CourseName: 'Test2',
+            Video: '', //放影片，後端會檢查是否為mp4，前端檢查是否有上傳
+            SubjectId: 2,
+            Enable: false
         };
+        $.post("@(Url.Content("~/Course/Insert"))", data, function (x) {
+            alert(x.Msg);
+        });
+    };
 
-        function Update() {
-            var data = {
-                CourseSeq: 1,
-                CourseName: 'TestTwo',
-                SubjectId: 2,
-                Enable: true,
-                Student: null //影片個別放沒有購買課程的學生,沒設定就放Null
-            };
-            $.post("@(Url.Content("~/Course/Update"))", data, function (x) {
-                alert(x.Msg);
-            });
+    function Update() {
+        var data = {
+            CourseSeq: 1,
+            CourseName: 'TestTwo',
+            SubjectId: 2,
+            Enable: true
         };
-        function UpdateVideo() {
-            var data = {
-                CourseSeq: 1,
-                Video: '', //放影片，後端會檢查是否為mp4，前端檢查是否有上傳
-            };
-            $.post("@(Url.Content("~/Course/UpdateVideo"))", data, function (x) {
-                alert(x.Msg);
-            });
+        $.post("@(Url.Content("~/Course/Update"))", data, function (x) {
+            alert(x.Msg);
+        });
+    };
+    function UpdateVideo() {
+        var data = {
+            CourseSeq: 1,
+            Video: '', //放影片，後端會檢查是否為mp4，前端檢查是否有上傳
         };
+        $.post("@(Url.Content("~/Course/UpdateVideo"))", data, function (x) {
+            alert(x.Msg);
+        });
+    };
+    function UpdateAuditionStudent() {
+        var data = {
+            CourseSeq: 1,
+            Student: ['000003'] //影片個別放沒有購買課程的學生,沒設定就放Null
+        };
+        $.post("@(Url.Content("~/Course/UpdateAuditionStudent"))", data, function (x) {
+            alert(x.Msg);
+        });
+    };
 </script>

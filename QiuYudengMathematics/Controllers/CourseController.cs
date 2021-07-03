@@ -30,6 +30,7 @@ namespace QiuYudengMathematics.Controllers
         public ActionResult Insert(CourseManagementViewModel model) => Json(courseService.Insert(model), JsonRequestBehavior.AllowGet);
         public ActionResult Update(CourseManagementViewModel model) => Json(courseService.Update(model), JsonRequestBehavior.AllowGet);
         public ActionResult UpdateVideo(CourseManagementViewModel model) => Json(courseService.UpdateVideo(model), JsonRequestBehavior.AllowGet);
+        public ActionResult UpdateAuditionStudent(CourseManagementViewModel model) => Json(courseService.UpdateAuditionStudent(model), JsonRequestBehavior.AllowGet);
         #endregion
 
         #region 課程
