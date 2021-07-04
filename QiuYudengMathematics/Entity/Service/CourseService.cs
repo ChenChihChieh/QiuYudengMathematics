@@ -161,6 +161,7 @@ namespace QiuYudengMathematics.Entity.Service
             try
             {
                 RtnModel rtn = new RtnModel();
+                List<string> NoStudentData = new List<string>();
                 using (var db = new QiuYudengMathematicsEntities())
                 {
                     var Course = db.CourseVideo.Where(x => x.CourseSeq == model.CourseSeq).FirstOrDefault();
@@ -174,10 +175,13 @@ namespace QiuYudengMathematics.Entity.Service
                             {
                                 if (Student.Where(y => y.Account == x).Any())
                                     Course.Student.Add(Student.Where(y => y.Account == x).First());
+                                else
+                                    NoStudentData.Add(x);
                             });
                         }
-                        rtn.Success = db.SaveChanges() > 0;
-                        rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
+                        db.SaveChanges();
+                        rtn.Success = true;
+                        rtn.Msg = "更新成功" + (NoStudentData.Count == 0 ? string.Empty : string.Format("\r\n{0},帳號無資料，不新增。", string.Join(",", NoStudentData)));
                         return rtn;
                     }
                     else
