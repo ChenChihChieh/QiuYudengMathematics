@@ -73,9 +73,9 @@
     border: 5px;
 }
 
-    .course-management__grade-btn:hover {
-        cursor: pointer;
-    }
+.course-management__grade-btn:hover {
+    cursor: pointer;
+}
 
 .uploader {
     font-size: 14px;

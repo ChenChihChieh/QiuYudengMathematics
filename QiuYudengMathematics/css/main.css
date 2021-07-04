@@ -190,7 +190,24 @@ a.red-btn {
     .popup--body div:not(:last-child) {
         padding-bottom: 6px;
     }
-
+.popup--body ul {
+    display: flex;
+    flex-flow: row wrap;
+}
+    .popup--body ul li {
+        list-style: none;
+        margin-right: 7px;
+        margin-bottom: 5px;
+        border: 1px solid #caf0f8;
+        background-color: #0096c7;
+        color: #fff;
+        border-radius: 5px;
+        padding: 1px;
+    }
+.popup--body ul li i{
+    padding:0 3px;
+    cursor:pointer;
+}
 .popup--body P {
     margin-right: 10px;
 }
@@ -198,6 +215,14 @@ a.red-btn {
 .popup--footer {
     align-self: flex-end;
 }
+.popup-body__single-input {
+    display: inline-block;
+}
+.popup-body__single-input input {
+    margin-right: 10px;
+    height: 36px;
+}
+
 /*pagenation*/
 .pagenation {
     text-align: center;
