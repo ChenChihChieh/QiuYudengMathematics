@@ -5,6 +5,12 @@
 <br />
 <br />
 <div>@(Model.CourseName)</div>
-<video controls controlsList="nodownload">
-    <source src="@(Url.Content("~/Course/GetVideo?SeqId=") + Model.CourseSeq)" type="video/mp4" />
-</video>
+<video id="VIdeo" controls controlsList="nodownload"></video>
+
+<script>
+    $(document).ready(function () {
+        $.post("@(Url.Content("~/Course/GetVideo?SeqId=") + Model.CourseSeq)", function (x) {
+            document.getElementById("VIdeo").src = x.Data;
+        });
+    });
+</script>

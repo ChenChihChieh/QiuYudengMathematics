@@ -71,30 +71,7 @@ namespace QiuYudengMathematics.Controllers
                 return RedirectToAction("Index", "Home");
             return View(CourseVideo);
         }
-        public ActionResult GetVideo(int SeqId)
-        {
-            try
-            {
-                var CourseVideo = courseService.SingleQuery(SeqId);
-                var FilePath = ConfigurationManager.AppSettings["VideoPath"].ToString() + CourseVideo.Url;
-                if (System.IO.File.Exists(FilePath))
-                {
-                    var file = new FileInfo(CourseVideo.Url);
-
-                    Response.Headers.Add("Last-Modified", file.LastWriteTime.ToUniversalTime().ToString("R"));
-                    Response.Headers.Add("Accept-Ranges", "bytes");
-
-                    return File(FilePath, "video/mp4");
-                }
-                else
-                    throw new Exception(string.Format("Course:{0},查無檔案路徑:{1}", CourseVideo.CourseSeq, CourseVideo.Url));
-            }
-            catch (Exception e)
-            {
-                logService.Insert(e);
-                return Content("檔案讀取發生錯誤");
-            }
-        }
+        public ActionResult GetVideo(int SeqId) => Json(new RtnModel() { Data = ConfigurationManager.AppSettings["VideoUrl"].ToString() + courseService.SingleQuery(SeqId).Url }, JsonRequestBehavior.AllowGet);
         #endregion
     }
 }
