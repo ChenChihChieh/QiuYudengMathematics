@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Seq" />
           </Key>
-          <Property Name="Seq" Type="int" Nullable="false" />
+          <Property Name="Seq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="BulletinBoardSeq" Type="int" Nullable="false" />
           <Property Name="Account" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -18,7 +18,7 @@
           <Key>
             <PropertyRef Name="Seq" />
           </Key>
-          <Property Name="Seq" Type="int" Nullable="false" />
+          <Property Name="Seq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CommentSeq" Type="int" Nullable="false" />
           <Property Name="Account" Type="varchar" MaxLength="10" Nullable="false" />
           <Property Name="Comment" Type="nvarchar" MaxLength="100" Nullable="false" />
@@ -568,7 +568,7 @@
           <Key>
             <PropertyRef Name="Seq" />
           </Key>
-          <Property Name="Seq" Type="Int32" Nullable="false" />
+          <Property Name="Seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="BulletinBoardSeq" Type="Int32" Nullable="false" />
           <Property Name="Account" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
@@ -579,7 +579,7 @@
           <Key>
             <PropertyRef Name="Seq" />
           </Key>
-          <Property Name="Seq" Type="Int32" Nullable="false" />
+          <Property Name="Seq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CommentSeq" Type="Int32" Nullable="false" />
           <Property Name="Account" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />

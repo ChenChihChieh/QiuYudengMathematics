@@ -38,7 +38,6 @@
         var data = {
             Seq: 1, //Sub ? 主留言 Seq : 公佈欄 BulletinBoardSeq
             Commentary: '安安你好' //留言
-
         };
         var Url = Sub ? "@(Url.Content("~/Home/InsertComment"))" : "@(Url.Content("~/Home/InsertComment"))";
         $.post(Url, data, function (x) {
