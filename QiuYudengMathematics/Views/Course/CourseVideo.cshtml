@@ -4,13 +4,14 @@
 <br />
 <br />
 <br />
-<div>@(Model.CourseName)</div>
-<video id="VIdeo" controls controlsList="nodownload"></video>
-
-<script>
-    $(document).ready(function () {
-        $.post("@(Url.Content("~/Course/GetVideo?SeqId=") + Model.CourseSeq)", function (x) {
-            document.getElementById("VIdeo").src = x.Data;
-        });
-    });
-</script>
+<div style="text-align:center;">
+    <video controls controlsList="nodownload">
+        <source src="@Model.Url" type="video/mp4" />
+    </video>
+    <div>
+        @using (Html.BeginForm("CourseLearn", "Course", new { SubjectId = Model.SubjectId }, FormMethod.Post, null))
+        {
+            <input type="submit" class="btn btn-primary" value="回清單" />
+        }
+    </div>
+</div>

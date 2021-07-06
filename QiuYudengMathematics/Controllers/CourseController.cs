@@ -69,9 +69,9 @@ namespace QiuYudengMathematics.Controllers
             if (!WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment && x.ID == CourseVideo.SubjectId).Any() &&
                !CourseVideo.Student.Contains(WebSiteComm.CurrentUserAccount))
                 return RedirectToAction("Index", "Home");
+            CourseVideo.Url = ConfigurationManager.AppSettings["VideoUrl"].ToString() + CourseVideo.Url;
             return View(CourseVideo);
         }
-        public ActionResult GetVideo(int SeqId) => Json(new RtnModel() { Data = ConfigurationManager.AppSettings["VideoUrl"].ToString() + courseService.SingleQuery(SeqId).Url }, JsonRequestBehavior.AllowGet);
         #endregion
     }
 }
