@@ -172,6 +172,7 @@
     </Compile>
     <Compile Include="Entity\Service\AccountService.cs" />
     <Compile Include="Entity\Service\BulletinBoardService.cs" />
+    <Compile Include="Entity\Service\CommentService.cs" />
     <Compile Include="Entity\Service\CourseService.cs" />
     <Compile Include="Entity\Service\DeviceService.cs" />
     <Compile Include="Entity\Service\LogService.cs" />
@@ -194,6 +195,7 @@
     </Compile>
     <Compile Include="Models\AccountModel.cs" />
     <Compile Include="Models\BulletinBoardModel.cs" />
+    <Compile Include="Models\CommentModel.cs" />
     <Compile Include="Models\CourseModel.cs" />
     <Compile Include="Models\LoginModel.cs" />
     <Compile Include="Models\RtnModel.cs" />

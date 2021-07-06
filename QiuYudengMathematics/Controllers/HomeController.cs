@@ -11,9 +11,11 @@ namespace QiuYudengMathematics.Controllers
     public class HomeController : Controller
     {
         private readonly BulletinBoardService bulletinBoardService;
+        private readonly CommentService commentService;
         public HomeController()
         {
             bulletinBoardService = new BulletinBoardService();
+            commentService = new CommentService();
         }
         public ActionResult Index() => View();
         public ActionResult QueryBulletinBoard()
@@ -27,5 +29,7 @@ namespace QiuYudengMathematics.Controllers
                 Data = bulletinBoardService.Query(model)
             }, JsonRequestBehavior.AllowGet);
         }
+        public ActionResult InsertComment(CommentModel model) => Json(commentService.InsertComment(model), JsonRequestBehavior.AllowGet);
+        public ActionResult InsertSubComment(CommentModel model) => Json(commentService.InsertSubComment(model), JsonRequestBehavior.AllowGet);
     }
 }
