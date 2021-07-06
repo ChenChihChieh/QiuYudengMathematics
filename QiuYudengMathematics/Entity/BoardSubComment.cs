@@ -12,19 +12,13 @@ namespace QiuYudengMathematics.Entity
     using System;
     using System.Collections.Generic;
     
-    public partial class BulletinBoard
+    public partial class BoardSubComment
     {
-        public BulletinBoard()
-        {
-            this.BoardComment = new HashSet<BoardComment>();
-        }
+        public int Seq { get; set; }
+        public int CommentSeq { get; set; }
+        public string Account { get; set; }
+        public string Comment { get; set; }
     
-        public int BulletinBoardSeq { get; set; }
-        public string Content { get; set; }
-        public int SubjectId { get; set; }
-        public bool Enable { get; set; }
-    
-        public virtual GroupGradeSubject GroupGradeSubject { get; set; }
-        public virtual ICollection<BoardComment> BoardComment { get; set; }
+        public virtual BoardComment BoardComment { get; set; }
     }
 }

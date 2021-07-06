@@ -22,6 +22,10 @@
         <AssociationConnector Association="QiuYudengMathematicsModel.GroupCourseStudent" />
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.BulletinBoard" Width="1.5" PointX="5.25" PointY="9.5" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.BoardComment" Width="1.5" PointX="7.5" PointY="9.5" />
+        <EntityTypeShape EntityType="QiuYudengMathematicsModel.BoardSubComment" Width="1.5" PointX="9.75" PointY="9.625" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.FK_BoardComment_BulletinBoard" />
+        <AssociationConnector Association="QiuYudengMathematicsModel.FK_BoardSubComment_BoardComment" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
