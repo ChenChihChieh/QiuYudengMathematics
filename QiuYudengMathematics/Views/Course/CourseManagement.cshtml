@@ -32,7 +32,7 @@
                 </div>
                 <div class="course-management__td">
                     <a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a>
-                    <a @@click.prevent="showViedoPopUp(item.CourseSeq, item.Url)"><i class="fas fa-film"></i></a>
+                    @*<a @@click.prevent="showViedoPopUp(item.CourseSeq, item.Url)"><i class="fas fa-film"></i></a>*@
                     <a @@click.prevent="showTrialPopUp(item.CourseSeq, item.Student)"><i class="fas fa-user"></i></a>
                 </div>
             </div>
@@ -84,21 +84,24 @@
                         </div>
                     </div>
                 </div>
-                <div v-show="isInsert">
-                    <p>影片</p>
-                    <input class="width200" type="text" placeholder="請輸入影片名稱" v-model="updateVideoInfo.fileName" disabled>
+                <div>
+                    <p>片名</p>
+                    <input class="width200" type="text" placeholder="請輸入影片名稱" v-model="info.Url">
                 </div>
             </div>
-            @*<div class="popup--footer">
-                <label v-show="isInsert" class="uploader" for="insert-uploader" v-on:change="fileChange">
-                    選擇上傳影片
-                    <input id="insert-uploader" type="file" style="display: none;" accept="video/mp4,video/x-m4v,video/*">
-                </label>
+            <div class="popup--footer">
                 <a @@click="submit" class="blue-btn">儲存</a>
-            </div>*@
+            </div>
+            @*<div class="popup--footer">
+            <label v-show="isInsert" class="uploader" for="insert-uploader" v-on:change="fileChange">
+                選擇上傳影片
+                <input id="insert-uploader" type="file" style="display: none;" accept="video/mp4,video/x-m4v,video/*">
+            </label>
+            <a @@click="submit" class="blue-btn">儲存</a>
+        </div>*@
         </div>
     </div>
-    <div v-show="viedoPupUpOn" class="popup--wrapper">
+    <!--<div v-show="viedoPupUpOn" class="popup--wrapper">
         <div class="popup">
             <div class="popup--heading">
                 <span>更新影片</span>
@@ -106,19 +109,22 @@
             </div>
             <div class="popup--body">
                 <div>
-                    <p>影片</p>
-                    <input class="width200" type="text" placeholder="請輸入影片名稱" v-model="updateVideoInfo.fileName" disabled>
+                    <p>片名</p>
+                    <input class="width200" type="text" placeholder="請輸入影片名稱" v-model="updateVideoInfo.fileName">
                 </div>
             </div>
+            <div class="popup--footer">
+                <a @@click="submit" class="blue-btn">儲存</a>
+            </div>-->
             @*<div class="popup--footer">
-                <label class="uploader" for="update-uploader" v-on:change="fileChange">
-                    選擇上傳影片
-                    <input id="update-uploader" type="file" style="display: none;" accept="video/mov,video/mp4,video/x-m4v,video/*">
-                </label>
-                <a v-show="updateVideoInfo.isFileSelected" @@click="updateVideo" class="blue-btn">儲存</a>
-            </div>*@
-        </div>
-    </div>
+            <label class="uploader" for="update-uploader" v-on:change="fileChange">
+                選擇上傳影片
+                <input id="update-uploader" type="file" style="display: none;" accept="video/mov,video/mp4,video/x-m4v,video/*">
+            </label>
+            <a v-show="updateVideoInfo.isFileSelected" @@click="updateVideo" class="blue-btn">儲存</a>
+        </div>*@
+        <!--</div>
+    </div>-->
     <div v-show="trialListPupUpOn" class="popup--wrapper">
         <div class="popup">
             <div class="popup--heading">
@@ -167,7 +173,7 @@ const vm = new Vue({
             //isFileSelected: false
         },
         pupUpOn: false,
-        viedoPupUpOn: false,
+        //viedoPupUpOn: false,
         trialListPupUpOn: false,
         isInsert: false,
         allSubjectList:[],
@@ -248,7 +254,7 @@ const vm = new Vue({
                 .finally(() => { this.pupUpOn = true; })
         },
         showViedoPopUp(seq, url) {
-            this.viedoPupUpOn = true;
+            //this.viedoPupUpOn = true;
             this.updateVideoInfo.Seq = seq;
             this.updateVideoInfo.fileName = url;
         },
@@ -259,10 +265,10 @@ const vm = new Vue({
         },
         hidePopUp() {
             this.pupUpOn = false;
-            this.viedoPupUpOn = false;
+            //this.viedoPupUpOn = false;
             this.trialListPupUpOn = false;
-            this.isInsert = false;
-            this.resetupdateVideoInfo();
+            //this.isInsert = false;
+            //this.resetupdateVideoInfo();
 
         },
         addTrialStudent() {
@@ -278,21 +284,21 @@ const vm = new Vue({
         removeTrialStudent(index) {
             this.updateTrialList.trialList.splice(index, 1);
         },
-        fileChange(e) {
-            //let { fileName, file, isFileSelected } = this.updateVideoInfo
-            if (e.target.files[0]) {
-                this.updateVideoInfo.fileName = e.target.files[0].name;
-                this.updateVideoInfo.file = e.target.files[0];
-                this.updateVideoInfo.isFileSelected = true;
-            } else {
-                this.resetupdateVideoInfo();
-            }
-        },
+        //fileChange(e) {
+        //    //let { fileName, file, isFileSelected } = this.updateVideoInfo
+        //    if (e.target.files[0]) {
+        //        this.updateVideoInfo.fileName = e.target.files[0].name;
+        //        this.updateVideoInfo.file = e.target.files[0];
+        //        this.updateVideoInfo.isFileSelected = true;
+        //    } else {
+        //        this.resetupdateVideoInfo();
+        //    }
+        //},
         resetupdateVideoInfo() {
             //let { fileName, file, isFileSelected } = this.updateVideoInfo
             //this.updateVideoInfo.isFileSelected = false;
             this.updateVideoInfo.fileName = '';
-            this.updateVideoInfo.file = '';
+            //this.updateVideoInfo.file = '';
         },
         addCourse() {
             this.isInsert = true;
@@ -300,20 +306,20 @@ const vm = new Vue({
             this.info = {
                 CourseSeq: 0,
                 CourseName: '',
-                Video: '',
+                Url: '',
                 SubjectId: '',
                 Grade: '1',
-                Enable: true,
-                //Student: []
+                Enable: true
             }
             this.pupUpOn = true;
         },
-        updateVideo() {
-            const fd = new FormData();
-            fd.append('CourseSeq', this.updateVideoInfo.Seq)
-            fd.append('Video', this.updateVideoInfo.file)
+        @*updateVideo() {
+            let data = {
+                CourseSeq: this.updateVideoInfo.Seq,
+                Url: this.updateVideoInfo.fileName
+            }
 
-            axios.post('@Url.Content("~/Course/UpdateVideo")', fd)
+            axios.post('@Url.Content("~/Course/UpdateVideo")', data)
                 .then(res => {
                     console.log(res)
                     alert(res.data.Msg)
@@ -321,7 +327,7 @@ const vm = new Vue({
                         location.reload();
                     };
                 });
-        },
+        },*@
         updateTrialStudentList() {
             let data = {
                 CourseSeq : this.updateTrialList.seq,
@@ -336,16 +342,19 @@ const vm = new Vue({
                 });
         },
         submit() {
+            let data = {
+                CourseName: this.info.CourseName,
+                SubjectId: parseInt(this.info.SubjectId),
+                Enable: this.info.Enable,
+                CourseSeq: this.info.CourseSeq,
+                Url: this.info.Url
+            }
+
             if (this.info.CourseSeq === 0) {
                 //新增資料
-                const fd = new FormData();
-                fd.append('CourseName', this.info.CourseName)
-                fd.append('SubjectId', parseInt(this.info.SubjectId))
-                fd.append('Enable', this.info.Enable)
-                //fd.append('Student', null)
-                fd.append('Video', this.updateVideoInfo.file)
+                data.Url = this.updateVideoInfo.fileName
 
-                axios.post('@Url.Content("~/Course/Insert")', fd)
+                axios.post('@Url.Content("~/Course/Insert")', data)
                     .then(res => {
                         alert(res.data.Msg)
                         if (res.data.Success) {
@@ -354,14 +363,6 @@ const vm = new Vue({
                     });
             } else {
                 //修改資料
-                let data = {
-                    CourseName: this.info.CourseName,
-                    SubjectId: parseInt(this.info.SubjectId),
-                    Enable: this.info.Enable,
-                    //Student: null,
-                    CourseSeq: this.info.CourseSeq
-                }
-
                 axios.post('@Url.Content("~/Course/Update")', data)
                     .then(res => {
                         alert(res.data.Msg)

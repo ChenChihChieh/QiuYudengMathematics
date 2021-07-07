@@ -5,13 +5,14 @@
 <br />
 <br />
 <div style="text-align:center;">
-    <video controls controlsList="nodownload">
-        <source src="@Model.Url" type="video/mp4" />
-    </video>
-    <div>
+    @*<div style="display: flex;justify-content: flex-start; margin-left: 20px;">
         @using (Html.BeginForm("CourseLearn", "Course", new { SubjectId = Model.SubjectId }, FormMethod.Post, null))
         {
-            <input type="submit" class="btn btn-primary" value="返回" />
+            <input type="submit" class="btn btn-primary" value="回到課程清單" />
         }
-    </div>
+    </div>*@
+    <video style="width:80%;" controls controlsList="nodownload">
+        <source src="@Model.Url" type="video/mp4" />
+    </video>
+
 </div>
