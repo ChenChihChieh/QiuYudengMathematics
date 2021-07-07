@@ -352,7 +352,6 @@ const vm = new Vue({
 
             if (this.info.CourseSeq === 0) {
                 //新增資料
-                data.Url = this.updateVideoInfo.fileName
 
                 axios.post('@Url.Content("~/Course/Insert")', data)
                     .then(res => {

@@ -115,11 +115,11 @@
                 Grade: null,
                 Enable: null
             }
-            axios.post('@Url.Content("/Account/GetGradeSubject")')
+            axios.post('@Url.Content("~/Account/GetGradeSubject")')
                 .then(res => {
                     this.allSubjectList = res.data.Data
                 });
-            axios.post('@Url.Content("/Account/Query")', data)
+            axios.post('@Url.Content("~/Account/Query")', data)
                 .then(res => {
                     this.rawList = res.data.Data;
                     this.curList = this.rawList
@@ -164,7 +164,7 @@
                 
             },
             showPopUp(val) {
-                axios.post('@Url.Content("/Account/SingleQuery?Id=")' + `${val}`)
+                axios.post('@Url.Content("~/Account/SingleQuery?Id=")' + `${val}`)
                     .then(res => {
                         this.info.Account = res.data.Data.Account
                         this.info.Name = res.data.Data.Name
@@ -192,7 +192,7 @@
                 this.pupUpOn = true;
             },
             clearDevice(val) {
-                axios.post('@Url.Content("/Account/DeleteDevice?Id=")' + `${val}`)
+                axios.post('@Url.Content("~/Account/DeleteDevice?Id=")' + `${val}`)
                     .then(res => {
                         alert(res.data.Msg);
                         if (res.data.Success)
@@ -200,7 +200,7 @@
                     });
             },
             pwdReset(val) {
-                axios.post('@Url.Content("/Account/PwdReset?Id=")' + `${val}`)
+                axios.post('@Url.Content("~/Account/PwdReset?Id=")' + `${val}`)
                     .then(res => {
                         alert(res.data.Msg);
                         if (res.data.Success)
@@ -221,7 +221,7 @@
                     data.Account = this.info.Account
 
                     console.log(data)
-                    axios.post('@Url.Content("/Account/Update")', data)
+                    axios.post('@Url.Content("~/Account/Update")', data)
                         .then(res => {
                             alert(res.data.Msg)
                             if (res.data.Success) {
@@ -231,7 +231,7 @@
                 } else {
                     //新增學生資料
                     console.log(data)
-                    axios.post('@Url.Content("/Account/Insert")', data)
+                    axios.post('@Url.Content("~/Account/Insert")', data)
                         .then(res => {
                             alert(res.data.Msg)
                             if (res.data.Success) {
