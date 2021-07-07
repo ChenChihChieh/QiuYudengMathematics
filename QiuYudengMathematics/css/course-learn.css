@@ -20,7 +20,14 @@
     background-size: 30px;
     background-repeat: no-repeat;
 }
-.course-learn__list {
+.course-learn__item {
+    width:500px;
+}
+    .course-learn__item:hover {
+        transform: scale(1.1);
+        transition: .5s;
+    }
+/*.course-learn__list {
     display: flex;
     flex-flow: row wrap;
     justify-content:space-between;
@@ -46,4 +53,4 @@
     vertical-align: top;
     word-break: break-all;
     margin: 5px 0 5px 5px;
-}
+}*/

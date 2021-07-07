@@ -86,16 +86,16 @@
                 </div>
                 <div v-show="isInsert">
                     <p>影片</p>
-                    <input class="width200" type="text" v-model="updateVideoInfo.fileName" disabled>
+                    <input class="width200" type="text" placeholder="請輸入影片名稱" v-model="updateVideoInfo.fileName" disabled>
                 </div>
             </div>
-            <div class="popup--footer">
+            @*<div class="popup--footer">
                 <label v-show="isInsert" class="uploader" for="insert-uploader" v-on:change="fileChange">
                     選擇上傳影片
                     <input id="insert-uploader" type="file" style="display: none;" accept="video/mp4,video/x-m4v,video/*">
                 </label>
                 <a @@click="submit" class="blue-btn">儲存</a>
-            </div>
+            </div>*@
         </div>
     </div>
     <div v-show="viedoPupUpOn" class="popup--wrapper">
@@ -107,16 +107,16 @@
             <div class="popup--body">
                 <div>
                     <p>影片</p>
-                    <input class="width200" type="text" v-model="updateVideoInfo.fileName" disabled>
+                    <input class="width200" type="text" placeholder="請輸入影片名稱" v-model="updateVideoInfo.fileName" disabled>
                 </div>
             </div>
-            <div class="popup--footer">
+            @*<div class="popup--footer">
                 <label class="uploader" for="update-uploader" v-on:change="fileChange">
                     選擇上傳影片
                     <input id="update-uploader" type="file" style="display: none;" accept="video/mov,video/mp4,video/x-m4v,video/*">
                 </label>
                 <a v-show="updateVideoInfo.isFileSelected" @@click="updateVideo" class="blue-btn">儲存</a>
-            </div>
+            </div>*@
         </div>
     </div>
     <div v-show="trialListPupUpOn" class="popup--wrapper">
@@ -163,8 +163,8 @@ const vm = new Vue({
         updateVideoInfo: {
             fileName: '',
             Seq : 0,
-            file: '',
-            isFileSelected: false
+            //file: '',
+            //isFileSelected: false
         },
         pupUpOn: false,
         viedoPupUpOn: false,
@@ -290,7 +290,7 @@ const vm = new Vue({
         },
         resetupdateVideoInfo() {
             //let { fileName, file, isFileSelected } = this.updateVideoInfo
-            this.updateVideoInfo.isFileSelected = false;
+            //this.updateVideoInfo.isFileSelected = false;
             this.updateVideoInfo.fileName = '';
             this.updateVideoInfo.file = '';
         },
