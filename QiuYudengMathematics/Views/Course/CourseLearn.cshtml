@@ -5,7 +5,7 @@
         </div>
         <div class="course-learn__list">
             <div class="course-learn__item" v-for="item in eachPageList" :key="item.CourseSeq">
-                <a :href="'/Course/CourseVideo?SeqId='+`${item.CourseSeq}`" >
+                <a :href="'@(Url.Content("~/Course/CourseVideo?SeqId="))'+`${item.CourseSeq}`" >
                     @*<img class="course-thumbnail" />*@
                     <h3>{{item.CourseName}}</h3>
                 </a>
