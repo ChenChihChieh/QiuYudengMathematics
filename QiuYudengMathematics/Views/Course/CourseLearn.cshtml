@@ -76,10 +76,10 @@ const vm = new Vue({
             return this.currPage == 1 || this.currPage == this.totalPageCount ?
                 Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
         },
-        courseUrl(seq) {
-            let url = new URL(window.location.origin)
-            return url+'/Course/CourseVideo?SeqId='+seq
-        }
+        //courseUrl(seq) {
+        //    let url = new URL(window.location.origin)
+        //    return url+'/Course/CourseVideo?SeqId='+seq
+        //}
     }
 
 })
