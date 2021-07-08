@@ -17,6 +17,7 @@ namespace QiuYudengMathematics.Entity
         public CourseVideo()
         {
             this.Student = new HashSet<Student>();
+            this.CourseVIdeoProgress = new HashSet<CourseVIdeoProgress>();
         }
     
         public int CourseSeq { get; set; }
@@ -27,5 +28,6 @@ namespace QiuYudengMathematics.Entity
     
         public virtual GroupGradeSubject GroupGradeSubject { get; set; }
         public virtual ICollection<Student> Student { get; set; }
+        public virtual ICollection<CourseVIdeoProgress> CourseVIdeoProgress { get; set; }
     }
 }

@@ -42,6 +42,15 @@
           <Property Name="SubjectId" Type="int" Nullable="false" />
           <Property Name="Enable" Type="bit" Nullable="false" />
         </EntityType>
+        <EntityType Name="CourseVIdeoProgress">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="CourseSeq" />
+          </Key>
+          <Property Name="Account" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="CourseSeq" Type="int" Nullable="false" />
+          <Property Name="Progress" Type="decimal" Precision="18" Scale="2" Nullable="false" />
+        </EntityType>
         <EntityType Name="GroupCourseStudent">
           <Key>
             <PropertyRef Name="CourseSeq" />
@@ -169,6 +178,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_CourseVIdeoProgress_CourseVideo">
+          <End Role="CourseVideo" Type="Self.CourseVideo" Multiplicity="1" />
+          <End Role="CourseVIdeoProgress" Type="Self.CourseVIdeoProgress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseVideo">
+              <PropertyRef Name="CourseSeq" />
+            </Principal>
+            <Dependent Role="CourseVIdeoProgress">
+              <PropertyRef Name="CourseSeq" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseVIdeoProgress_Student">
+          <End Role="Student" Type="Self.Student" Multiplicity="1" />
+          <End Role="CourseVIdeoProgress" Type="Self.CourseVIdeoProgress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="CourseVIdeoProgress">
+              <PropertyRef Name="Account" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_GroupCourseStudent_CourseVideo">
           <End Role="CourseVideo" Type="Self.CourseVideo" Multiplicity="1" />
           <End Role="GroupCourseStudent" Type="Self.GroupCourseStudent" Multiplicity="*" />
@@ -270,6 +303,7 @@
           <EntitySet Name="BoardSubComment" EntityType="Self.BoardSubComment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BulletinBoard" EntityType="Self.BulletinBoard" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="CourseVideo" EntityType="Self.CourseVideo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="CourseVIdeoProgress" EntityType="Self.CourseVIdeoProgress" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupCourseStudent" EntityType="Self.GroupCourseStudent" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGrade" EntityType="Self.GroupGrade" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="GroupGradeSubject" EntityType="Self.GroupGradeSubject" Schema="dbo" store:Type="Tables" />
@@ -294,6 +328,14 @@
           <AssociationSet Name="FK_CourseVideo_GroupGradeSubject" Association="Self.FK_CourseVideo_GroupGradeSubject">
             <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
             <End Role="CourseVideo" EntitySet="CourseVideo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseVIdeoProgress_CourseVideo" Association="Self.FK_CourseVIdeoProgress_CourseVideo">
+            <End Role="CourseVideo" EntitySet="CourseVideo" />
+            <End Role="CourseVIdeoProgress" EntitySet="CourseVIdeoProgress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseVIdeoProgress_Student" Association="Self.FK_CourseVIdeoProgress_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="CourseVIdeoProgress" EntitySet="CourseVIdeoProgress" />
           </AssociationSet>
           <AssociationSet Name="FK_GroupCourseStudent_CourseVideo" Association="Self.FK_GroupCourseStudent_CourseVideo">
             <End Role="CourseVideo" EntitySet="CourseVideo" />
@@ -384,6 +426,15 @@
             <End Role="BoardComment" EntitySet="BoardComment" />
             <End Role="BoardSubComment" EntitySet="BoardSubComment" />
           </AssociationSet>
+          <EntitySet Name="CourseVIdeoProgress" EntityType="QiuYudengMathematicsModel.CourseVIdeoProgress" />
+          <AssociationSet Name="FK_CourseVIdeoProgress_CourseVideo" Association="QiuYudengMathematicsModel.FK_CourseVIdeoProgress_CourseVideo">
+            <End Role="CourseVideo" EntitySet="CourseVideo" />
+            <End Role="CourseVIdeoProgress" EntitySet="CourseVIdeoProgress" />
+          </AssociationSet>
+          <AssociationSet Name="FK_CourseVIdeoProgress_Student" Association="QiuYudengMathematicsModel.FK_CourseVIdeoProgress_Student">
+            <End Role="Student" EntitySet="Student" />
+            <End Role="CourseVIdeoProgress" EntitySet="CourseVIdeoProgress" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="GroupGrade">
           <Key>
@@ -423,6 +474,7 @@
           <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.StudentSubject" FromRole="Student" ToRole="GroupGradeSubject" />
           <NavigationProperty Name="StudentDevice" Relationship="QiuYudengMathematicsModel.FK_StudentDevice_Student" FromRole="Student" ToRole="StudentDevice" />
           <NavigationProperty Name="CourseVideo" Relationship="QiuYudengMathematicsModel.GroupCourseStudent" FromRole="Student" ToRole="CourseVideo" />
+          <NavigationProperty Name="CourseVIdeoProgress" Relationship="QiuYudengMathematicsModel.FK_CourseVIdeoProgress_Student" FromRole="Student" ToRole="CourseVIdeoProgress" />
         </EntityType>
         <EntityType Name="StudentPosition">
           <Key>
@@ -524,6 +576,7 @@
           <Property Name="Enable" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.FK_CourseVideo_GroupGradeSubject" FromRole="CourseVideo" ToRole="GroupGradeSubject" />
           <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.GroupCourseStudent" FromRole="CourseVideo" ToRole="Student" />
+          <NavigationProperty Name="CourseVIdeoProgress" Relationship="QiuYudengMathematicsModel.FK_CourseVIdeoProgress_CourseVideo" FromRole="CourseVideo" ToRole="CourseVIdeoProgress" />
         </EntityType>
         <Association Name="FK_CourseVideo_GroupGradeSubject">
           <End Type="QiuYudengMathematicsModel.GroupGradeSubject" Role="GroupGradeSubject" Multiplicity="1" />
@@ -606,6 +659,41 @@
             </Principal>
             <Dependent Role="BoardSubComment">
               <PropertyRef Name="CommentSeq" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="CourseVIdeoProgress">
+          <Key>
+            <PropertyRef Name="Account" />
+            <PropertyRef Name="CourseSeq" />
+          </Key>
+          <Property Name="Account" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="CourseSeq" Type="Int32" Nullable="false" />
+          <Property Name="Progress" Type="Decimal" Nullable="false" Precision="18" Scale="2" />
+          <NavigationProperty Name="CourseVideo" Relationship="QiuYudengMathematicsModel.FK_CourseVIdeoProgress_CourseVideo" FromRole="CourseVIdeoProgress" ToRole="CourseVideo" />
+          <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.FK_CourseVIdeoProgress_Student" FromRole="CourseVIdeoProgress" ToRole="Student" />
+        </EntityType>
+        <Association Name="FK_CourseVIdeoProgress_CourseVideo">
+          <End Type="QiuYudengMathematicsModel.CourseVideo" Role="CourseVideo" Multiplicity="1" />
+          <End Type="QiuYudengMathematicsModel.CourseVIdeoProgress" Role="CourseVIdeoProgress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CourseVideo">
+              <PropertyRef Name="CourseSeq" />
+            </Principal>
+            <Dependent Role="CourseVIdeoProgress">
+              <PropertyRef Name="CourseSeq" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_CourseVIdeoProgress_Student">
+          <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="1" />
+          <End Type="QiuYudengMathematicsModel.CourseVIdeoProgress" Role="CourseVIdeoProgress" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Student">
+              <PropertyRef Name="Account" />
+            </Principal>
+            <Dependent Role="CourseVIdeoProgress">
+              <PropertyRef Name="Account" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -737,6 +825,15 @@
                 <ScalarProperty Name="Account" ColumnName="Account" />
                 <ScalarProperty Name="CommentSeq" ColumnName="CommentSeq" />
                 <ScalarProperty Name="Seq" ColumnName="Seq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="CourseVIdeoProgress">
+            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.CourseVIdeoProgress">
+              <MappingFragment StoreEntitySet="CourseVIdeoProgress">
+                <ScalarProperty Name="Progress" ColumnName="Progress" />
+                <ScalarProperty Name="CourseSeq" ColumnName="CourseSeq" />
+                <ScalarProperty Name="Account" ColumnName="Account" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

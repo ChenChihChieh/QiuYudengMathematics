@@ -146,6 +146,9 @@
     <Compile Include="Entity\CourseVideo.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
+    <Compile Include="Entity\CourseVIdeoProgress.cs">
+      <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity\GroupGrade.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>

@@ -36,5 +36,6 @@ namespace QiuYudengMathematics.Entity
         public DbSet<BulletinBoard> BulletinBoard { get; set; }
         public DbSet<BoardComment> BoardComment { get; set; }
         public DbSet<BoardSubComment> BoardSubComment { get; set; }
+        public DbSet<CourseVIdeoProgress> CourseVIdeoProgress { get; set; }
     }
 }

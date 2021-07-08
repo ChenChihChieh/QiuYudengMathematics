@@ -72,5 +72,6 @@
     <Build Include="dbo\Tables\BulletinBoard.sql" />
     <Build Include="dbo\Tables\BoardSubComment.sql" />
     <Build Include="dbo\Tables\BoardComment.sql" />
+    <Build Include="dbo\Tables\CourseVIdeoProgress.sql" />
   </ItemGroup>
 </Project>
