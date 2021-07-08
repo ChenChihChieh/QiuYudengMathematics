@@ -17,4 +17,11 @@ namespace QiuYudengMathematics.Models
         public bool Audition { get; set; }
         public bool? Enable { get; set; }
     }
+
+    public class CourseProgressModel
+    {
+        public string Account { get; set; }
+        public int CourseSeq { get; set; }
+        public decimal Progress { get; set; }
+    }
 }

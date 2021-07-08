@@ -171,5 +171,37 @@ namespace QiuYudengMathematics.Entity.Service
             if (model.SubjectId == 0) return new RtnModel() { Success = false, Msg = "請選擇科目" };
             return new RtnModel() { Success = true, Msg = string.Empty };
         }
+
+        public RtnModel UpdateProgress(CourseProgressModel model)
+        {
+            try
+            {
+                RtnModel rtn = new RtnModel();
+                using (var db = new QiuYudengMathematicsEntities())
+                {
+                    var VideoProgress = db.CourseVIdeoProgress.Where(x => x.Account == model.Account && x.CourseSeq == model.CourseSeq).FirstOrDefault();
+                    if (VideoProgress == null)
+                        db.CourseVIdeoProgress.Add(new CourseVIdeoProgress()
+                        {
+                            Account = model.Account,
+                            CourseSeq = model.CourseSeq,
+                            Progress = model.Progress
+                        });
+                    else
+                    {
+                        if (VideoProgress.Progress < model.Progress)
+                            VideoProgress.Progress = model.Progress;
+                    }
+                    rtn.Success = db.SaveChanges() > 0;
+                    rtn.Msg = rtn.Success ? "成功" : "失敗";
+                    return rtn;
+                }
+            }
+            catch (Exception e)
+            {
+                logService.Insert(e);
+                return new RtnModel() { Success = false, Msg = "更新錯誤，請通知工程師" };
+            }
+        }
     }
 }

@@ -61,6 +61,7 @@ namespace QiuYudengMathematics.Controllers
                 return RedirectToAction("LogoutForErrAccount", "Login", new { ErrMsg = "查無您的帳號，請通知管理人員" });
             if (!Student.Enable)
                 return RedirectToAction("LogoutForErrAccount", "Login", new { ErrMsg = "您的帳號已停用" });
+            TempData["Account"] = WebSiteComm.CurrentUserAccount;
             var CourseVideo = courseService.SingleQuery(SeqId);
             if (CourseVideo == null)
                 return RedirectToAction("Index", "Home");
@@ -73,6 +74,7 @@ namespace QiuYudengMathematics.Controllers
             CourseVideo.Url = ConfigurationManager.AppSettings["VideoUrl"].ToString() + CourseVideo.Url;
             return View(CourseVideo);
         }
+        public ActionResult UpdateProgress(CourseProgressModel model) => Json(courseService.UpdateProgress(model), JsonRequestBehavior.AllowGet);
         #endregion
     }
 }

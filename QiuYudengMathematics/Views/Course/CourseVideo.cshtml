@@ -18,7 +18,9 @@
     <div style="text-align:center;">
         <video id="video" style="width:80%;" src="@Model.Url" controls="controls" controlsList="nodownload" oncontextmenu="return false"></video>
     </div>
-    <input type="hidden" id="hidProgress" />
+    <input type="hidden" id="hidAccount" value="@(TempData["Account"])" />
+    <input type="hidden" id="hidSeq" value="@(Model.CourseSeq)" />
+    <input type="hidden" id="hidProgress" value="0" />
 </body>
 </html>
 
@@ -28,6 +30,7 @@
     video.addEventListener('play', function (e) {
         //console.log('提示该视频正在播放中');
         Progress();
+        ProgressSave();
     })
     // 9、pause：暂停监听
     video.addEventListener('pause', function (e) {
@@ -48,6 +51,7 @@
     video.addEventListener('ended', function (e) {
         //console.log('视频播放完了');
         Progress();
+        ProgressSave();
     });
 
     function Progress() {
@@ -56,10 +60,12 @@
         document.getElementById("hidProgress").value = (CurrentTime / duration).toFixed(2);
     };
 
-    function Save() {
-
-    };
-    window.onbeforeunload = function () {
-
+    function ProgressSave() {
+        var data = {
+            Account: document.getElementById("hidAccount").value,
+            CourseSeq: document.getElementById("hidSeq").value,
+            Progress: document.getElementById("hidProgress").value
+        };
+        $.post("@(Url.Content("~/Course/UpdateProgress"))", data, function (x) {});
     };
 </script>
