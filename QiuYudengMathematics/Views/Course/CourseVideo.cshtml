@@ -1,18 +1,65 @@
 ﻿@model QiuYudengMathematics.Models.ViewModels.CourseManagementViewModel
 
-<br />
-<br />
-<br />
-<br />
-<div style="text-align:center;">
-    @*<div style="display: flex;justify-content: flex-start; margin-left: 20px;">
-        @using (Html.BeginForm("CourseLearn", "Course", new { SubjectId = Model.SubjectId }, FormMethod.Post, null))
-        {
-            <input type="submit" class="btn btn-primary" value="回到課程清單" />
-        }
-    </div>*@
-    <video style="width:80%;" controls controlsList="nodownload" oncontextmenu="return false">
-        <source src="@Model.Url" type="video/mp4" />
-    </video>
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@(Model.CourseName)</title>
+    <script src="~/Scripts/jquery-3.4.1.min.js"></script>
+    @Styles.Render("~/css/main.css")
+    @Styles.Render("~/css/login.css")
+</head>
+<body>
+    <br /><br /><br />
+    <div style="text-align:center;">
+        <video id="video" style="width:80%;" src="@Model.Url" controls="controls" controlsList="nodownload" oncontextmenu="return false"></video>
+    </div>
+    <input type="hidden" id="hidProgress" />
+</body>
+</html>
 
-</div>
+<script type="text/javascript">
+    var video = document.getElementById('video')
+    // 8、play：播放监听
+    video.addEventListener('play', function (e) {
+        //console.log('提示该视频正在播放中');
+        Progress();
+    })
+    // 9、pause：暂停监听
+    video.addEventListener('pause', function (e) {
+        //console.log('暂停播放');
+        Progress();
+    })
+    // 11、seeked：查找结束。当用户已经移动/跳跃到视频中新的位置时触发
+    video.addEventListener('seeked', function (e) {
+        //console.log('进度条已经移动到了新的位置');
+        Progress();
+    })
+    // 14、timeupdate：目前的播放位置已更改时，播放时间更新
+    video.addEventListener('timeupdate', function (e) {
+        //console.log('timeupdate');
+        Progress();
+    })
+    // 15、ended：播放结束
+    video.addEventListener('ended', function (e) {
+        //console.log('视频播放完了');
+        Progress();
+    });
+
+    function Progress() {
+        var CurrentTime = parseInt(video.currentTime);
+        var duration = parseInt(video.duration);
+        document.getElementById("hidProgress").value = (CurrentTime / duration).toFixed(2);
+    };
+
+    function Save() {
+
+    };
+    window.onbeforeunload = function () {
+
+    };
+</script>
