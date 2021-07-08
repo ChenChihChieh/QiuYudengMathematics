@@ -20,6 +20,7 @@ namespace QiuYudengMathematics.Entity.Service
         {
             using (var db = new QiuYudengMathematicsEntities())
             {
+                var studentList = db.Student.Where(x => x.Enable).ToList();
                 var data = db.CourseVideo.AsEnumerable()
                     .Select(item => new CourseManagementViewModel()
                     {
@@ -35,7 +36,8 @@ namespace QiuYudengMathematics.Entity.Service
                             SubjectName = item.GroupGradeSubject.Subject,
                         },
                         Enable = item.Enable,
-                        Student = item.Student.Select(y => y.Account).ToList()
+                        Student = item.Student.Select(y => y.Account).ToList(),
+                        CourseVideoProgress = QueryProgress(db, item)
                     }).ToList();
 
                 if (model.SubjectId.HasValue)
@@ -66,8 +68,20 @@ namespace QiuYudengMathematics.Entity.Service
                             SubjectGradeName = item.GroupGradeSubject.GroupGrade.Grade
                         },
                         Enable = item.Enable,
-                        Student = item.Student.Select(y => y.Account).ToList()
+                        Student = item.Student.Select(y => y.Account).ToList(),
+                        CourseVideoProgress = QueryProgress(db, item)
                     }).FirstOrDefault();
+        }
+        private List<string> QueryProgress(QiuYudengMathematicsEntities db, CourseVideo cv)
+        {
+            List<string> str = new List<string>();
+            var student = db.Student.AsEnumerable().Where(x => x.Enable && x.GroupGradeSubject.Where(y => y.ID == cv.SubjectId).Any()).ToList();
+            student.ForEach(x =>
+            {
+                var CourseVideoProgress = db.CourseVIdeoProgress.Where(y => y.Account == x.Account && y.CourseSeq == cv.CourseSeq).FirstOrDefault();
+                str.Add(string.Format("{0}-{1},進度:{2}", x.Account, x.Name, CourseVideoProgress == null ? "0%" : Math.Ceiling(CourseVideoProgress.Progress * 100).ToString() + "%"));
+            });
+            return str;
         }
         public RtnModel Insert(CourseManagementViewModel model)
         {
