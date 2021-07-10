@@ -12,7 +12,8 @@
 .account__search-bar--flex {
     display: flex;
     margin: 20px 0;
-    justify-content:space-between;
+    justify-content: space-between;
+    margin-left: 5%;
 }
 .account__search-bar--flex input {
     height: 40px;

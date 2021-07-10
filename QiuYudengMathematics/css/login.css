@@ -15,10 +15,11 @@ padding:0;
 }
 .layout__top img {
     vertical-align: middle;
-    width:300px;
+    width:200px;
 }
     .layout__top h1 {
-        font-size: 110px;
+        margin-top:20px;
+        font-size: 95px;
         color: var(--color-title);
         display: flex;
         justify-content: center;

@@ -12,12 +12,12 @@
             </div>
         </div>
         <div v-show="curList.length > 10" class="pagenation">
-            <a @@click.prevent="setPage(1)">First</a>
-            <a @@click.prevent="setPage(previousPage)">Previous</a>
+            <a class="first" @@click.prevent="setPage(1)">First</a>
+            <a class="pre" @@click.prevent="setPage(previousPage)">Previous</a>
             <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="index"
                @@click.prevent="setPage(n)">{{n}}</a>
-            <a @@click.prevent="setPage(nextPage)">Next</a>
-            <a @@click.prevent="setPage(totalPageCount)">Last</a>
+            <a class="next"  @@click.prevent="setPage(nextPage)">Next</a>
+            <a class="last" @@click.prevent="setPage(totalPageCount)">Last</a>
         </div>
     </div>
 </div>

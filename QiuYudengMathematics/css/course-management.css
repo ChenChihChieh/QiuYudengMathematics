@@ -7,6 +7,7 @@
     display: flex;
     padding: 20px 0;
     justify-content: space-between;
+    margin-left: 5%;
 }
 
     .course-management__search-bar--flex input {

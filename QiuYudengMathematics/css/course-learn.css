@@ -6,6 +6,7 @@
     display: flex;
     padding: 20px 0;
     justify-content: space-between;
+    margin-left: 5%;
 }
 .course-learn__search-bar--flex input {
     height: 40px;
@@ -20,13 +21,30 @@
     background-size: 30px;
     background-repeat: no-repeat;
 }
+.course-learn__list {
+    width: 80%;
+    flex-direction: column;
+    display: flex;
+    margin: auto;
+    background-color:#fff;
+    margin-top:20px;
+}
 .course-learn__item {
+    border: 1px solid #000;
+}
+
+.course-learn__item a h3{
+    padding:0 1%;
+}
+
+
+/*.course-learn__item {
     width:500px;
 }
     .course-learn__item:hover {
         transform: scale(1.1);
         transition: .5s;
-    }
+    }*/
 /*.course-learn__list {
     display: flex;
     flex-flow: row wrap;

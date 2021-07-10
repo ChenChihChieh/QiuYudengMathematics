@@ -1,1 +1,43 @@
-﻿
+﻿.home__intro {
+    
+    max-width:80%;
+    margin:0 auto;
+}
+    .home__intro h1 {
+        display: inline-block;
+    }
+.home-course__wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 20px;
+    width: 80%;
+    margin: 0 auto;
+}
+
+.home-course__item {
+    display: block;
+    font-size: 14px;
+    padding: 30px 30px;
+    border-radius: 10px;
+    border: 1px solid #fff;
+    text-align: center;
+    cursor: pointer;
+    font-size: 48px;
+    font-weight: 500;
+}
+.home-course__item a {
+    color: #fff;
+}
+    .home-course__item a:hover {
+        text-decoration: none;
+        color: #fff;
+    }
+    .home-course__item:hover {
+        box-shadow: 0 0 15px #fff;
+    }
+
+@media screen and (max-width: 580px){
+    .home-course__item{
+        font-size:12px;
+    }
+}

@@ -3,13 +3,24 @@
 }
 
 <div id="app" class="jumbotron" style="position:relative;background-color: var(--color-background); height:100%;margin-top: 50px;">
-    <img style="max-width:120px; display:inline-block; vertical-align:top;" src="~/Content/logo.svg" />
-    <div style="display:inline-block;">
+    <div class="home__intro">
+        <img style="max-width:120px; display:inline-block; vertical-align:top;" src="~/Content/logo.svg" />
         <h1 style="font-family: DFKai-sb; color: var(--color-title)" class="display-4">
             邱宇登升大學中心
         </h1>
         <p class="lead">邱宇登線上教學平台, 有任何問題請聯絡工作人員, 祝各位同學學習愉快~</p>
         <hr class="my-4">
+    </div>
+    <div class="home-course__wrapper">
+        @if (QiuYudengMathematics.Comm.WebSiteComm.CurrentUserAccount != System.Configuration.ConfigurationManager.AppSettings["adminAccount"].ToString())
+        {
+            foreach (var item in @QiuYudengMathematics.Comm.WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment))
+            {
+                <div class="home-course__item item__@item.ID">@Html.ActionLink(item.SubjectName, "CourseLearn", "Course", new { SubjectId = item.ID }, null)</div>
+            }
+            <div class="home-course__item item__trial">@Html.ActionLink("試聽課程", "CourseLearn", "Course", new { SubjectId = -1 }, null)</div>
+
+        }
     </div>
 </div>
 
@@ -21,9 +32,27 @@
     const app = new Vue({
         el: '#app',
         data: {
-            message: '佈告欄待開發'
+            message: '佈告欄待開發',
+            btnList:[]
         },
+        mounted() {
+            this.randomColor();
+        },
+        methods: {
+            randomColor() {
+                let item = document.getElementsByClassName('home-course__item');
+                
+                for (const [key, value] of Object.entries(item)) {
+                    const randomColor = Math.floor(Math.random() * 16777215).toString(16);
+                    value.style.backgroundColor = '#'+randomColor
+                }
+
+                //item.forEach(el => el.style.backgroundColor = randomColor)
+                
+            },
+        }
     });
+    
 
     function QueryBulletinBoard() {
         $.post("@(Url.Content("~/Home/QueryBulletinBoard"))", function (x) {
