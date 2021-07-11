@@ -1,63 +1,90 @@
-﻿<input type="button" value="Query" onclick="Query()" />
-<input type="button" value="SingleQuery" onclick="SingleQuery()" />
-<input type="button" value="Insert" onclick="Insert()" />
-<input type="button" value="Update" onclick="Update()" />
+﻿@*<br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <input type="button" value="Query" onclick="Query()" />
+    <input type="button" value="SingleQuery" onclick="SingleQuery()" />
+    <input type="button" value="Insert" onclick="Insert()" />
+    <input type="button" value="Update" onclick="Update()" />*@
 
-<div id="app" class="account">
-    <div class="account__container">
-        <div class="account__search-bar--flex">
-            <input @@input="onInput($event)" placeholder="請輸入科目" type="search">
-            <div class="account__btn-wrapper">
-                <a @@click="addPerson()" class="blue-btn">新增</a>
+<div id="app" class="bulletin">
+    <div class="bulletin__container">
+        <div class="bulletin__topWrapper">
+            <div class="bulletin__select">
+                <select v-model="crrSelected" @@change="changeCrrList">
+                    <option value=''>請選擇科目</option>
+                    <option v-for="item in subjectIdMappedList" :value="item.ID">
+                        {{ item.Subject }}
+                    </option>
+                </select>
+            </div>
+            <div class="bulletin__btn-wrapper">
+                <a @@click="addParagraph" class="blue-btn">新增</a>
             </div>
         </div>
-        <div class="account__table">
-            <div class="account__tr">
-                <div class="account__th">科目</div>
-                <div class="account__th">內容</div>
-                <div class="account__th">年級</div>
-                <div class="account__th">狀態</div>
-                <div class="account__th">管理</div>
+        <div v-show="curPostsList.length" class="bulletin__table">
+            <div class="bulletin__tr">
+                <div class="bulletin__th">內容</div>
+                <div class="bulletin__th">科目</div>
+                <div class="bulletin__th">狀態</div>
+                <div class="bulletin__th">管理</div>
             </div>
-            <div class="account__tr" v-for="item in eachPageList" :key="item.Account">
-                <div class="account__td">{{item.Account}}</div>
-                <div class="account__td">{{item.Name}}</div>
-                <div class="account__td">{{item.GradeName}}</div>
-                <div class="account__td">
+            <div class="bulletin__tr" v-for="item in eachPageList" :key="item.bulletin">
+                <div class="bulletin__td bulletin__content">{{item.Content}}</div>
+                <div class="bulletin__td">
+                    {{item.Subject.SubjectGradeName}}{{item.Subject.SubjectName}}
+                </div>
+                <div class="bulletin__td">
                     <i v-if="item.Enable" style="color:forestgreen" class="far fa-circle"></i>
                     <i v-else style="color:red" class="fas fa-times"></i>
                 </div>
-                <div class="account__td"><a @@click.prevent="showPopUp(item.Account)"><i class="fas fa-cog"></i></a></div>
+                <div class="bulletin__td"><a @@click.prevent="showPopUp(item.BulletinBoardSeq)"><i class="fas fa-cog"></i></a></div>
             </div>
         </div>
-        <div v-show="curList.length > 10" class="pagenation">
-            <a @@click.prevent="setPage(1)">First</a>
-            <a @@click.prevent="setPage(previousPage)">Previous</a>
-            <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
-               @@click.prevent="setPage(n)">{{n}}</a>
-            <a @@click.prevent="setPage(nextPage)">Next</a>
-            <a @@click.prevent="setPage(totalPageCount)">Last</a>
+        <div v-show="!eachPageList.length">
+            <h1 style="color:red">查無資料請新增內容</h1>
         </div>
+        <div v-show="curPostsList.length > 10" class="pagenation">
+                <a @@click.prevent="setPage(1)">First</a>
+                <a @@click.prevent="setPage(previousPage)">Previous</a>
+                <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
+                   @@click.prevent="setPage(n)">{{n}}</a>
+                <a @@click.prevent="setPage(nextPage)">Next</a>
+                <a @@click.prevent="setPage(totalPageCount)">Last</a>
+            </div>
     </div>
-    <div v-show="pupUpOn" class="popup--wrapper">
+    <div v-show="popUpOn" class="popup--wrapper">
         <div class="popup">
             <div class="popup--heading">
-                <span>學生管理</span>
+                <span>布告欄管理</span>
                 <i @@click="hidePopUp" class="fas fa-times"></i>
             </div>
             <div class="popup--body">
-                <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled /></div>
-                <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" /></div>
                 <div>
-                    <p>年級</p>
+                    <p>內容</p>
+                    <textarea class="width200" v-model="info.Content"></textarea>
+                </div>
+                <div>
+                    <span></span>
+                    <span v-show="textureLimit" class="width200" style="color:red">字數超過100請刪減</span>
+                </div>
+                <div>
+                    <p>科目</p>
                     <div class="width200">
-                        <input type="radio" id="one" value="1" v-model="info.Grade">
-                        <label for="one">高一</label>
-                        <input type="radio" id="two" value="2" v-model="info.Grade">
-                        <label for="two">高二</label>
-                        <input type="radio" id="three" value="3" v-model="info.Grade">
-                        <label for="three">高三</label>
+                        <div class="popUp__select">
+                            <select v-model="info.SubjectId">
+                                <option value=''>請選擇科目</option>
+                                <option v-for="item in subjectIdMappedList" :value="item.ID">
+                                    {{ item.Subject }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
+                </div>
+                <div>
+                    <span></span>
+                    <span v-show="selectEmptySubject" class="width200" style="color:red">請選擇科目</span>
                 </div>
                 <div>
                     <p>狀態</p>
@@ -66,20 +93,9 @@
                         <label for="checkbox">{{ info.Enable?"啟用":"停用" }}</label>
                     </div>
                 </div>
-                <div>
-                    <p>科目</p>
-                    <div class="width200">
-                        <div v-for="item in currentSubectList" class="subject-item">
-                            <input type="checkbox" :id="item.ID" :value="String(item.ID)" v-model="checkedList">
-                            <label :for="item.ID">{{item.SubjectName}}</label>
-                        </div>
-                    </div>
-                </div>
             </div>
             <div class="popup--footer">
-                <a @@click="clearDevice(info.Account)" class="red-btn">清除裝置</a>
-                <a @@click="pwdReset(info.Account)" class="red-btn">重置密碼</a>
-                <a @@click="submit" class="blue-btn">儲存</a>
+                <a @@click="submit" class="blue-btn" v-bind:class="textureLimit||selectEmptySubject ? 'disabled':''">儲存</a>
             </div>
         </div>
     </div>
@@ -89,25 +105,134 @@
     const vm = new Vue({
         el: '#app',
         data: {
+            crrSelected:'',
             posts: [],
-            allSubjectList: []
+            allSubjectList: [],
+            popUpOn: false,
+            info: {},
+            subjectIdMappedList: [],
+            curPostsList: [],
+            currPage: 1,
+            itemPerPage: 10,
         },
         mounted() {
-        const data = {
-            SubjectId: [], //科目(沒有就放空陣列，有放陣列(數字))
-            Enable: null //啟用或停用
-        };
-        axios.post('@Url.Content("~/BulletinBoard/Query")', data)
-            .then(res => {
-                this.posts = res.data.Data
-            });
-        //取得所有科目表
-        axios.post('@Url.Content("~/Account/GetGradeSubject")')
-            .then(res => {
-                this.allSubjectList = res.data.Data
-            });
+            const data = {
+                SubjectId: [], //科目(沒有就放空陣列，有放陣列(數字))
+                Enable: null //啟用或停用
+            };
+            axios.post('@Url.Content("~/BulletinBoard/Query")', data)
+                .then(res => {
+                    this.posts = res.data.Data
+                    this.curPostsList = this.posts
+                });
+            //取得所有科目表
+            axios.post('@Url.Content("~/Account/GetGradeSubject")')
+                .then(res => {
+                    this.allSubjectList = res.data.Data
+                })
+                .catch(err => console.log(err))
+                .finally(()=>this.combineGradeAndName())
+        },
+        updated() {
+            //console.log(this.crrSelected)
+            //console.log(this.posts)
+            //console.log(this.info)
+        },
+        computed: {
+            textureLimit() {
+                if (this.popUpOn) {
+                    return this.info.Content.length > 100
+                }
+            },
+            selectEmptySubject() {
+                if (this.popUpOn) {
+                    return this.info.SubjectId === 0 || this.info.SubjectId === ''
+                }
+            },
+            previousPage() {
+                return this.currPage - 1 > 0 ? this.currPage - 1 : 1;
+            },
+            nextPage() {
+                return this.currPage + 1 > this.totalPageCount ? this.totalPageCount : this.currPage + 1;
+            },
+            totalPageCount() {
+                return Math.ceil(this.curPostsList.length / this.itemPerPage);
+            },
+            eachPageList(state, getters) {
+                const lastIdx = this.currPage * this.itemPerPage;
+                const firstIdx = lastIdx - this.itemPerPage;
 
-    },
+                return this.curPostsList.slice(firstIdx, lastIdx);
+            }
+
+        },
+        methods: {
+            combineGradeAndName() {
+                this.allSubjectList.forEach(item =>
+                    item.Subject.map(subItem => {
+                        const { ID, GradeName, SubjectName } = subItem
+                        const obj = {
+                            ID,
+                            Subject: GradeName + SubjectName
+                        }
+                        this.subjectIdMappedList.push(obj)
+                    }))
+            },
+            changeCrrList() {
+                if (this.crrSelected === '') {
+                    this.curPostsList = this.posts
+                } else {
+                    this.curPostsList = this.posts.filter(item => item.SubjectId === this.crrSelected)
+                }
+
+            },
+            showPopUp(val) {
+                axios.post('@Url.Content("BulletinBoard/SingleQuery?Seq=")' + `${val}`)
+                    .then(res => this.info = res.data.Data)
+                    .catch(err => console.log(err))
+                    .finally(() => this.popUpOn = true)
+            },
+            hidePopUp() {
+                this.popUpOn = false;
+                this.info = {};
+            },
+            submit() {
+                if (this.info.BulletinBoardSeq) {
+                    //修改資料
+                    axios.post('@Url.Content("~/BulletinBoard/Update")', this.info)
+                        .then(res => {
+                            alert(res.data.Msg)
+                            if (res.data.Success) {
+                                location.reload();
+                            };
+                        });
+                } else {
+                //新增資料
+                axios.post('@Url.Content("~/BulletinBoard/Insert")', this.info)
+                    .then(res => {
+                        alert(res.data.Msg)
+                        if (res.data.Success) {
+                            location.reload();
+                        };
+                    });
+                }
+            },
+            addParagraph() {
+                this.info = {
+                    Content: '',
+                    SubjectId: 0,
+                    Enable: true
+                };
+                this.popUpOn = true;
+            },
+            setPage(n) {
+                this.currPage = n
+            },
+            pageRule(page) {
+                return this.currPage == 1 || this.currPage == this.totalPageCount ?
+                    Math.abs(this.currPage - page) <= 2 : Math.abs(this.currPage - page) <= 1;
+            },
+        }
     })
 </script>
 
