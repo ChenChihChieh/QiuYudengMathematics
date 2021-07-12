@@ -33,7 +33,9 @@ namespace QiuYudengMathematics.Entity.Service
                             SubjectGradeId = item.GroupGradeSubject.GradeID,
                             SubjectName = item.GroupGradeSubject.Subject
                         },
-                        Enable = item.Enable
+                        Enable = item.Enable,
+                        FilePath = string.IsNullOrEmpty(item.FilePath) ? string.Empty : item.FilePath,
+                        FileName = string.IsNullOrEmpty(item.FilePath) ? string.Empty : System.IO.Path.GetFileName(item.FilePath)
                     }).ToList();
 
                 if (model.SubjectId != null && model.SubjectId.Count() > 0)
@@ -62,7 +64,9 @@ namespace QiuYudengMathematics.Entity.Service
                             SubjectGradeId = item.GroupGradeSubject.GradeID,
                             SubjectName = item.GroupGradeSubject.Subject
                         },
-                        Enable = item.Enable
+                        Enable = item.Enable,
+                        FilePath = string.IsNullOrEmpty(item.FilePath) ? string.Empty : item.FilePath,
+                        FileName = string.IsNullOrEmpty(item.FilePath) ? string.Empty : System.IO.Path.GetFileName(item.FilePath)
                     }).FirstOrDefault();
         }
         public RtnModel Insert(BulletinBoardViewModel model)
@@ -77,7 +81,8 @@ namespace QiuYudengMathematics.Entity.Service
                     {
                         Content = model.Content,
                         SubjectId = model.SubjectId,
-                        Enable = model.Enable
+                        Enable = model.Enable,
+                        FilePath = model.FilePath
                     });
                     rtn.Success = db.SaveChanges() > 0;
                     rtn.Msg = rtn.Success ? "新增成功" : "新增失敗";
@@ -105,6 +110,7 @@ namespace QiuYudengMathematics.Entity.Service
                         data.Content = model.Content;
                         data.SubjectId = model.SubjectId;
                         data.Enable = model.Enable;
+                        data.FilePath = model.FilePath;
                         rtn.Success = db.SaveChanges() > 0;
                         rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
                         return rtn;

@@ -4,6 +4,7 @@ using System.Web.Mvc;
 using QiuYudengMathematics.Comm;
 using System.Configuration;
 using System.Linq;
+using System.Web;
 
 namespace QiuYudengMathematics.Controllers
 {
@@ -26,6 +27,15 @@ namespace QiuYudengMathematics.Controllers
                 Success = true,
                 Data = bulletinBoardService.Query(model).OrderBy(x => x.SubjectId).ToList()
             }, JsonRequestBehavior.AllowGet);
+        }
+        public ActionResult DownLoad(int Seq)
+        {
+            var FilePath = ConfigurationManager.AppSettings["BulletinBoardFilePath"].ToString() + bulletinBoardService.SingleQuery(Seq).FilePath;
+            var FileName = System.IO.Path.GetFileName(FilePath);
+            if (System.IO.File.Exists(FilePath))
+                return File(FilePath, MimeMapping.GetMimeMapping(FileName), FileName);
+            else
+                return Content("查無檔案，請通知管理人員");
         }
     }
 }

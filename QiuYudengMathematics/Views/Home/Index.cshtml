@@ -72,9 +72,9 @@
                 onMsgBox: false,
                 leavingMsg: ''
             }
-        },
+        },*@
         methods: {
-            showMsgBox() {
+            @*showMsgBox() {
                 this.onMsgBox = !this.onMsgBox;
             },
             submit(val) {
@@ -89,8 +89,16 @@
                             location.reload();
                         };
                     });
+            },*@
+            Download(id) {
+                var url = '@(Url.Content("~/Home/DownLoad"))';
+                var form = $('<form action="' + url + '" method="post">' +
+                    '<input type="hidden" name="Seq" value="' + id + '" />' +
+                    '</form>');
+                $('body').append(form);
+                form.submit();
             },
-        },*@
+        },
         template: `
         <div class="announcemnet__wrapper">
             <h4>{{item.Subject.SubjectName}}科公告</h4>
@@ -98,48 +106,12 @@
                 <div class="announcemnet__main">
                     <h3>{{item.Content}}</h3>
                 </div>
+                <div v-show="item.FilePath.length > 0">
+                    <a style="cursor:pointer" @@click.prevent="Download(item.BulletinBoardSeq)">{{item.FileName}}</a>
+                </div>
             </div>
         </div>`
     })
-
-    @*const msgbox = {
-        name: 'msgbox',
-        props: ['comment'],
-        data: function () {
-            return {
-                leavingMsg: '',
-                onReply: false,
-            }
-        },
-        methods: {
-            reply() {
-                this.onReply = true
-            },
-            submit(val) {
-                const data = {
-                    Seq: val,
-                    Commentary: this.leavingMsg
-                }
-                axios.post('@Url.Content("~/Home/InsertSubComment")',data)
-                    .then(res => {
-                        alert(res.data.Msg)
-                        if (res.data.Success) {
-                            location.reload();
-                        };
-                    });
-            },
-        },
-        template: `
-             <div class="msgbox" v-show="onMsgBox">
-                <p>{{comment}}</p>
-                <a v-show="!onReply" @@click="reply">回覆</a>
-                <div class="msgbox__reply" v-show="onReply">
-                    <textarea v-model="leavingMsg" type="text" placeholder="留言..."></textarea>
-                    <a @@click='submit(comment.Seq)'>送出</a>
-                </div>
-            </div>
-        `
-    };*@
 
 
     @*function QueryBulletinBoard() {

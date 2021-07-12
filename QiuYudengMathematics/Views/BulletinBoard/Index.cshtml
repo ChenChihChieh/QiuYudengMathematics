@@ -87,6 +87,10 @@
                     <span v-show="selectEmptySubject" class="width200" style="color:red">請選擇科目</span>
                 </div>
                 <div>
+                    <p>附件</p>
+                    <input type="text" class="width200" v-model="info.FilePath"/>
+                </div>
+                <div>
                     <p>狀態</p>
                     <div class="width200">
                         <input type="checkbox" id="checkbox" v-model="info.Enable">
@@ -221,7 +225,8 @@
                 this.info = {
                     Content: '',
                     SubjectId: 0,
-                    Enable: true
+                    Enable: true,
+                    FilePath: ''
                 };
                 this.popUpOn = true;
             },

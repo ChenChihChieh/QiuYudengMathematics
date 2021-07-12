@@ -12,5 +12,7 @@ namespace QiuYudengMathematics.Models.ViewModels
         public int SubjectId { get; set; }
         public SubbjectInfo Subject { get; set; }
         public bool Enable { get; set; }
+        public string FilePath { get; set; }
+        public string FileName { get; set; }
     }
 }
