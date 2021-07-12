@@ -220,7 +220,6 @@
                     //修改學生資料
                     data.Account = this.info.Account
 
-                    console.log(data)
                     axios.post('@Url.Content("~/Account/Update")', data)
                         .then(res => {
                             alert(res.data.Msg)
@@ -230,7 +229,6 @@
                         });
                 } else {
                     //新增學生資料
-                    console.log(data)
                     axios.post('@Url.Content("~/Account/Insert")', data)
                         .then(res => {
                             alert(res.data.Msg)

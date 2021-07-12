@@ -67,7 +67,7 @@
                 </div>
                 <div>
                     <span></span>
-                    <span v-show="textureLimit" class="width200" style="color:red">字數超過100請刪減</span>
+                    <span v-show="textureLimit" class="width200" style="color:red">字數超過1000請刪減</span>
                 </div>
                 <div>
                     <p>科目</p>
@@ -141,7 +141,7 @@
         computed: {
             textureLimit() {
                 if (this.popUpOn) {
-                    return this.info.Content.length > 100
+                    return this.info.Content.length > 1000
                 }
             },
             selectEmptySubject() {

@@ -11,16 +11,20 @@
         <p class="lead">邱宇登線上教學平台, 有任何問題請聯絡工作人員, 祝各位同學學習愉快~</p>
         <hr class="my-4">
     </div>
+    <h4 class="mycourse">我的課程清單</h4>
     <div class="home-course__wrapper">
         @if (QiuYudengMathematics.Comm.WebSiteComm.CurrentUserAccount != System.Configuration.ConfigurationManager.AppSettings["adminAccount"].ToString())
         {
             foreach (var item in @QiuYudengMathematics.Comm.WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment))
             {
-                <div class="home-course__item item__@item.ID">@Html.ActionLink(item.SubjectName, "CourseLearn", "Course", new { SubjectId = item.ID }, null)</div>
+                <div class="home-course__item">@Html.ActionLink(item.SubjectName, "CourseLearn", "Course", new { SubjectId = item.ID }, null)</div>
             }
             <div class="home-course__item item__trial">@Html.ActionLink("試聽課程", "CourseLearn", "Course", new { SubjectId = -1 }, null)</div>
 
         }
+    </div>
+    <div class="announcemnet">
+        <announcemnet v-for="(item,index) in rawList" :key="index" :item="item" />
     </div>
 </div>
 
@@ -32,29 +36,116 @@
     const app = new Vue({
         el: '#app',
         data: {
-            message: '佈告欄待開發',
-            btnList:[]
+            rawList: [],
+            //subjectIdList:[],
         },
         mounted() {
+            axios.post('@Url.Content("~/Home/QueryBulletinBoard")')
+                .then(res => {
+                    this.rawList = res.data.Data;
+                    console.log(this.rawList)
+                    //this.fetchRawList();
+                });
+
             this.randomColor();
         },
         methods: {
+            //給按鈕隨機顏色
             randomColor() {
-                let item = document.getElementsByClassName('home-course__item');
-                
+                const item = document.getElementsByClassName('home-course__item');
+
                 for (const [key, value] of Object.entries(item)) {
                     const randomColor = Math.floor(Math.random() * 16777215).toString(16);
-                    value.style.backgroundColor = '#'+randomColor
+                    value.style.backgroundColor = '#' + randomColor
                 }
-
-                //item.forEach(el => el.style.backgroundColor = randomColor)
-                
             },
+            //fetchRawList() {
+            //    this.subjectIdList = this.rawList.filter((el, idx, arr) =>
+            //        arr.findIndex(t => t.SubjectId === el.SubjectId) === idx);
+            //    console.log(this.subjectIdList)
+            //}
+
         }
     });
-    
 
-    function QueryBulletinBoard() {
+    Vue.component('announcemnet', {
+        props: ['item'],
+        @*data: function () {
+            return {
+                onMsgBox: false,
+                leavingMsg: ''
+            }
+        },
+        methods: {
+            showMsgBox() {
+                this.onMsgBox = !this.onMsgBox;
+            },
+            submit(val) {
+                const data = {
+                    Seq: val,
+                    Commentary: this.leavingMsg
+                }
+                axios.post('@Url.Content("~/Home/InsertComment")',data)
+                    .then(res => {
+                        alert(res.data.Msg)
+                        if (res.data.Success) {
+                            location.reload();
+                        };
+                    });
+            },
+        },*@
+        template: `
+        <div class="announcemnet__wrapper">
+            <h4>{{item.Subject.SubjectName}}科公告</h4>
+            <div class="announcemnet__bord">
+                <div class="announcemnet__main">
+                    <h3>{{item.Content}}</h3>
+                </div>
+            </div>
+        </div>`
+    })
+
+    @*const msgbox = {
+        name: 'msgbox',
+        props: ['comment'],
+        data: function () {
+            return {
+                leavingMsg: '',
+                onReply: false,
+            }
+        },
+        methods: {
+            reply() {
+                this.onReply = true
+            },
+            submit(val) {
+                const data = {
+                    Seq: val,
+                    Commentary: this.leavingMsg
+                }
+                axios.post('@Url.Content("~/Home/InsertSubComment")',data)
+                    .then(res => {
+                        alert(res.data.Msg)
+                        if (res.data.Success) {
+                            location.reload();
+                        };
+                    });
+            },
+        },
+        template: `
+             <div class="msgbox" v-show="onMsgBox">
+                <p>{{comment}}</p>
+                <a v-show="!onReply" @@click="reply">回覆</a>
+                <div class="msgbox__reply" v-show="onReply">
+                    <textarea v-model="leavingMsg" type="text" placeholder="留言..."></textarea>
+                    <a @@click='submit(comment.Seq)'>送出</a>
+                </div>
+            </div>
+        `
+    };*@
+
+
+    @*function QueryBulletinBoard() {
         $.post("@(Url.Content("~/Home/QueryBulletinBoard"))", function (x) {
             if(x.Data.length > 0)
                 alert(x.Data[0].Content);
@@ -72,5 +163,5 @@
         $.post(Url, data, function (x) {
             alert(x.Msg);
         });
-    };
+    };*@
 </script>
