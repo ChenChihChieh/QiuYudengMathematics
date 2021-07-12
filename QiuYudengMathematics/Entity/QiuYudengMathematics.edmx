@@ -28,7 +28,7 @@
             <PropertyRef Name="BulletinBoardSeq" />
           </Key>
           <Property Name="BulletinBoardSeq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Content" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Content" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="SubjectId" Type="int" Nullable="false" />
           <Property Name="Enable" Type="bit" Nullable="false" />
         </EntityType>
@@ -403,17 +403,8 @@
             <End Role="StudentDevice" EntitySet="StudentDevice" />
           </AssociationSet>
           <EntitySet Name="LogError" EntityType="QiuYudengMathematicsModel.LogError" />
-          <EntitySet Name="BulletinBoard" EntityType="QiuYudengMathematicsModel.BulletinBoard" />
-          <AssociationSet Name="FK_BulletinBoard_GroupGradeSubject" Association="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject">
-            <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
-            <End Role="BulletinBoard" EntitySet="BulletinBoard" />
-          </AssociationSet>
           <EntitySet Name="BoardComment" EntityType="QiuYudengMathematicsModel.BoardComment" />
           <EntitySet Name="BoardSubComment" EntityType="QiuYudengMathematicsModel.BoardSubComment" />
-          <AssociationSet Name="FK_BoardComment_BulletinBoard" Association="QiuYudengMathematicsModel.FK_BoardComment_BulletinBoard">
-            <End Role="BulletinBoard" EntitySet="BulletinBoard" />
-            <End Role="BoardComment" EntitySet="BoardComment" />
-          </AssociationSet>
           <AssociationSet Name="FK_BoardSubComment_BoardComment" Association="QiuYudengMathematicsModel.FK_BoardSubComment_BoardComment">
             <End Role="BoardComment" EntitySet="BoardComment" />
             <End Role="BoardSubComment" EntitySet="BoardSubComment" />
@@ -436,6 +427,15 @@
             <End Role="CourseVideo" EntitySet="CourseVideo" />
             <End Role="Student" EntitySet="Student" />
           </AssociationSet>
+          <EntitySet Name="BulletinBoard" EntityType="QiuYudengMathematicsModel.BulletinBoard" />
+          <AssociationSet Name="FK_BoardComment_BulletinBoard" Association="QiuYudengMathematicsModel.FK_BoardComment_BulletinBoard">
+            <End Role="BulletinBoard" EntitySet="BulletinBoard" />
+            <End Role="BoardComment" EntitySet="BoardComment" />
+          </AssociationSet>
+          <AssociationSet Name="FK_BulletinBoard_GroupGradeSubject" Association="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject">
+            <End Role="GroupGradeSubject" EntitySet="GroupGradeSubject" />
+            <End Role="BulletinBoard" EntitySet="BulletinBoard" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="GroupGrade">
           <Key>
@@ -457,8 +457,8 @@
           <Property Name="Enable" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="GroupGrade" Relationship="QiuYudengMathematicsModel.FK_GroupGradeSubject_GroupGrade" FromRole="GroupGradeSubject" ToRole="GroupGrade" />
           <NavigationProperty Name="Student" Relationship="QiuYudengMathematicsModel.StudentSubject" FromRole="GroupGradeSubject" ToRole="Student" />
-          <NavigationProperty Name="BulletinBoard" Relationship="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" FromRole="GroupGradeSubject" ToRole="BulletinBoard" />
           <NavigationProperty Name="CourseVideo" Relationship="QiuYudengMathematicsModel.FK_CourseVideo_GroupGradeSubject" FromRole="GroupGradeSubject" ToRole="CourseVideo" />
+          <NavigationProperty Name="BulletinBoard" Relationship="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" FromRole="GroupGradeSubject" ToRole="BulletinBoard" />
         </EntityType>
         <EntityType Name="Student">
           <Key>
@@ -566,29 +566,6 @@
           <Property Name="StackTrace" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="CreateDate" Type="DateTime" Nullable="false" Precision="3" />
         </EntityType>
-        <EntityType Name="BulletinBoard">
-          <Key>
-            <PropertyRef Name="BulletinBoardSeq" />
-          </Key>
-          <Property Name="BulletinBoardSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Content" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SubjectId" Type="Int32" Nullable="false" />
-          <Property Name="Enable" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" FromRole="BulletinBoard" ToRole="GroupGradeSubject" />
-          <NavigationProperty Name="BoardComment" Relationship="QiuYudengMathematicsModel.FK_BoardComment_BulletinBoard" FromRole="BulletinBoard" ToRole="BoardComment" />
-        </EntityType>
-        <Association Name="FK_BulletinBoard_GroupGradeSubject">
-          <End Type="QiuYudengMathematicsModel.GroupGradeSubject" Role="GroupGradeSubject" Multiplicity="1" />
-          <End Type="QiuYudengMathematicsModel.BulletinBoard" Role="BulletinBoard" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="GroupGradeSubject">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="BulletinBoard">
-              <PropertyRef Name="SubjectId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="BoardComment">
           <Key>
             <PropertyRef Name="Seq" />
@@ -597,8 +574,8 @@
           <Property Name="BulletinBoardSeq" Type="Int32" Nullable="false" />
           <Property Name="Account" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="false" />
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="BulletinBoard" Relationship="QiuYudengMathematicsModel.FK_BoardComment_BulletinBoard" FromRole="BoardComment" ToRole="BulletinBoard" />
           <NavigationProperty Name="BoardSubComment" Relationship="QiuYudengMathematicsModel.FK_BoardSubComment_BoardComment" FromRole="BoardComment" ToRole="BoardSubComment" />
+          <NavigationProperty Name="BulletinBoard" Relationship="QiuYudengMathematicsModel.FK_BoardComment_BulletinBoard" FromRole="BoardComment" ToRole="BulletinBoard" />
         </EntityType>
         <EntityType Name="BoardSubComment">
           <Key>
@@ -610,18 +587,6 @@
           <Property Name="Comment" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="BoardComment" Relationship="QiuYudengMathematicsModel.FK_BoardSubComment_BoardComment" FromRole="BoardSubComment" ToRole="BoardComment" />
         </EntityType>
-        <Association Name="FK_BoardComment_BulletinBoard">
-          <End Type="QiuYudengMathematicsModel.BulletinBoard" Role="BulletinBoard" Multiplicity="1" />
-          <End Type="QiuYudengMathematicsModel.BoardComment" Role="BoardComment" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="BulletinBoard">
-              <PropertyRef Name="BulletinBoardSeq" />
-            </Principal>
-            <Dependent Role="BoardComment">
-              <PropertyRef Name="BulletinBoardSeq" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_BoardSubComment_BoardComment">
           <End Type="QiuYudengMathematicsModel.BoardComment" Role="BoardComment" Multiplicity="1" />
           <End Type="QiuYudengMathematicsModel.BoardSubComment" Role="BoardSubComment" Multiplicity="*" />
@@ -698,6 +663,41 @@
         <Association Name="GroupCourseStudent">
           <End Type="QiuYudengMathematicsModel.CourseVideo" Role="CourseVideo" Multiplicity="*" />
           <End Type="QiuYudengMathematicsModel.Student" Role="Student" Multiplicity="*" />
+        </Association>
+        <EntityType Name="BulletinBoard">
+          <Key>
+            <PropertyRef Name="BulletinBoardSeq" />
+          </Key>
+          <Property Name="BulletinBoardSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Content" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
+          <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <Property Name="Enable" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="BoardComment" Relationship="QiuYudengMathematicsModel.FK_BoardComment_BulletinBoard" FromRole="BulletinBoard" ToRole="BoardComment" />
+          <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" FromRole="BulletinBoard" ToRole="GroupGradeSubject" />
+        </EntityType>
+        <Association Name="FK_BoardComment_BulletinBoard">
+          <End Type="QiuYudengMathematicsModel.BulletinBoard" Role="BulletinBoard" Multiplicity="1" />
+          <End Type="QiuYudengMathematicsModel.BoardComment" Role="BoardComment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="BulletinBoard">
+              <PropertyRef Name="BulletinBoardSeq" />
+            </Principal>
+            <Dependent Role="BoardComment">
+              <PropertyRef Name="BulletinBoardSeq" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_BulletinBoard_GroupGradeSubject">
+          <End Type="QiuYudengMathematicsModel.GroupGradeSubject" Role="GroupGradeSubject" Multiplicity="1" />
+          <End Type="QiuYudengMathematicsModel.BulletinBoard" Role="BulletinBoard" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="GroupGradeSubject">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="BulletinBoard">
+              <PropertyRef Name="SubjectId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         </Schema>
     </edmx:ConceptualModels>
@@ -781,16 +781,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="BulletinBoard">
-            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.BulletinBoard">
-              <MappingFragment StoreEntitySet="BulletinBoard">
-                <ScalarProperty Name="Enable" ColumnName="Enable" />
-                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
-                <ScalarProperty Name="Content" ColumnName="Content" />
-                <ScalarProperty Name="BulletinBoardSeq" ColumnName="BulletinBoardSeq" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BoardComment">
             <EntityTypeMapping TypeName="QiuYudengMathematicsModel.BoardComment">
               <MappingFragment StoreEntitySet="BoardComment">
@@ -840,6 +830,16 @@
               <ScalarProperty Name="CourseSeq" ColumnName="CourseSeq" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="BulletinBoard">
+            <EntityTypeMapping TypeName="QiuYudengMathematicsModel.BulletinBoard">
+              <MappingFragment StoreEntitySet="BulletinBoard">
+                <ScalarProperty Name="Enable" ColumnName="Enable" />
+                <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="BulletinBoardSeq" ColumnName="BulletinBoardSeq" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
