@@ -54,7 +54,7 @@
             <div class="popup--body">
                 <div>
                     <p>名稱</p>
-                    <input class="width200" :value="info.Name" v-model="info.CourseName" />
+                    <input class="width200" :value="info.Name" v-model="info.CourseName" maxlength="50"/>
                 </div>
                 <div>
                     <p>年級</p>
@@ -86,6 +86,10 @@
                 <div>
                     <p>片名</p>
                     <input class="width200" type="text" placeholder="請輸入影片名稱" v-model="info.Url">
+                </div>
+                <div>
+                    <p>日期</p>
+                    <input class="width200" type="text" placeholder="YYYY/MM/DD" maxlength="10" v-model="info.CourseDate"/>
                 </div>
             </div>
             <div class="popup--footer">
@@ -150,7 +154,8 @@ const vm = new Vue({
             Grade: '',
             Url:'',
             Enable: true,
-            Student: []
+            Student: [],
+            CourseDate: ''
         },
         currPage: 1,
         itemPerPage: 10
@@ -214,6 +219,7 @@ const vm = new Vue({
                     this.info.Enable = Enable
                     this.info.SubjectId = String(SubbjectInfo.SubjectId)
                     this.info.Student = Student
+                    this.info.CourseDate = CourseDateStr
                 })
                 .finally(() => { this.pupUpOn = true; })
         },
@@ -278,7 +284,8 @@ const vm = new Vue({
                 SubjectId: parseInt(this.info.SubjectId),
                 Enable: this.info.Enable,
                 CourseSeq: this.info.CourseSeq,
-                Url: this.info.Url
+                Url: this.info.Url,
+                CourseDate: this.info.CourseDate
             }
 
             if (this.info.CourseSeq === 0) {

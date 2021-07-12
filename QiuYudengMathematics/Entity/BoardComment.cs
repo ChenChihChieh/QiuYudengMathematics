@@ -24,7 +24,7 @@ namespace QiuYudengMathematics.Entity
         public string Account { get; set; }
         public string Comment { get; set; }
     
-        public virtual BulletinBoard BulletinBoard { get; set; }
         public virtual ICollection<BoardSubComment> BoardSubComment { get; set; }
+        public virtual BulletinBoard BulletinBoard { get; set; }
     }
 }

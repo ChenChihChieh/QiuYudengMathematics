@@ -37,7 +37,9 @@ namespace QiuYudengMathematics.Entity.Service
                         },
                         Enable = item.Enable,
                         Student = item.Student.Select(y => y.Account).ToList(),
-                        CourseVideoProgress = QueryProgress(db, item)
+                        CourseVideoProgress = QueryProgress(db, item),
+                        CourseDate = item.CourseDate,
+                        CourseDateStr = item.CourseDate.HasValue ? item.CourseDate.Value.ToString("yyyy/MM/dd") : string.Empty
                     }).ToList();
 
                 if (model.SubjectId.HasValue)
@@ -47,7 +49,7 @@ namespace QiuYudengMathematics.Entity.Service
                 if (model.Enable.HasValue)
                     data = data.Where(x => x.Enable == model.Enable.Value).ToList();
 
-                return data;
+                return data.OrderBy(x => x.CourseDate).ThenBy(y => y.CourseSeq).ToList();
             }
         }
         public CourseManagementViewModel SingleQuery(int Seq)
@@ -69,7 +71,9 @@ namespace QiuYudengMathematics.Entity.Service
                         },
                         Enable = item.Enable,
                         Student = item.Student.Select(y => y.Account).ToList(),
-                        CourseVideoProgress = QueryProgress(db, item)
+                        CourseVideoProgress = QueryProgress(db, item),
+                        CourseDate = item.CourseDate,
+                        CourseDateStr = item.CourseDate.HasValue ? item.CourseDate.Value.ToString("yyyy/MM/dd") : string.Empty
                     }).FirstOrDefault();
         }
         private List<string> QueryProgress(QiuYudengMathematicsEntities db, CourseVideo cv)
@@ -96,7 +100,8 @@ namespace QiuYudengMathematics.Entity.Service
                         CourseName = model.CourseName,
                         Url = model.Url,
                         SubjectId = model.SubjectId,
-                        Enable = model.Enable
+                        Enable = model.Enable,
+                        CourseDate = model.CourseDate
                     };
                     db.CourseVideo.Add(cv);
                     rtn.Success = db.SaveChanges() > 0;
@@ -126,6 +131,7 @@ namespace QiuYudengMathematics.Entity.Service
                         Course.SubjectId = model.SubjectId;
                         Course.Url = model.Url;
                         Course.Enable = model.Enable;
+                        Course.CourseDate = model.CourseDate;
                         rtn.Success = db.SaveChanges() > 0;
                         rtn.Msg = rtn.Success ? "更新成功" : "更新失敗";
                         return rtn;
@@ -183,6 +189,7 @@ namespace QiuYudengMathematics.Entity.Service
             if (string.IsNullOrEmpty(model.CourseName)) return new RtnModel() { Success = false, Msg = "請輸入名稱" };
             if (string.IsNullOrEmpty(model.Url)) return new RtnModel() { Success = false, Msg = "請輸入影片名稱" };
             if (model.SubjectId == 0) return new RtnModel() { Success = false, Msg = "請選擇科目" };
+            if (!model.CourseDate.HasValue) return new RtnModel() { Success = false, Msg = "請輸入日期" };
             return new RtnModel() { Success = true, Msg = string.Empty };
         }
 
