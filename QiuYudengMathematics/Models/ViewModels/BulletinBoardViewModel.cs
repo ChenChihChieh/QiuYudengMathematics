@@ -12,23 +12,5 @@ namespace QiuYudengMathematics.Models.ViewModels
         public int SubjectId { get; set; }
         public SubbjectInfo Subject { get; set; }
         public bool Enable { get; set; }
-        public List<Comment> Comment { get; set; }
-    }
-    public class Comment
-    {
-        public int Seq { get; set; }
-        public string Account { get; set; }
-        public string AcoountName { get; set; }
-        public bool Display { get; set; }
-        public string Commentary { get; set; }
-        public List<SubComment> SubComment { get; set; }
-    }
-    public class SubComment
-    {
-        public int Seq { get; set; }
-        public string Account { get; set; }
-        public string AcoountName { get; set; }
-        public bool Display { get; set; }
-        public string Commentary { get; set; }
     }
 }

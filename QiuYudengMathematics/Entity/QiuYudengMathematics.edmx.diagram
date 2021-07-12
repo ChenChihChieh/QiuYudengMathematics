@@ -17,9 +17,6 @@
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.StudentDevice" Width="1.5" PointX="7.5" PointY="4.75" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_StudentDevice_Student" />
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.LogError" Width="1.5" PointX="0.75" PointY="7.75" />
-        <EntityTypeShape EntityType="QiuYudengMathematicsModel.BoardComment" Width="1.5" PointX="7.5" PointY="9.5" />
-        <EntityTypeShape EntityType="QiuYudengMathematicsModel.BoardSubComment" Width="1.5" PointX="9.75" PointY="9.625" />
-        <AssociationConnector Association="QiuYudengMathematicsModel.FK_BoardSubComment_BoardComment" />
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.CourseVIdeoProgress" Width="1.5" PointX="10.5" PointY="3.625" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_CourseVIdeoProgress_Student" />
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.CourseVideo" Width="1.5" PointX="5.25" PointY="5.125" />
@@ -27,7 +24,6 @@
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_CourseVIdeoProgress_CourseVideo" />
         <AssociationConnector Association="QiuYudengMathematicsModel.GroupCourseStudent" />
         <EntityTypeShape EntityType="QiuYudengMathematicsModel.BulletinBoard" Width="1.5" PointX="5.25" PointY="9.375" />
-        <AssociationConnector Association="QiuYudengMathematicsModel.FK_BoardComment_BulletinBoard" />
         <AssociationConnector Association="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" />
       </Diagram>
     </edmx:Diagrams>

@@ -33,27 +33,7 @@ namespace QiuYudengMathematics.Entity.Service
                             SubjectGradeId = item.GroupGradeSubject.GradeID,
                             SubjectName = item.GroupGradeSubject.Subject
                         },
-                        Enable = item.Enable,
-                        Comment = item.BoardComment.Select(c => new Comment()
-                        {
-                            Seq = c.Seq,
-                            Account = c.Account,
-                            AcoountName = ConfigurationManager.AppSettings["adminAccount"].ToString() == c.Account ?
-                                                "管理員" :
-                                                (Students.Where(s => s.Account == c.Account).Any() ? Students.Where(s => s.Account == c.Account).First().Name : ""),
-                            Display = ConfigurationManager.AppSettings["adminAccount"].ToString() == c.Account || (Students.Where(s => s.Account == c.Account).Any() ? true : false),
-                            Commentary = c.Comment,
-                            SubComment = c.BoardSubComment.Select(cs => new SubComment()
-                            {
-                                Seq = cs.Seq,
-                                Account = cs.Account,
-                                AcoountName = ConfigurationManager.AppSettings["adminAccount"].ToString() == cs.Account ?
-                                                "管理員" :
-                                                (Students.Where(s => s.Account == cs.Account).Any() ? Students.Where(s => s.Account == cs.Account).First().Name : ""),
-                                Display = ConfigurationManager.AppSettings["adminAccount"].ToString() == cs.Account || (Students.Where(s => s.Account == cs.Account).Any() ? true : false),
-                                Commentary = cs.Comment
-                            }).ToList()
-                        }).ToList()
+                        Enable = item.Enable
                     }).ToList();
 
                 if (model.SubjectId != null && model.SubjectId.Count() > 0)

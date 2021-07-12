@@ -134,12 +134,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\PwdResetController.cs" />
-    <Compile Include="Entity\BoardComment.cs">
-      <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Entity\BoardSubComment.cs">
-      <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
-    </Compile>
     <Compile Include="Entity\BulletinBoard.cs">
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
@@ -175,7 +169,6 @@
     </Compile>
     <Compile Include="Entity\Service\AccountService.cs" />
     <Compile Include="Entity\Service\BulletinBoardService.cs" />
-    <Compile Include="Entity\Service\CommentService.cs" />
     <Compile Include="Entity\Service\CourseService.cs" />
     <Compile Include="Entity\Service\DeviceService.cs" />
     <Compile Include="Entity\Service\LogService.cs" />
