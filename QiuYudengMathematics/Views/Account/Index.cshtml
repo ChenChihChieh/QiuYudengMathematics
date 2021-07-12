@@ -49,7 +49,7 @@
             </div>
             <div class="popup--body">
                 <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled /></div>
-                <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" /></div>
+                <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" maxlength="10"/></div>
                 <div>
                     <p>年級</p>
                     <div class="width200">
