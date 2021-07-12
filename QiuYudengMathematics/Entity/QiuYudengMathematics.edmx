@@ -12,6 +12,7 @@
           <Property Name="BulletinBoardSeq" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Content" Type="nvarchar" MaxLength="1000" Nullable="false" />
           <Property Name="SubjectId" Type="int" Nullable="false" />
+          <Property Name="FilePath" Type="nvarchar" MaxLength="100" />
           <Property Name="Enable" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="CourseVideo">
@@ -576,6 +577,7 @@
           <Property Name="BulletinBoardSeq" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Content" Type="String" Nullable="false" MaxLength="1000" FixedLength="false" Unicode="true" />
           <Property Name="SubjectId" Type="Int32" Nullable="false" />
+          <Property Name="FilePath" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Enable" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="GroupGradeSubject" Relationship="QiuYudengMathematicsModel.FK_BulletinBoard_GroupGradeSubject" FromRole="BulletinBoard" ToRole="GroupGradeSubject" />
         </EntityType>
@@ -706,6 +708,7 @@
             <EntityTypeMapping TypeName="QiuYudengMathematicsModel.BulletinBoard">
               <MappingFragment StoreEntitySet="BulletinBoard">
                 <ScalarProperty Name="Enable" ColumnName="Enable" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
                 <ScalarProperty Name="SubjectId" ColumnName="SubjectId" />
                 <ScalarProperty Name="Content" ColumnName="Content" />
                 <ScalarProperty Name="BulletinBoardSeq" ColumnName="BulletinBoardSeq" />

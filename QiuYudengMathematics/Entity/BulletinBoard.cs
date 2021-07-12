@@ -17,6 +17,7 @@ namespace QiuYudengMathematics.Entity
         public int BulletinBoardSeq { get; set; }
         public string Content { get; set; }
         public int SubjectId { get; set; }
+        public string FilePath { get; set; }
         public bool Enable { get; set; }
     
         public virtual GroupGradeSubject GroupGradeSubject { get; set; }
