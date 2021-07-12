@@ -88,6 +88,10 @@
                     <p>片名</p>
                     <input class="width200" type="text" placeholder="請輸入影片名稱" v-model="info.Url">
                 </div>
+                <div>
+                    <p>日期</p>
+                    <input class="width200" type="text" placeholder="YYYY/MM/DD" maxlength="10" v-model="info.CourseDate"/>
+                </div>
             </div>
             <div class="popup--footer">
                 <a @@click="submit" class="blue-btn">儲存</a>
@@ -185,7 +189,8 @@ const vm = new Vue({
             Grade: '',
             Url:'',
             Enable: true,
-            Student: []
+            Student: [],
+            CourseDate: ''
         },
         currPage: 1,
         itemPerPage: 10
@@ -242,7 +247,7 @@ const vm = new Vue({
             axios.post('@Url.Content("~/Course/SingleQuery?Seq=")' + `${val}`)
                 .then(res => {
                     console.log(res.data.Data)
-                    const { CourseSeq, CourseName, Url, SubbjectInfo, Enable, Student } = res.data.Data
+                    const { CourseSeq, CourseName, Url, SubbjectInfo, Enable, Student, CourseDateStr } = res.data.Data
                     this.info.CourseSeq = CourseSeq
                     this.info.CourseName = CourseName
                     this.info.Url = Url
@@ -250,6 +255,7 @@ const vm = new Vue({
                     this.info.Enable = Enable
                     this.info.SubjectId = String(SubbjectInfo.SubjectId)
                     this.info.Student = Student
+                    this.info.CourseDate = CourseDateStr
                 })
                 .finally(() => { this.pupUpOn = true; })
         },
@@ -347,7 +353,8 @@ const vm = new Vue({
                 SubjectId: parseInt(this.info.SubjectId),
                 Enable: this.info.Enable,
                 CourseSeq: this.info.CourseSeq,
-                Url: this.info.Url
+                Url: this.info.Url,
+                CourseDate: this.info.CourseDate
             }
 
             if (this.info.CourseSeq === 0) {

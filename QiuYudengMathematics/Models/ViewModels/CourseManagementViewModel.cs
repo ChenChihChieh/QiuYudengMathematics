@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web;
 
 namespace QiuYudengMathematics.Models.ViewModels
@@ -16,6 +17,8 @@ namespace QiuYudengMathematics.Models.ViewModels
         public bool Enable { get; set; }
         public List<string> Student { get; set; }
         public List<string> CourseVideoProgress { get; set; }
+        public DateTime? CourseDate { get; set; }
+        public string CourseDateStr { get; set; }
     }
     public class SubbjectInfo
     {

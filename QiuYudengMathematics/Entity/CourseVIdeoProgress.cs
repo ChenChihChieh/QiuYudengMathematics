@@ -18,7 +18,7 @@ namespace QiuYudengMathematics.Entity
         public int CourseSeq { get; set; }
         public decimal Progress { get; set; }
     
-        public virtual CourseVideo CourseVideo { get; set; }
         public virtual Student Student { get; set; }
+        public virtual CourseVideo CourseVideo { get; set; }
     }
 }

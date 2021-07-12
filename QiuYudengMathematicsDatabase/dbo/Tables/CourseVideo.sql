@@ -4,9 +4,12 @@
     [Url]        VARCHAR (MAX) NOT NULL,
     [SubjectId]  INT           NOT NULL,
     [Enable]     BIT           NOT NULL,
+    [CourseDate] DATE          NULL,
     CONSTRAINT [PK_CourseVideo] PRIMARY KEY CLUSTERED ([CourseSeq] ASC),
     CONSTRAINT [FK_CourseVideo_GroupGradeSubject] FOREIGN KEY ([SubjectId]) REFERENCES [dbo].[GroupGradeSubject] ([ID])
 );
+
+
 
 
 
