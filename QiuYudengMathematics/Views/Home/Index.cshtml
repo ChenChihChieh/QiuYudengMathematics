@@ -43,7 +43,6 @@
             axios.post('@Url.Content("~/Home/QueryBulletinBoard")')
                 .then(res => {
                     this.rawList = res.data.Data;
-                    console.log(this.rawList)
                     //this.fetchRawList();
                 });
 
