@@ -26,7 +26,7 @@ namespace QiuYudengMathematics.Controllers
             return Json(new RtnModel()
             {
                 Success = true,
-                Data = bulletinBoardService.Query(model)
+                Data = bulletinBoardService.Query(model).OrderBy(x => x.SubjectId).ToList()
             }, JsonRequestBehavior.AllowGet);
         }
         public ActionResult InsertComment(CommentModel model) => Json(commentService.InsertComment(model), JsonRequestBehavior.AllowGet);
