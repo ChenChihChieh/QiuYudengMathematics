@@ -92,3 +92,27 @@
     color: #fff;
     cursor: pointer;
 }
+
+
+@media screen and (max-width: 480px) {
+
+    .course-management__search-bar--flex input {
+        width: 180px;
+    }
+
+    .course-management__th {
+        padding: 5px 8px;
+    }
+
+    .course-management__td {
+        padding: 5px 8px;
+    }
+
+    .course-management__pre {
+        display: none;
+    }
+
+    .course-management__next {
+        display: none;
+    }
+}

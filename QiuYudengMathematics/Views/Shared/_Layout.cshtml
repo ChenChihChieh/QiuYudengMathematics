@@ -57,6 +57,9 @@
                                             <li>@Html.ActionLink("試聽課程", "CourseLearn", "Course", new { SubjectId = -1 }, null)</li>
                                         </ul>
                                     </li>
+                                    <li>
+                                        <a href="javascript:void(0)" id="msg--show" onclick="showPopUp()"><i class="icon-off"></i>訊息</a>
+                                    </li>
                                 }
                             </ul>
                         </td>
@@ -81,6 +84,18 @@
     </div>
     <div class="body">
         @RenderBody()
+        <div style="display:none;" id="layout__popup" class="popup--wrapper">
+            <div class="popup">
+                <div class="popup--heading">
+                    <span>聯絡資訊</span>
+                    <i id="msg--hide" onclick="hidePopUp()" class="fas fa-times"></i>
+                </div>
+                <div class="popup--body">
+                    <h3>LINE ID : 申請中</h3>
+                    <img style="width:250px;height:250px;align-self: center;" src="https://picsum.photos/200/200?random=11" alt="QR Code" />
+                </div>
+            </div>
+        </div>
         <hr />
         <footer>
             <p></p>
@@ -92,3 +107,14 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script>
+    
+    $('#msg--show').click(() => {
+        $('#layout__popup').show();
+    })
+
+    $('#msg--hide').click(() => {
+        $('#layout__popup').hide();
+    })
+</script>

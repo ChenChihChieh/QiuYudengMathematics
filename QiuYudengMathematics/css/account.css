@@ -111,3 +111,23 @@
     border-right: 6px solid #e2e2e2;
     border-left: 6px solid #e2e2e2;
 }
+
+@media screen and (max-width: 480px) {
+
+    .account__search-bar--flex input {
+        width: 180px;
+    }
+
+    .account__th {
+        padding:5px 8px;
+    }
+    .account__td {
+        padding: 5px 8px;
+    }
+    .account__pre{
+        display:none;
+    }
+    .account__next {
+        display: none;
+    }
+}

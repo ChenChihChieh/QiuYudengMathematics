@@ -83,3 +83,26 @@
     cursor: no-drop;
     border: 1px solid #fff;
 }
+
+@media screen and (max-width: 480px) {
+
+    .bulletin__select select {
+        width: 180px;
+    }
+
+    .bulletin__th {
+        padding: 5px 8px;
+    }
+
+    .bulletin__td {
+        padding: 5px 8px;
+    }
+
+    .bulletin__pre {
+        display: none;
+    }
+
+    .bulletin__next {
+        display: none;
+    }
+}

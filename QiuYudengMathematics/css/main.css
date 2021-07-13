@@ -49,13 +49,13 @@ html {
     font-size: 18px;
     line-height: 1.4em;
 }
-
+/*
     #app h4 {
         font-size: 32px;
         line-height: 1.75;
         font-weight: bold;
         color: var(--color-black);
-    }
+    }*/
 
     #app h5 {
         font-size: 24px;
@@ -269,5 +269,15 @@ a.red-btn {
     }
     .pagenation .last {
         display: none;
+    }
+
+}
+@media screen and (max-width: 480px){
+
+    .popup {
+        width: 300px;
+        top: 300px;
+        left: 50%;
+        transform: translate(-150px, -150px);
     }
 }
