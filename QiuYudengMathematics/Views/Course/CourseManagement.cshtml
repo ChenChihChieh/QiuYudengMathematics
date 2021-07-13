@@ -25,6 +25,7 @@
                 <div class="course-management__td">
                     <a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a>
                     <a @@click.prevent="showTrialPopUp(item.CourseSeq, item.Student)"><i class="fas fa-user"></i></a>
+                    <a @@click.prevent="showProgressPupUp(item.CourseVideoProgress)"><i class="fas fa-circle"></i></a>
                 </div>
             </div>
         </div>
@@ -46,7 +47,7 @@
             <div class="popup--body">
                 <div>
                     <p>名稱</p>
-                    <input class="width200" :value="info.Name" v-model="info.CourseName" maxlength="50"/>
+                    <input class="width200" :value="info.Name" v-model="info.CourseName" maxlength="50" />
                 </div>
                 <div>
                     <p>年級</p>
@@ -81,7 +82,7 @@
                 </div>
                 <div>
                     <p>日期</p>
-                    <input class="width200" type="text" placeholder="YYYY/MM/DD" maxlength="10" v-model="info.CourseDate"/>
+                    <input class="width200" type="text" placeholder="YYYY/MM/DD" maxlength="10" v-model="info.CourseDate" />
                 </div>
             </div>
             <div class="popup--footer">
@@ -117,6 +118,20 @@
             </div>
         </div>
     </div>
+    <div v-show="ProgressPupUpOn" class="popup--wrapper">
+        <div class="popup">
+            <div class="popup--heading">
+                <span>學生進度</span>
+                <i @@click="ProgressPupUpOn = false" class="fas fa-times"></i>
+            </div>
+            <div class="popup--body">
+                <p style="color:red" v-if="!ProgressList.length">目前無學生看影片</p>
+                <div v-else="" v-for="ProgressStr in ProgressList">
+                    {{ProgressStr}}
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
@@ -134,8 +149,10 @@ const vm = new Vue({
             fileName: '',
             Seq : 0,
         },
+        ProgressList:[],
         pupUpOn: false,
         trialListPupUpOn: false,
+        ProgressPupUpOn: false,
         isInsert: false,
         allSubjectList:[],
         subject: '',
@@ -203,7 +220,7 @@ const vm = new Vue({
         showPopUp(val) {
             axios.post('@Url.Content("~/Course/SingleQuery?Seq=")' + `${val}`)
                 .then(res => {
-                    const { CourseSeq, CourseName, Url, SubbjectInfo, Enable, Student } = res.data.Data
+                    const { CourseSeq, CourseName, Url, SubbjectInfo, Enable, Student, CourseDateStr } = res.data.Data
                     this.info.CourseSeq = CourseSeq
                     this.info.CourseName = CourseName
                     this.info.Url = Url
@@ -223,6 +240,11 @@ const vm = new Vue({
             this.updateTrialList.trialList = trialList
             this.updateTrialList.seq = seq
             this.trialListPupUpOn = true;
+        },
+        showProgressPupUp(Progress) {
+            this.ProgressList = [];
+            Progress.forEach(element => this.ProgressList.push(element));
+            this.ProgressPupUpOn = true;
         },
         hidePopUp() {
             this.pupUpOn = false;
