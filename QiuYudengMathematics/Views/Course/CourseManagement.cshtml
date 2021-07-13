@@ -129,6 +129,10 @@
                 <div v-else="" v-for="ProgressStr in ProgressList">
                     {{ProgressStr}}
                 </div>
+                <div v-show="ProgressListAll.length > 10" class="pagenation">
+                    <a @@click.prevent="setProgressPage('P')">Previous</a>
+                    <a @@click.prevent="setProgressPage('N')">Next</a>
+                </div>
             </div>
         </div>
     </div>
@@ -149,7 +153,8 @@ const vm = new Vue({
             fileName: '',
             Seq : 0,
         },
-        ProgressList:[],
+        ProgressList: [],
+        ProgressListAll: [],
         pupUpOn: false,
         trialListPupUpOn: false,
         ProgressPupUpOn: false,
@@ -167,7 +172,8 @@ const vm = new Vue({
             CourseDate: ''
         },
         currPage: 1,
-        itemPerPage: 10
+        itemPerPage: 10,
+        ProgressPage: 1
     },
     mounted() {
         //取得所有影片，帶科目(查詢所有就放Null)
@@ -242,8 +248,14 @@ const vm = new Vue({
             this.trialListPupUpOn = true;
         },
         showProgressPupUp(Progress) {
+            this.ProgressListAll = [];
             this.ProgressList = [];
+            this.ProgressPage = 1;
+            Progress.forEach(element => this.ProgressListAll.push(element));
             Progress.forEach(element => this.ProgressList.push(element));
+            const lastIdx = this.ProgressPage * this.itemPerPage;
+            const firstIdx = lastIdx - this.itemPerPage;
+            this.ProgressList = this.ProgressList.slice(firstIdx, lastIdx);
             this.ProgressPupUpOn = true;
         },
         hidePopUp() {
@@ -324,6 +336,27 @@ const vm = new Vue({
         },
         setPage(n) {
             this.currPage = n
+        },
+        setProgressPage(n) {
+            if (n == "P") {
+                //上一頁
+                if (this.ProgressPage == 1) return;
+                this.ProgressPage = this.ProgressPage - 1;
+                this.ProgressList = [];
+                this.ProgressListAll.forEach(element => this.ProgressList.push(element));
+                const lastIdx = this.ProgressPage * this.itemPerPage;
+                const firstIdx = lastIdx - this.itemPerPage;
+                this.ProgressList = this.ProgressList.slice(firstIdx, lastIdx);
+            } else {
+                //下一頁
+                var Total = Math.ceil(this.ProgressListAll.length / this.itemPerPage);
+                this.ProgressPage = this.ProgressPage + 1 > Total ? Total : this.ProgressPage + 1;
+                this.ProgressList = [];
+                this.ProgressListAll.forEach(element => this.ProgressList.push(element));
+                const lastIdx = this.ProgressPage * this.itemPerPage;
+                const firstIdx = lastIdx - this.itemPerPage;
+                this.ProgressList = this.ProgressList.slice(firstIdx, lastIdx);
+            };
         },
         pageRule(page) {
             return this.currPage == 1 || this.currPage == this.totalPageCount ?
