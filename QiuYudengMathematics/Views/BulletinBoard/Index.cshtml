@@ -1,14 +1,4 @@
-﻿@*<br/>
-    <br/>
-    <br/>
-    <br/>
-    <br/>
-    <input type="button" value="Query" onclick="Query()" />
-    <input type="button" value="SingleQuery" onclick="SingleQuery()" />
-    <input type="button" value="Insert" onclick="Insert()" />
-    <input type="button" value="Update" onclick="Update()" />*@
-
-<div id="app" class="bulletin">
+﻿<div id="app" class="bulletin">
     <div class="bulletin__container">
         <div class="bulletin__topWrapper">
             <div class="bulletin__select">
@@ -88,7 +78,7 @@
                 </div>
                 <div>
                     <p>附件</p>
-                    <input type="text" class="width200" v-model="info.FilePath"/>
+                    <input type="text" class="width200" v-model="info.FilePath" maxlength="100"/>
                 </div>
                 <div>
                     <p>狀態</p>
@@ -239,48 +229,4 @@
             },
         }
     })
-</script>
-
-<script type="text/javascript">
-    function Query() {
-        var data = {
-            SubjectId: [], //科目(沒有就放空陣列，有放陣列(數字))
-            Enable: null //啟用或停用
-        };
-        $.post("@(Url.Content("~/BulletinBoard/Query"))", data, function (x) {
-            if(x.Data.length>0)
-                alert(x.Data[0].Content);
-            else
-                alert('查無資料');
-        });
-    };
-
-    function SingleQuery() {
-        $.post("@(Url.Content("~/BulletinBoard/SingleQuery?Seq="))" + 1, function (x) {
-            alert(x.Data.Content);
-        });
-    };
-
-    function Insert() {
-        var data = {
-            Content: '大家好',  //內容
-            SubjectId: 2, //科目
-            Enable: true //啟用/停用
-        };
-        $.post("@(Url.Content("~/BulletinBoard/Insert"))", data, function (x) {
-            alert(x.Msg);
-        });
-    };
-
-    function Update() {
-        var data = {
-            BulletinBoardSeq: 1, //PK
-            Content: '大家安安',  //內容
-            SubjectId: 2, //科目
-            Enable: false //啟用/停用
-        };
-        $.post("@(Url.Content("~/BulletinBoard/Update"))", data, function (x) {
-            alert(x.Msg);
-        });
-    };
 </script>

@@ -85,6 +85,13 @@ namespace QiuYudengMathematics.Entity.Service
                 var CourseVideoProgress = db.CourseVIdeoProgress.Where(y => y.Account == x.Account && y.CourseSeq == cv.CourseSeq).FirstOrDefault();
                 str.Add(string.Format("{0}-{1},進度:{2}", x.Account, x.Name, CourseVideoProgress == null ? "0%" : Math.Ceiling(CourseVideoProgress.Progress * 100).ToString() + "%"));
             });
+            if (cv.Student.Count() > 0) str.Add("以下為試聽學生：");
+            //試聽的學生進度
+            cv.Student.ToList().ForEach(x => 
+            {
+                var CourseVideoProgress = db.CourseVIdeoProgress.Where(y => y.Account == x.Account && y.CourseSeq == cv.CourseSeq).FirstOrDefault();
+                str.Add(string.Format("{0}-{1},進度:{2}", x.Account, x.Name, CourseVideoProgress == null ? "0%" : Math.Ceiling(CourseVideoProgress.Progress * 100).ToString() + "%"));
+            });
             return str;
         }
         public RtnModel Insert(CourseManagementViewModel model)

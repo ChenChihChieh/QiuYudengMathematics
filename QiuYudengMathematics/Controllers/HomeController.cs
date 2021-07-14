@@ -31,6 +31,7 @@ namespace QiuYudengMathematics.Controllers
         public ActionResult DownLoad(int Seq)
         {
             var FilePath = ConfigurationManager.AppSettings["BulletinBoardFilePath"].ToString() + bulletinBoardService.SingleQuery(Seq).FilePath;
+            if (string.IsNullOrEmpty(System.IO.Path.GetExtension(FilePath))) FilePath += ".pdf";
             var FileName = System.IO.Path.GetFileName(FilePath);
             if (System.IO.File.Exists(FilePath))
                 return File(FilePath, MimeMapping.GetMimeMapping(FileName), FileName);
