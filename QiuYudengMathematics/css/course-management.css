@@ -100,12 +100,30 @@
         width: 180px;
     }
 
+    .course-management__table {
+        grid-template-columns: 2fr 2fr 2fr 2fr 4fr;
+    }
+
+    .course-management__td:first-child{
+        max-width:120px;
+    }
+    .course-management__td:last-child a{
+        display:inline-block;
+    }
+    .course-management__td:last-child a {
+        padding:0;
+    }
+/*        .course-management__td:last-child a:not(:last-child) {
+            padding-right: 7px;
+        }*/
+
     .course-management__th {
         padding: 5px 8px;
     }
 
     .course-management__td {
         padding: 5px 8px;
+        word-wrap: break-word;
     }
 
     .course-management__pre {
@@ -114,5 +132,9 @@
 
     .course-management__next {
         display: none;
+    }
+
+    .course-management__popup{
+        top:220px;
     }
 }
