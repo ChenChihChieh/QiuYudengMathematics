@@ -65,7 +65,7 @@ namespace QiuYudengMathematics.Controllers
                 else
                     TempData["Message"] = "帳號或密碼錯誤";
                 return View("Index");
-            }         
+            }
         }
 
         public ActionResult LogoutForErrAccount(string ErrMsg)
@@ -79,7 +79,21 @@ namespace QiuYudengMathematics.Controllers
         {
             try
             {
-                return Dns.GetHostEntry(Request.UserHostAddress).HostName;
+                string Hostname = Dns.GetHostEntry(Request.UserHostAddress).HostName;
+                string NewName = Hostname;
+                if (Hostname.Split('.').Length > 0)
+                {
+                    NewName = string.Empty;
+                    for (var i = 0; i <= Hostname.Split('.').Length - 1; i++)
+                    {
+                        var s = Hostname.Split('.')[i];
+                        if (i != 0 && !int.TryParse(s, out var ip))
+                            NewName += s + ".";
+                    }
+                    NewName = NewName.Substring(0, NewName.Length - 1);
+                }
+
+                return NewName;
             }
             catch
             {
