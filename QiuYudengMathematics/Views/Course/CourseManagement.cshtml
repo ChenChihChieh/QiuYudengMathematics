@@ -31,15 +31,15 @@
         </div>
         <div v-show="curList.length > 10" class="pagenation">
             <a @@click.prevent="setPage(1)">First</a>
-            <a @@click.prevent="setPage(previousPage)">Previous</a>
+            <a class="course-management__pre" @@click.prevent="setPage(previousPage)">Previous</a>
             <a v-for="(n, index) in totalPageCount" v-show="pageRule(n)" v-bind:class=" currPage === n ? 'active' : '' " :key="n"
                @@click.prevent="setPage(n)">{{n}}</a>
-            <a @@click.prevent="setPage(nextPage)">Next</a>
+            <a class="course-management__next" @@click.prevent="setPage(nextPage)">Next</a>
             <a @@click.prevent="setPage(totalPageCount)">Last</a>
         </div>
     </div>
     <div v-show="pupUpOn" class="popup--wrapper">
-        <div class="popup">
+        <div class="popup course-management__popup">
             <div class="popup--heading">
                 <span>課程管理</span>
                 <i @@click="hidePopUp" class="fas fa-times"></i>
