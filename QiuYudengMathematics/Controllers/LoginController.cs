@@ -80,18 +80,28 @@ namespace QiuYudengMathematics.Controllers
             try
             {
                 string Hostname = Dns.GetHostEntry(Request.UserHostAddress).HostName;
-                string NewName = Hostname;
-                if (Hostname.Split('.').Length > 0)
+                string NewName = string.Empty;
+
+                for (var i = 0; i <= Hostname.Split('.').Length - 1; i++)
                 {
-                    NewName = string.Empty;
-                    for (var i = 0; i <= Hostname.Split('.').Length - 1; i++)
+                    var str = Hostname.Split('.')[i];
+                    if (i != 0 && !int.TryParse(str, out var ip))
                     {
-                        var s = Hostname.Split('.')[i];
-                        if (i != 0 && !int.TryParse(s, out var ip))
-                            NewName += s + ".";
+                        //排除192-123-241，類似這樣的IP段
+                        var bo = true;
+                        foreach (var item in str.Split('-'))
+                        {
+                            if (int.TryParse(item, out var s))
+                                bo = false;
+                        }
+                        if (bo)
+                            NewName += str + ".";
                     }
-                    NewName = NewName.Substring(0, NewName.Length - 1);
                 }
+                NewName = NewName.Substring(0, NewName.Length - 1);
+
+                if (string.IsNullOrEmpty(NewName))
+                    NewName = Hostname;
 
                 return NewName;
             }
