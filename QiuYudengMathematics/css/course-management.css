@@ -113,9 +113,6 @@
     .course-management__td:last-child a {
         padding:0;
     }
-/*        .course-management__td:last-child a:not(:last-child) {
-            padding-right: 7px;
-        }*/
 
     .course-management__th {
         padding: 5px 8px;
