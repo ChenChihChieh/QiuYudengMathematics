@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <script src="~/Scripts/jquery-3.4.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.14"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+    <script src="~/Scripts/vue2.6.14.js"></script>
+    <script src="~/Scripts/axios.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     @Styles.Render("~/css/main.css")
     @Styles.Render("~/css/account.css")
     @Styles.Render("~/css/home.css")
     @Styles.Render("~/css/course-management.css")
-    @Styles.Render("~/css/course-learn.css") 
+    @Styles.Render("~/css/course-learn.css")
     @Styles.Render("~/css/course-vedio.css")
     @Styles.Render("~/css/jumbotron.css")
     @Styles.Render("~/Content/css")
@@ -58,7 +58,7 @@
                                         </ul>
                                     </li>
                                     <li>
-                                        <a href="javascript:void(0)" id="msg--show" onclick="showPopUp()"><i class="icon-off"></i>訊息</a>
+                                        <a href="javascript:void(0)" id="msg--show"><i class="icon-off"></i>訊息</a>
                                     </li>
                                 }
                             </ul>
@@ -88,7 +88,7 @@
             <div class="popup">
                 <div class="popup--heading">
                     <span>聯絡資訊</span>
-                    <i id="msg--hide" onclick="hidePopUp()" class="fas fa-times"></i>
+                    <i id="msg--hide" class="fas fa-times"></i>
                 </div>
                 <div class="popup--body">
                     <h3>LINE ID : 申請中</h3>
