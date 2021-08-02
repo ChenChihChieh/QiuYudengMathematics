@@ -1,4 +1,5 @@
 ﻿using QiuYudengMathematics.Entity.Service;
+using QiuYudengMathematics.Filter;
 using QiuYudengMathematics.Models;
 using QiuYudengMathematics.Models.ViewModels;
 using System.Web.Mvc;
@@ -13,6 +14,7 @@ namespace QiuYudengMathematics.Controllers
         {
             bulletinBoardService = new BulletinBoardService();
         }
+        [RoleFilters]
         public ActionResult Index() => View();
         public ActionResult Query(BulletinBoardModel model) => Json(new RtnModel() { Success = true, Data = bulletinBoardService.Query(model) }, JsonRequestBehavior.AllowGet);
         public ActionResult SingleQuery(int Seq) => Json(new RtnModel() { Success = true, Data = bulletinBoardService.SingleQuery(Seq) }, JsonRequestBehavior.AllowGet);

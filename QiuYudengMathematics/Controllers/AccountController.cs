@@ -1,4 +1,5 @@
 ﻿using QiuYudengMathematics.Entity.Service;
+using QiuYudengMathematics.Filter;
 using QiuYudengMathematics.Models;
 using System.Web.Mvc;
 
@@ -16,6 +17,7 @@ namespace QiuYudengMathematics.Controllers
             SubjectService = new SubjectService();
             DeviceService = new DeviceService();
         }
+        [RoleFilters]
         public ActionResult Index() => View();
         public ActionResult Query(AccountQueryModel model) => Json(new RtnModel() { Success = true, Data = AccountService.Query(model) }, JsonRequestBehavior.AllowGet);
         public ActionResult SingleQuery(string Id) => Json(new RtnModel() { Success = true, Data = AccountService.SingleQuery(Id) }, JsonRequestBehavior.AllowGet);

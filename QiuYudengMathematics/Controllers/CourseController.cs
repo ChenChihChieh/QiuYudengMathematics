@@ -8,6 +8,7 @@ using QiuYudengMathematics.Models;
 using QiuYudengMathematics.Models.ViewModels;
 using System.IO;
 using System.Configuration;
+using QiuYudengMathematics.Filter;
 
 namespace QiuYudengMathematics.Controllers
 {
@@ -24,6 +25,7 @@ namespace QiuYudengMathematics.Controllers
             logService = new LogService();
         }
         #region 課程管理
+        [RoleFilters]
         public ActionResult CourseManagement() => View();
         public ActionResult Query(int? SubjectId) => Json(new RtnModel() { Success = true, Data = courseService.Query(new CourseModel() { SubjectId = SubjectId, Audition = false, Enable = null }) }, JsonRequestBehavior.AllowGet);
         public ActionResult SingleQuery(int Seq) => Json(new RtnModel() { Success = true, Data = courseService.SingleQuery(Seq) }, JsonRequestBehavior.AllowGet);

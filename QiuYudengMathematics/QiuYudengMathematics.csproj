@@ -186,6 +186,7 @@
       <DependentUpon>QiuYudengMathematics.tt</DependentUpon>
     </Compile>
     <Compile Include="Extension\ExceptionExtension.cs" />
+    <Compile Include="Filter\RoleFilters.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
