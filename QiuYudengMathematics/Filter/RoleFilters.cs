@@ -10,7 +10,7 @@ namespace QiuYudengMathematics.Filter
         {
             if (ConfigurationManager.AppSettings["adminAccount"].ToString() != WebSiteComm.CurrentUserAccount)
             {
-                filterContext.Result = new RedirectResult("/Home");
+                filterContext.Result = new RedirectResult(filterContext.HttpContext.Request.Url.OriginalString.Replace(filterContext.HttpContext.Request.Url.PathAndQuery, "") + "/Home");
                 return;
             }
 
