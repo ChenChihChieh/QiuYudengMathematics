@@ -87,7 +87,7 @@ namespace QiuYudengMathematics.Entity.Service
             });
             if (cv.Student.Count() > 0) str.Add("以下為試聽學生：");
             //試聽的學生進度
-            cv.Student.ToList().ForEach(x => 
+            cv.Student.ToList().ForEach(x =>
             {
                 var CourseVideoProgress = db.CourseVIdeoProgress.Where(y => y.Account == x.Account && y.CourseSeq == cv.CourseSeq).FirstOrDefault();
                 str.Add(string.Format("{0}-{1},進度:{2}", x.Account, x.Name, CourseVideoProgress == null ? "0%" : Math.Ceiling(CourseVideoProgress.Progress * 100).ToString() + "%"));
@@ -194,7 +194,8 @@ namespace QiuYudengMathematics.Entity.Service
         private RtnModel CheckField(CourseManagementViewModel model)
         {
             if (string.IsNullOrEmpty(model.CourseName)) return new RtnModel() { Success = false, Msg = "請輸入名稱" };
-            if (string.IsNullOrEmpty(model.Url)) return new RtnModel() { Success = false, Msg = "請輸入影片名稱" };
+            if (string.IsNullOrEmpty(model.Url)) return new RtnModel() { Success = false, Msg = "請輸入連結" };
+            if (!Uri.TryCreate(model.Url, UriKind.Absolute, out var u)) return new RtnModel() { Success = false, Msg = "連結格式錯誤" };
             if (model.SubjectId == 0) return new RtnModel() { Success = false, Msg = "請選擇科目" };
             if (!model.CourseDate.HasValue) return new RtnModel() { Success = false, Msg = "請輸入日期" };
             return new RtnModel() { Success = true, Msg = string.Empty };

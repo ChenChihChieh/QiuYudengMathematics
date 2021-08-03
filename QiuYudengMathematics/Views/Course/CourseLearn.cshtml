@@ -80,12 +80,12 @@ const vm = new Vue({
             var windowf = window.open('@(Url.Content("~/Course/CourseVideo?SeqId="))' + seq, 'Video', 'width=800,height=600,menubar=no,location=no,scrollbars=no,status=yes,toolbar=no,titlebar=no,resizable=no');
             windowf.onload = function () {
                 windowf.onbeforeunload = function () {
-                    var data = {
+                    @*var data = {
                         Account: windowf.document.getElementById("hidAccount").value,
                         CourseSeq: windowf.document.getElementById("hidSeq").value,
                         Progress: windowf.document.getElementById("hidProgress").value
                     };
-                    $.post("@(Url.Content("~/Course/UpdateProgress"))", data, function (x) {});
+                    $.post("@(Url.Content("~/Course/UpdateProgress"))", data, function (x) {});*@
                 };
             };
         }

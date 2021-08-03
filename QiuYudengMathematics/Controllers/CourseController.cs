@@ -63,7 +63,7 @@ namespace QiuYudengMathematics.Controllers
                 return RedirectToAction("LogoutForErrAccount", "Login", new { ErrMsg = "查無您的帳號，請通知管理人員" });
             if (!Student.Enable)
                 return RedirectToAction("LogoutForErrAccount", "Login", new { ErrMsg = "您的帳號已停用" });
-            TempData["Account"] = WebSiteComm.CurrentUserAccount;
+            //TempData["Account"] = WebSiteComm.CurrentUserAccount;
             var CourseVideo = courseService.SingleQuery(SeqId);
             if (CourseVideo == null)
                 return RedirectToAction("Index", "Home");
@@ -72,9 +72,6 @@ namespace QiuYudengMathematics.Controllers
             if (!WebSiteComm.CurrentUserName.Subject.Where(x => x.Detriment && x.ID == CourseVideo.SubjectId).Any() &&
                !CourseVideo.Student.Contains(WebSiteComm.CurrentUserAccount))
                 return RedirectToAction("Index", "Home");
-            if (string.IsNullOrEmpty(Path.GetExtension(CourseVideo.Url))) /*CourseVideo.Url += ".mp4";*/
-            //CourseVideo.Url = ConfigurationManager.AppSettings["VideoUrl"].ToString() + CourseVideo.Url;
-            CourseVideo.Url = CourseVideo.Url;
             return View(CourseVideo);
         }
         public ActionResult UpdateProgress(CourseProgressModel model) => Json(courseService.UpdateProgress(model), JsonRequestBehavior.AllowGet);

@@ -20,13 +20,13 @@
                     <div style="padding:56.69% 0 0 0;position:relative;"><iframe src="@Model.Url" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="@Model.CourseName"></iframe></div>
                     <script src="https://player.vimeo.com/api/player.js"></script>
                 </div>
-    <input type="hidden" id="hidAccount" value="@(TempData["Account"])" />
+    @*<input type="hidden" id="hidAccount" value="@(TempData["Account"])" />
     <input type="hidden" id="hidSeq" value="@(Model.CourseSeq)" />
-    <input type="hidden" id="hidProgress" value="0" />
+    <input type="hidden" id="hidProgress" value="0" />*@
 </body>
 </html>
 
-<script type="text/javascript">
+@*<script type="text/javascript">
     var video = document.getElementById('video')
     // 8、play：播放监听
     video.addEventListener('play', function (e) {
@@ -70,4 +70,4 @@
         };
         $.post("@(Url.Content("~/Course/UpdateProgress"))", data, function (x) {});
     };
-</script>
+</script>*@
