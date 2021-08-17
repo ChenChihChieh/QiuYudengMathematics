@@ -1,4 +1,5 @@
-﻿<div id="app" class="account">
+﻿@model List<QiuYudengMathematics.Models.ViewModels.GradeViewModel>
+<div id="app" class="account">
     <div class="account__container">
         <div class="account__search-bar--flex">
             <input @@input="onInput($event)" placeholder="請輸入姓名" type="search">
@@ -10,7 +11,8 @@
             <div class="account__tr">
                 <div class="account__th">帳號</div>
                 <div class="account__th">姓名</div>
-                <div class="account__th">年級
+                <div class="account__th">
+                    年級
                     <div class="account__grade-sorting">
                         <span @@click="sortByGrade(1)" v-bind:class="this.GradeSoringRule === 1 ? 'active' : ''" class="account__grade-btn account__grade-ascending"></span>
                         <span @@click="sortByGrade(-1)" v-bind:class="this.GradeSoringRule === -1 ? 'active' : ''" class="account__grade-btn account__grade-descending"></span>
@@ -47,16 +49,15 @@
             </div>
             <div class="popup--body">
                 <div v-show="info.Account"><p>帳號</p><input class="width200" :value="info.Account" disabled /></div>
-                <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" maxlength="10"/></div>
+                <div><p>姓名</p><input class="width200" :value="info.Name" v-model="info.Name" maxlength="10" /></div>
                 <div>
                     <p>年級</p>
                     <div class="width200">
-                        <input type="radio" id="one" value="1" v-model="info.Grade" >
-                        <label for="one">高一</label>
-                        <input type="radio" id="two" value="2" v-model="info.Grade" >
-                        <label for="two">高二</label>
-                        <input type="radio" id="three" value="3" v-model="info.Grade" >
-                        <label for="three">高三</label>
+                        @foreach (var item in Model)
+                        {
+                            <input type="radio" id="@(item.GradeId + "_" + item.GradeName)" value="@item.GradeId" v-model="info.Grade">
+                            <label for="@(item.GradeId + "_" + item.GradeName)">@item.GradeName</label>
+                        }
                     </div>
                 </div>
                 <div>
@@ -159,7 +160,7 @@
                 this.currPage = 1;
                 this.curList = this.rawList.filter(item =>
                     item.Name.toLowerCase().indexOf(e.target.value.toLowerCase()) >= 0)
-                
+
             },
             showPopUp(val) {
                 axios.post('@Url.Content("~/Account/SingleQuery?Id=")' + `${val}`)

@@ -18,7 +18,7 @@ namespace QiuYudengMathematics.Controllers
             DeviceService = new DeviceService();
         }
         [RoleFilters]
-        public ActionResult Index() => View();
+        public ActionResult Index() => View(SubjectService.getGradeSubject());
         public ActionResult Query(AccountQueryModel model) => Json(new RtnModel() { Success = true, Data = AccountService.Query(model) }, JsonRequestBehavior.AllowGet);
         public ActionResult SingleQuery(string Id) => Json(new RtnModel() { Success = true, Data = AccountService.SingleQuery(Id) }, JsonRequestBehavior.AllowGet);
         public ActionResult GetGradeSubject() => Json(new RtnModel() { Success = true, Data = SubjectService.getGradeSubject() }, JsonRequestBehavior.AllowGet);

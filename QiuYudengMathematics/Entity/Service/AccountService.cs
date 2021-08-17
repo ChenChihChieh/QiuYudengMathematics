@@ -177,7 +177,7 @@ namespace QiuYudengMathematics.Entity.Service
         private RtnModel CheckField(AccountModel model)
         {
             if (string.IsNullOrEmpty(model.Name)) return new RtnModel() { Success = false, Msg = "請輸入姓名" };
-            //if (model.Subject == null) return new RtnModel() { Success = false, Msg = "請選擇科目" };
+            if (model.Grade != -1 && model.Subject == null) return new RtnModel() { Success = false, Msg = "請選擇科目" };
             return new RtnModel() { Success = true, Msg = string.Empty };
         }
 
