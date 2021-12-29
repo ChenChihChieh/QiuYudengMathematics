@@ -54,7 +54,7 @@ namespace QiuYudengMathematics.Entity.Service
         public CourseManagementViewModel SingleQuery(int Seq)
         {
             using (var db = new QiuYudengMathematicsEntities())
-                return db.CourseVideo.Where(x => x.CourseSeq == Seq)
+                return db.CourseVideo.AsEnumerable().Where(x => x.CourseSeq == Seq)
                     .Select(item => new CourseManagementViewModel()
                     {
                         CourseSeq = item.CourseSeq,
