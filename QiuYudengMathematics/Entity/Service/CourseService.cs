@@ -37,7 +37,6 @@ namespace QiuYudengMathematics.Entity.Service
                         },
                         Enable = item.Enable,
                         Student = item.Student.Select(y => y.Account).ToList(),
-                        CourseVideoProgress = QueryProgress(db, item),
                         CourseDate = item.CourseDate,
                         CourseDateStr = item.CourseDate.HasValue ? item.CourseDate.Value.ToString("yyyy/MM/dd") : string.Empty
                     }).ToList();
@@ -55,7 +54,7 @@ namespace QiuYudengMathematics.Entity.Service
         public CourseManagementViewModel SingleQuery(int Seq)
         {
             using (var db = new QiuYudengMathematicsEntities())
-                return db.CourseVideo.AsEnumerable().Where(x => x.CourseSeq == Seq)
+                return db.CourseVideo.Where(x => x.CourseSeq == Seq)
                     .Select(item => new CourseManagementViewModel()
                     {
                         CourseSeq = item.CourseSeq,
@@ -71,28 +70,34 @@ namespace QiuYudengMathematics.Entity.Service
                         },
                         Enable = item.Enable,
                         Student = item.Student.Select(y => y.Account).ToList(),
-                        CourseVideoProgress = QueryProgress(db, item),
                         CourseDate = item.CourseDate,
                         CourseDateStr = item.CourseDate.HasValue ? item.CourseDate.Value.ToString("yyyy/MM/dd") : string.Empty
                     }).FirstOrDefault();
         }
-        private List<string> QueryProgress(QiuYudengMathematicsEntities db, CourseVideo cv)
+        public List<string> QueryProgress(int CourseSeq)
         {
-            List<string> str = new List<string>();
-            var student = db.Student.AsEnumerable().Where(x => x.Enable && x.GroupGradeSubject.Where(y => y.ID == cv.SubjectId).Any()).ToList();
-            student.ForEach(x =>
+            using (var db = new QiuYudengMathematicsEntities())
             {
-                var CourseVideoProgress = db.CourseVIdeoProgress.Where(y => y.Account == x.Account && y.CourseSeq == cv.CourseSeq).FirstOrDefault();
-                str.Add(string.Format("{0}-{1},進度:{2}", x.Account, x.Name, CourseVideoProgress == null ? "0%" : Math.Ceiling(CourseVideoProgress.Progress * 100).ToString() + "%"));
-            });
-            if (cv.Student.Count() > 0) str.Add("以下為試聽學生：");
-            //試聽的學生進度
-            cv.Student.ToList().ForEach(x =>
-            {
-                var CourseVideoProgress = db.CourseVIdeoProgress.Where(y => y.Account == x.Account && y.CourseSeq == cv.CourseSeq).FirstOrDefault();
-                str.Add(string.Format("{0}-{1},進度:{2}", x.Account, x.Name, CourseVideoProgress == null ? "0%" : Math.Ceiling(CourseVideoProgress.Progress * 100).ToString() + "%"));
-            });
-            return str;
+                List<string> str = new List<string>();
+                var cv = db.CourseVideo.Where(x => x.CourseSeq == CourseSeq).FirstOrDefault();
+                if (cv != null)
+                {
+                    var student = db.Student.Where(x => x.Enable && x.GroupGradeSubject.Where(y => y.ID == cv.SubjectId).Any()).ToList();
+                    student.ForEach(x =>
+                    {
+                        var CourseVideoProgress = db.CourseVIdeoProgress.Where(y => y.Account == x.Account && y.CourseSeq == cv.CourseSeq).FirstOrDefault();
+                        str.Add(string.Format("{0}-{1},進度:{2}", x.Account, x.Name, CourseVideoProgress == null ? "0%" : Math.Ceiling(CourseVideoProgress.Progress * 100).ToString() + "%"));
+                    });
+                    if (cv.Student.Count() > 0) str.Add("以下為試聽學生：");
+                    //試聽的學生進度
+                    cv.Student.ToList().ForEach(x =>
+                    {
+                        var CourseVideoProgress = db.CourseVIdeoProgress.Where(y => y.Account == x.Account && y.CourseSeq == cv.CourseSeq).FirstOrDefault();
+                        str.Add(string.Format("{0}-{1},進度:{2}", x.Account, x.Name, CourseVideoProgress == null ? "0%" : Math.Ceiling(CourseVideoProgress.Progress * 100).ToString() + "%"));
+                    });
+                }
+                return str;
+            }
         }
         public RtnModel Insert(CourseManagementViewModel model)
         {

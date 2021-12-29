@@ -29,6 +29,7 @@ namespace QiuYudengMathematics.Controllers
         public ActionResult CourseManagement() => View();
         public ActionResult Query(int? SubjectId) => Json(new RtnModel() { Success = true, Data = courseService.Query(new CourseModel() { SubjectId = SubjectId, Audition = false, Enable = null }) }, JsonRequestBehavior.AllowGet);
         public ActionResult SingleQuery(int Seq) => Json(new RtnModel() { Success = true, Data = courseService.SingleQuery(Seq) }, JsonRequestBehavior.AllowGet);
+        public ActionResult CourseVideoProgressQuery(int Seq) => Json(new RtnModel() { Success = true, Data = courseService.QueryProgress(Seq) }, JsonRequestBehavior.AllowGet);
         public ActionResult Insert(CourseManagementViewModel model) => Json(courseService.Insert(model), JsonRequestBehavior.AllowGet);
         public ActionResult Update(CourseManagementViewModel model) => Json(courseService.Update(model), JsonRequestBehavior.AllowGet);
         public ActionResult UpdateAuditionStudent(CourseManagementViewModel model) => Json(courseService.UpdateAuditionStudent(model), JsonRequestBehavior.AllowGet);

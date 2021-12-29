@@ -31,7 +31,7 @@ const vm = new Vue({
         currPage: 1,
         itemPerPage: 10
     },
-        mounted() {
+    mounted() {
         axios.post("@Url.Content("~/Course/CourseQuery?SubjectId=")" + this.SubjectId)
             .then(res => {
                 this.courseList = res.data.Data

@@ -25,7 +25,7 @@
                 <div class="course-management__td">
                     <a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a>
                     <a @@click.prevent="showTrialPopUp(item.CourseSeq, item.Student)"><i class="fas fa-user"></i></a>
-                    <a @@click.prevent="showProgressPupUp(item.CourseVideoProgress)"><i class="fas fa-circle"></i></a>
+                    <a @@click.prevent="showProgressPupUp(item.CourseSeq)"><i class="fas fa-circle"></i></a>
                 </div>
             </div>
         </div>
@@ -247,16 +247,19 @@ const vm = new Vue({
             this.updateTrialList.seq = seq
             this.trialListPupUpOn = true;
         },
-        showProgressPupUp(Progress) {
-            this.ProgressListAll = [];
-            this.ProgressList = [];
-            this.ProgressPage = 1;
-            Progress.forEach(element => this.ProgressListAll.push(element));
-            Progress.forEach(element => this.ProgressList.push(element));
-            const lastIdx = this.ProgressPage * this.itemPerPage;
-            const firstIdx = lastIdx - this.itemPerPage;
-            this.ProgressList = this.ProgressList.slice(firstIdx, lastIdx);
-            this.ProgressPupUpOn = true;
+        showProgressPupUp(seq) {
+            axios.post('@Url.Content("~/Course/CourseVideoProgressQuery?Seq=")' + `${seq}`)
+                .then(Progress => {
+                    this.ProgressListAll = [];
+                    this.ProgressList = [];
+                    this.ProgressPage = 1;
+                    Progress.data.Data.forEach(element => this.ProgressListAll.push(element));
+                    Progress.data.Data.forEach(element => this.ProgressList.push(element));
+                    const lastIdx = this.ProgressPage * this.itemPerPage;
+                    const firstIdx = lastIdx - this.itemPerPage;
+                    this.ProgressList = this.ProgressList.slice(firstIdx, lastIdx);
+                })
+                .finally(() => { this.ProgressPupUpOn = true; })
         },
         hidePopUp() {
             this.pupUpOn = false;
