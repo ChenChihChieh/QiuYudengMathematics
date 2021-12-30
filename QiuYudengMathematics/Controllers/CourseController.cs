@@ -15,18 +15,20 @@ namespace QiuYudengMathematics.Controllers
     [Authorize]
     public class CourseController : Controller
     {
+        private readonly SubjectService SubjectService;
         private readonly AccountService accountService;
         private readonly CourseService courseService;
         private readonly LogService logService;
         public CourseController()
         {
+            SubjectService = new SubjectService();
             accountService = new AccountService();
             courseService = new CourseService();
             logService = new LogService();
         }
         #region 課程管理
         [RoleFilters]
-        public ActionResult CourseManagement() => View();
+        public ActionResult CourseManagement() => View(SubjectService.getGradeSubject());
         public ActionResult Query(int? SubjectId) => Json(new RtnModel() { Success = true, Data = courseService.Query(new CourseModel() { SubjectId = SubjectId, Audition = false, Enable = null }) }, JsonRequestBehavior.AllowGet);
         public ActionResult SingleQuery(int Seq) => Json(new RtnModel() { Success = true, Data = courseService.SingleQuery(Seq) }, JsonRequestBehavior.AllowGet);
         public ActionResult CourseVideoProgressQuery(int Seq) => Json(new RtnModel() { Success = true, Data = courseService.QueryProgress(Seq) }, JsonRequestBehavior.AllowGet);

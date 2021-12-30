@@ -1,4 +1,5 @@
-﻿<div id="app" class="course-management">
+﻿@model List<QiuYudengMathematics.Models.ViewModels.GradeViewModel>
+<div id="app" class="course-management">
     <div class="course-management__container">
         <div class="course-management__search-bar--flex">
             <input @@input="onInput($event)" placeholder="請輸入課程名稱" type="search">
@@ -52,12 +53,11 @@
                 <div>
                     <p>年級</p>
                     <div class="width200">
-                        <input type="radio" id="one" value="1" v-model="info.Grade">
-                        <label for="one">高一</label>
-                        <input type="radio" id="two" value="2" v-model="info.Grade">
-                        <label for="two">高二</label>
-                        <input type="radio" id="three" value="3" v-model="info.Grade">
-                        <label for="three">高三</label>
+                        @foreach (var item in Model)
+                        {
+                            <input type="radio" id="@(item.GradeId + "_" + item.GradeName)" value="@item.GradeId" v-model="info.Grade">
+                            <label for="@(item.GradeId + "_" + item.GradeName)">@item.GradeName</label>
+                        }
                     </div>
                 </div>
                 <div>
