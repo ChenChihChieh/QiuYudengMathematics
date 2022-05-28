@@ -48,7 +48,7 @@ namespace QiuYudengMathematics.Entity.Service
                 if (model.Enable.HasValue)
                     data = data.Where(x => x.Enable == model.Enable.Value).ToList();
 
-                return data.OrderBy(x => x.CourseDate).ThenBy(y => y.CourseSeq).ToList();
+                return data.OrderByDescending(x => x.CourseDate).ThenByDescending(y => y.CourseSeq).ToList();
             }
         }
         public CourseManagementViewModel SingleQuery(int Seq)
