@@ -15,7 +15,7 @@ padding:0;
 }
 .layout__top img {
     vertical-align: middle;
-    width:200px;
+    width:230px;
 }
 .login_title_wrapper h1 {
     margin-top: 20px;
@@ -28,18 +28,22 @@ padding:0;
     font-size: 36px;
     color: var(--color-title);
 }
-    .layout__login {
-        display: flex;
-        align-items: flex-start;
-        flex-direction: column;
-        box-shadow: 0 2px 8px 0 var(--color-brown);
-        border-radius: 3px;
-        border: 2px solid var(--color-brown-light);
-        padding: 15px;
-        margin-top: 20px;
-        width: 280px;
-        background-color: #fff;
-    }
+#login_title__des {
+    font-family: DFKai-sb;
+    font-size: 40px;
+}
+.layout__login {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    box-shadow: 0 2px 8px 0 var(--color-brown);
+    border-radius: 3px;
+    border: 2px solid var(--color-brown-light);
+    padding: 15px;
+    margin-top: 20px;
+    width: 280px;
+    background-color: #fff;
+}
 
 .layout__login i{
     margin-right:5px;
@@ -98,6 +102,9 @@ padding:0;
 
     .login_title_wrapper h4 {
         font-size: 16px;
+    }
+    #login_title__des {
+        font-size:21px;
     }
 }
 
