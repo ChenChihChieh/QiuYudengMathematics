@@ -63,7 +63,7 @@
                     <p>科目</p>
                     <div class="width200">
                         <div class="popUp__select">
-                            <select v-model="info.SubjectId">
+                            <select id="select" v-model="info.SubjectId">
                                 <option value=''>請選擇科目</option>
                                 <option v-for="item in subjectIdMappedList" :value="item.ID">
                                     {{ item.Subject }}
@@ -152,10 +152,11 @@
             totalPageCount() {
                 return Math.ceil(this.curPostsList.length / this.itemPerPage);
             },
-            eachPageList(state, getters) {
+            eachPageList() {
                 const lastIdx = this.currPage * this.itemPerPage;
                 const firstIdx = lastIdx - this.itemPerPage;
-
+                console.log(this.curPostsList)
+                
                 return this.curPostsList.slice(firstIdx, lastIdx);
             }
 
@@ -191,13 +192,22 @@
                 this.info = {};
             },
             submit() {
+                const vm = this;
                 if (this.info.BulletinBoardSeq) {
                     //修改資料
-                    axios.post('@Url.Content("~/BulletinBoard/Update")', this.info)
+                    var data = this.info
+                    const word = $.trim($('#select option:selected').text()).split('');
+                    data.Subject.SubjectGradeName = word[0]+word[1]
+                    data.Subject.SubjectName = word[2] + word[3]
+                    axios.post('@Url.Content("~/BulletinBoard/Update")', data)
                         .then(res => {
                             alert(res.data.Msg)
                             if (res.data.Success) {
                                 this.hidePopUp();
+                                this.curPostsList = this.curPostsList.map((item) => {
+                                    return item.BulletinBoardSeq === data.BulletinBoardSeq ? data : item;
+                                })
+                                
                             };
                         });
                 } else {
@@ -207,6 +217,7 @@
                         alert(res.data.Msg)
                         if (res.data.Success) {
                             this.hidePopUp();
+                            location.reload()
                         };
                     });
                 }

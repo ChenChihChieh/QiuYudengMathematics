@@ -211,6 +211,7 @@
                     Name: this.info.Name,
                     Grade: parseInt(this.info.Grade),
                     Enable: this.info.Enable,
+                    GradeName: this.info.Grade == 1 ? '高一' : this.info.Grade == 2 ? '高二' : '高三'
                 }
                 if (this.checkedList) {
                     data.Subject = this.checkedList.map(item => parseInt(item))
@@ -224,6 +225,9 @@
                             alert(res.data.Msg)
                             if (res.data.Success) {
                                 this.hidePopUp();
+                                this.curList = this.curList.map((item) => {
+                                    return item.Account === data.Account ? data : item;
+                                })
                             };
                         });
                 } else {
@@ -233,6 +237,8 @@
                             alert(res.data.Msg)
                             if (res.data.Success) {
                                 this.hidePopUp();
+                                location.reload()
+                                //this.curList = [...this.curList, data]
                             };
                         });
                 }
