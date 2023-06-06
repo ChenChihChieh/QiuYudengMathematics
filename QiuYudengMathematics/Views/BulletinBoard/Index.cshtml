@@ -197,7 +197,7 @@
                         .then(res => {
                             alert(res.data.Msg)
                             if (res.data.Success) {
-                                location.reload();
+                                this.hidePopUp();
                             };
                         });
                 } else {
@@ -206,7 +206,7 @@
                     .then(res => {
                         alert(res.data.Msg)
                         if (res.data.Success) {
-                            location.reload();
+                            this.hidePopUp();
                         };
                     });
                 }

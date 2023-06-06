@@ -303,7 +303,7 @@ const vm = new Vue({
                 .then(res => {
                     alert(res.data.Msg)
                     if (res.data.Success) {
-                        location.reload();
+                        this.hidePopUp();
                     };
                 });
         },
@@ -323,7 +323,7 @@ const vm = new Vue({
                     .then(res => {
                         alert(res.data.Msg)
                         if (res.data.Success) {
-                            location.reload();
+                            this.hidePopUp();
                         };
                     });
             } else {
@@ -332,7 +332,7 @@ const vm = new Vue({
                     .then(res => {
                         alert(res.data.Msg)
                         if (res.data.Success) {
-                            location.reload();
+                            this.hidePopUp();
                         };
                     });
             }

@@ -175,12 +175,14 @@ a.red-btn {
     }
 
         .popup--body .width200 label {
-            margin-right: 20px;
+            margin:0 20px 0 2px;
+            line-height:2
         }
 
-.popup--radio-wrap {
-    width: 80px;
-}
+
+    .popup--radio-wrap {
+        width: 80px;
+    }
 
 .popup--body div {
     display: flex;
