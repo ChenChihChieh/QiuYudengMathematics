@@ -52,7 +52,7 @@ namespace QiuYudengMathematics.Controllers
 
         public ActionResult CourseQuery(int SubjectId)
         {
-            List<CourseManagementViewModel> models = new List<CourseManagementViewModel>();
+            List<CourseManagementViewModel> models;
             if (SubjectId == -1) //試聽課程
                 models = courseService.Query(new CourseModel() { SubjectId = null, Audition = true, Enable = true });
             else

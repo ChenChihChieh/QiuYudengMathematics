@@ -4,8 +4,6 @@ using QiuYudengMathematics.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
-using System.Configuration;
 
 namespace QiuYudengMathematics.Entity.Service
 {
@@ -20,7 +18,6 @@ namespace QiuYudengMathematics.Entity.Service
         {
             using (var db = new QiuYudengMathematicsEntities())
             {
-                var studentList = db.Student.Where(x => x.Enable).ToList();
                 var data = db.CourseVideo.AsEnumerable()
                     .Select(item => new CourseManagementViewModel()
                     {
