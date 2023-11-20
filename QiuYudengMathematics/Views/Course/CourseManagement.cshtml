@@ -25,7 +25,7 @@
                 </div>
                 <div class="course-management__td">
                     <a @@click.prevent="showPopUp(item.CourseSeq)"><i class="fas fa-cog"></i></a>
-                    <a @@click.prevent="showTrialPopUp(item.CourseSeq, item.Student)"><i class="fas fa-user"></i></a>
+                    <a @@click.prevent="showTrialPopUp(item.CourseSeq)"><i class="fas fa-user"></i></a>
                     <a @@click.prevent="showProgressPupUp(item.CourseSeq)"><i class="fas fa-circle"></i></a>
                 </div>
             </div>
@@ -226,14 +226,13 @@ const vm = new Vue({
         showPopUp(val) {
             axios.post('@Url.Content("~/Course/SingleQuery?Seq=")' + `${val}`)
                 .then(res => {
-                    const { CourseSeq, CourseName, Url, SubbjectInfo, Enable, Student, CourseDateStr } = res.data.Data
+                    const { CourseSeq, CourseName, Url, SubbjectInfo, Enable, CourseDateStr } = res.data.Data
                     this.info.CourseSeq = CourseSeq
                     this.info.CourseName = CourseName
                     this.info.Url = Url
                     this.info.Grade = String(SubbjectInfo.SubjectGradeId)
                     this.info.Enable = Enable
                     this.info.SubjectId = String(SubbjectInfo.SubjectId)
-                    this.info.Student = Student
                     this.info.CourseDate = CourseDateStr
                 })
                 .finally(() => { this.pupUpOn = true; })
@@ -242,10 +241,17 @@ const vm = new Vue({
             this.updateVideoInfo.Seq = seq;
             this.updateVideoInfo.fileName = url;
         },
-        showTrialPopUp(seq, trialList) {
-            this.updateTrialList.trialList = trialList
-            this.updateTrialList.seq = seq
-            this.trialListPupUpOn = true;
+        showTrialPopUp(seq) {
+            axios.post('@Url.Content("~/Course/CourseVideoStudentQuery?Seq=")' + `${seq}`)
+                .then(res => {
+                    if (res.data.Success) {
+                        this.updateTrialList.trialList = res.data.Data
+                        this.updateTrialList.seq = seq
+                        this.trialListPupUpOn = true;
+                    } else {
+                        alert(res.data.Msg);
+                    };  
+                }); 
         },
         showProgressPupUp(seq) {
             axios.post('@Url.Content("~/Course/CourseVideoProgressQuery?Seq=")' + `${seq}`)

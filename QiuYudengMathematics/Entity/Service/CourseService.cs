@@ -33,7 +33,8 @@ namespace QiuYudengMathematics.Entity.Service
                             SubjectName = item.GroupGradeSubject.Subject,
                         },
                         Enable = item.Enable,
-                        Student = item.Student.Select(y => y.Account).ToList(),
+                        //Student = item.Student.Select(y => y.Account).ToList(),
+                        Student = new List<string>(),
                         CourseDate = item.CourseDate,
                         CourseDateStr = item.CourseDate.HasValue ? item.CourseDate.Value.ToString("yyyy/MM/dd") : string.Empty
                     }).ToList();
