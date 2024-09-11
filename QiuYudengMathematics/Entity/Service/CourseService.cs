@@ -18,7 +18,16 @@ namespace QiuYudengMathematics.Entity.Service
         {
             using (var db = new QiuYudengMathematicsEntities())
             {
-                var data = db.CourseVideo.AsEnumerable()
+                var data = db.CourseVideo.AsEnumerable();
+
+                if (model.SubjectId.HasValue)
+                    data = data.Where(x => x.SubjectId == model.SubjectId.Value);
+                if (model.Audition)
+                    data = data.Where(x => x.Student.Select(z => z.Account).Contains(WebSiteComm.CurrentUserAccount));
+                if (model.Enable.HasValue)
+                    data = data.Where(x => x.Enable == model.Enable.Value);
+
+                var result = data
                     .Select(item => new CourseManagementViewModel()
                     {
                         CourseSeq = item.CourseSeq,
@@ -33,20 +42,11 @@ namespace QiuYudengMathematics.Entity.Service
                             SubjectName = item.GroupGradeSubject.Subject,
                         },
                         Enable = item.Enable,
-                        //Student = item.Student.Select(y => y.Account).ToList(),
-                        Student = new List<string>(),
                         CourseDate = item.CourseDate,
                         CourseDateStr = item.CourseDate.HasValue ? item.CourseDate.Value.ToString("yyyy/MM/dd") : string.Empty
                     }).ToList();
 
-                if (model.SubjectId.HasValue)
-                    data = data.Where(x => x.SubjectId == model.SubjectId.Value).ToList();
-                if (model.Audition)
-                    data = data.Where(x => x.Student.Contains(WebSiteComm.CurrentUserAccount)).ToList();
-                if (model.Enable.HasValue)
-                    data = data.Where(x => x.Enable == model.Enable.Value).ToList();
-
-                return data.OrderByDescending(x => x.CourseDate).ThenByDescending(y => y.CourseSeq).ToList();
+                return result.OrderByDescending(x => x.CourseDate).ThenByDescending(y => y.CourseSeq).ToList();
             }
         }
         public CourseManagementViewModel SingleQuery(int Seq)

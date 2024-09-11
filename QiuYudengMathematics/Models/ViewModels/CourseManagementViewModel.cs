@@ -15,8 +15,7 @@ namespace QiuYudengMathematics.Models.ViewModels
         public int SubjectId { get; set; }
         public SubbjectInfo SubbjectInfo { get; set; }
         public bool Enable { get; set; }
-        public List<string> Student { get; set; }
-        //public List<string> CourseVideoProgress { get; set; }
+        public List<string> Student { get; set; } = new List<string>();
         public DateTime? CourseDate { get; set; }
         public string CourseDateStr { get; set; }
     }
